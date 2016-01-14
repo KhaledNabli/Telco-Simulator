@@ -1,0 +1,192 @@
+<!-- Configurator begins here -->
+<div id="configuratorModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Demo Configuration</h4>
+			</div>
+
+			<div class="modal-body">
+				
+				<div id="configuratorAboutUs" style="display: none">
+					
+					<br>
+					This demo has been developed by 
+						<a href="mailto:khaled.nablie@sas.com">Khaled Nabli </a> and 
+						<a href="mailto:siegfried.radspieler@sas.com">Siegfried Radspieler </a> and 
+						<a href="mailto:mathias.bouten@sas.com">Mathias Bouten </a>.
+					<br><br>
+					
+					
+					<br>
+					This Demo Configurator can be used to change the content of this demo.<br>
+					<br>
+					<table class="table table-bordered table-hover">
+						<tr><td>Profile 		</td> <td>Customer profile content for the Advisor Frontend of this demo</td></tr>
+						<tr><td>Analytics 	</td> <td>Customer analytics content for the analytics bars in the Advisor Frontend</td></tr>
+						<tr><td>SMS 			</td> <td>SMS recipients can be managed here to send out SMS when offers are accepted in the Advisor Frontend</td></tr>
+						<tr><td>Action History </td> <td>Recent customer actions shown in the Action History part of the Advisor Frontend</td></tr>
+						<tr><td>Next Best Actions </td> <td>New offer recommendations for the customer displayed in the Advisor Frontend</td></tr>
+						<tr><td>Search Post History </td> <td>Search strings and post contents of the customer displayed in the Advisor Frontend</td></tr>
+						<tr><td>Images </td> <td>You can configure which images should appear in the poster and the iphone area of the demo</td></tr>
+					</table>
+					<br><br>
+					
+				</div>
+
+				
+				
+
+				<div role="tabpanel" id="configuratorTabpanel" style="display: block">
+					
+					<div id="successMessage" class="alert alert-success" role="alert" style="display: none">Successfully loaded!!</div>
+					
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a>
+						</li>
+						<!--li role="presentation" >
+							<a href="#storeConfig" aria-controls="customerProfile" role="tab" data-toggle="tab">Stores</a>
+						</li-->
+						<li role="presentation" >
+							<a href="#customerConfig" aria-controls="customerAnalytics" role="tab" data-toggle="tab">Customers</a>
+						</li>
+						<li role="presentation">
+							<a href="#beaconConfig" aria-controls="smsRecipients" role="tab" data-toggle="tab">Beacons</a>
+						</li>
+					</ul>
+
+					<div class="tab-content">
+						<!-- Tab: General -->
+						<div id="general" role="tabpanel" class="tab-pane active" >
+							<form class="form-horizontal" role="form">
+								<div class="form-group"></div>
+								
+								<div class="form-group">
+										<label for="storeMapImgInput" class="col-sm-2 control-label">Store Image</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="storeMapImgInput" 
+												placeholder="http://www.sas.com/image.jpg">
+										</div>
+								</div>
+
+
+								<div class="form-group">
+										<label for="demoEspHostInput" class="col-sm-2 control-label">ESP Server</label>
+										<div class="col-sm-9">
+											<input type="url" class="form-control" id="demoEspHostInput" 
+												placeholder="dfEsp://<host>:<port>/<project>/<continous-query>/<window>">
+										</div>
+								</div>
+
+								<div class="form-group">
+										<label for="demoRtdmHostInput" class="col-sm-2 control-label">RTDM Server</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="demoRtdmHostInput" 
+												placeholder="<host>[:<port>]">
+										</div>
+								</div>
+
+
+								<div class="form-group"></div>
+								</form>
+						</div>
+
+						<!-- Tab: Customer Profile -->
+						<div id="customerConfig" role="tabpanel" class="tab-pane" >
+							<form class="form-horizontal" role="form">
+								<div class="form-group"></div>
+								<!-- Store Grid -->
+								<div class="col-sm-12">
+									<table id="configuratorCustomerTable" class="table table-bordered table-hover">
+										<thead>
+											<tr >
+												<th class="text-center" width="10%">ID</th>
+												<th class="text-center" width="15%">Label</th>
+												<th class="text-center" width="20%">Image</th>
+												<th class="text-center" width="10%">Age</th>
+												<th class="text-center" width="20%">Mobile</th>
+												<th class="text-center" width="15%">Color</th>
+												<th class="text-center" width="10%"><button type="button" onclick="return configAddCustomer({});">Add</button> </th>
+											</tr>
+										</thead>
+										<tbody id="configuratorCustomerTbody"></tbody>
+									</table>
+								</div>
+								<!-- Ende Store Grid -->
+								<div class="form-group"></div>
+							</form>
+						</div>
+
+						<!-- Tab: Store Configuration -->
+						<div id="storeConfig" role="tabpanel" class="tab-pane" >
+							<form class="form-horizontal" role="form">
+
+								<div class="form-group"></div>
+
+								<!-- Store Grid -->
+								<div class="col-sm-12">
+									<table id="configuratorStoreTable" class="table table-bordered table-hover">
+										<thead>
+											<tr >
+												<th class="text-center" width="10%">ID</th>
+												<th class="text-center" width="40%">Store Label</th>
+												<th class="text-center" width="40%">Store Image</th>
+												<th class="text-center" width="10%"><button type="button" onclick="return configAddStore(undefined);">Add</button> </th>
+											</tr>
+										</thead>
+										<tbody id="configuratorStoreTbody"></tbody>
+									</table>
+								</div>
+								<!-- Ende Store Grid -->
+
+								<div class="form-group"></div>
+							</form>
+						</div>
+
+						<!-- Tab: Beacon Configuration -->
+						<div id="beaconConfig" role="tabpanel" class="tab-pane" >
+							<form class="form-horizontal" role="form">
+
+								<div class="form-group"></div>
+								<!-- Beacon Grid -->
+								<div class="col-sm-12">
+									<table id="configuratorBeaconTable" class="table table-bordered table-hover">
+										<thead>
+											<tr >
+												<th class="text-center" width="10%">ID</th>
+												<th class="text-center" width="30%">Label</th>
+												<th class="text-center" width="30%">Store</th>
+												<th class="text-center" width="20%">Color</th>
+												<th class="text-center" width="10%"><button type="button" onclick="return configAddBeacon({});">Add</button> </th>
+											</tr>
+										</thead>
+										<tbody id="configuratorBeaconTbody"></tbody>
+									</table>
+								</div>
+								<!-- Ende Beacon Grid -->
+								<div class="form-group"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<div style="float:left;color:#737373;font-style:italic">Version 0.9 - last update 09.06.2015</div>
+				
+				<a id="aboutButton" href="#" class="btn btn-default" onclick="return helpConfiguration();"> 
+					<span id="aboutButtonLabel">Help</span> </a>
+				
+				<a id="resetButton" href="#" class="btn btn-default" onclick="return resetConfiguration();"> 
+					<span id="resetButtonLabel">Reset</span> </a>
+				
+				<a id="saveButton" href="#" class="btn btn-primary" onclick="saveConfiguration();"> Save changes </a>
+			</div>
+		</div>
+	</div>
+</div>

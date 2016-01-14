@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="./images/mobile_icon.png" />
+    <link id="shortcutIcon" rel="shortcut icon" href="./images/mobile_icon.png">
+
+    <link href="./css/ratchet.css" rel="stylesheet">
+    <link href="./css/mobileapp.css" rel="stylesheet">
+
+    <!--<script src="./js/ratchet.js"></script>-->
+    <script src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/esp.js"></script> 
+  </head>
+  <body>
+
+    <!-- top bar -->
+    <header class="bar bar-nav">
+      <a class="icon icon-left-nav pull-left" href="index.html"></a>
+      <a class="icon icon-search pull-right"></a>
+      <h1 class="title">Login</h1>
+    </header>
+
+
+    <!-- content -->
+    <div class="content">
+      <div class="background-transparent">
+      
+      <div class="padded-layer">
+          <br>
+          <label>Username</label>
+          
+          <input type="text" placeholder="Enter Customer Login">
+
+          <label>Password</label>
+          <input type="password" placeholder="Enter Password">
+
+          <br><br>
+          <button class="btn btn-primary btn-block">Submit</button>
+
+          <label>or login with </label><br><br><br>
+      </div>
+
+       
+
+      <a title="facebook"  class="button-round facebook-auth" href="https://m.facebook.com/login.php">
+        <img class="social-icon" src="./images/icon-facebook.png" width="65px">&nbsp;&nbsp;&nbsp;
+      </a>
+      <a title="twitter" type="button" class="button-round twitter-auth" href="https://api.twitter.com/oauth/authorize">
+        <img class="social-icon" src="./images/icon-google.png" width="65px">&nbsp;&nbsp;&nbsp;
+      </a>
+      <a title="google" type="button" class="button-round google-auth" href="https://myaccount.google.com/">
+        <img class="social-icon" src="./images/icon-twitter.png" width="65px">
+      </a>
+
+      <br><br>
+      
+    </div>
+  </div> <!-- content -->
+
+
+
+
+    <!-- bottom bar -->
+    <nav class="bar bar-tab">
+      <a class="tab-item " href="index.html">
+        <span class="icon icon-home"></span>
+        <span class="tab-label">Home</span>
+      </a>
+      <a class="tab-item active" href="login.html">
+        <span class="icon icon-person"></span>
+        <span class="tab-label">Login</span>
+      </a>
+      <a class="tab-item" href="offers.html">
+        <span class="icon icon-star-filled"></span>
+        <span class="tab-label">Offers</span>
+      </a>
+      <a class="tab-item" href="search.html">
+        <span class="icon icon-search"></span>
+        <span class="tab-label">Telco</span>
+      </a>
+      <a class="tab-item" href="settings.html">
+        <span class="icon icon-gear"></span>
+        <span class="tab-label">Settings</span>
+      </a>
+    </nav>
+
+  </body>
+</html>

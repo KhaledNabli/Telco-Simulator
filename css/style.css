@@ -1,0 +1,133 @@
+	body {
+	}
+
+	#storeMapWrapper {
+		position: relative;
+	}
+
+	#storeMap {
+		position: absolute;
+    	top: 0px;
+	}
+
+	#storeMapImg {
+		width: 100%;
+		border-radius: 10px;
+		border-width: 3px;
+		border-style: dotted;
+		border-color: rgb(130,130,130);
+	}
+
+	#infobox {
+		text-align: center;
+	}
+
+	#customer-list {
+		width: 150px;
+		margin-top: 200px;
+		margin-left: 20px;
+	}
+
+	.draggableCustomer > .col-xs-6{
+		padding-right: 0px;
+		padding-left: 0px;
+
+	}
+
+	.avatarImg {
+		max-width: 75px;
+		max-height: 75px;
+		margin: 0px;
+	}
+
+	.draggableCustomer {
+		  /*margin: 3px;*/
+		  /*border-radius: 15px;
+		  border-width: 1px;
+		  border-style: dotted;
+		  border-color: rgb(130,130,130);
+		  */
+		  opacity: 0.95;
+		  min-height: 80px;
+		  max-width: 100%;
+	}
+
+	div.draggableCustomer :active {
+		  /*margin: 3px;
+		  border-radius: 60px;
+		  border-width: 3px;
+		  border-style: solid;
+		  border-color: rgb(255,0,0);*/
+	}
+
+	.draggableCustomer h4 {
+		 margin-top: 10px;
+		 margin-bottom: 5px;
+	}
+	  
+	.beaconPlace.editable {
+		opacity: 0.6 !important;
+	}
+
+
+	.beaconPlace {
+		opacity: 0;
+		color: white;
+		text-align: center;
+		border-radius: 10px;
+	}
+
+
+
+	.vcenter {
+	    display: inline-block;
+	    vertical-align: middle;
+	    float: none;
+	}
+
+	#config-panel {
+		  padding-left: 15px;
+		  margin: 5px;
+	}
+
+
+	.ui-dialog {
+		font-size: 0.8em;
+		z-index: 1000 !important ;
+	}
+
+	#dialogCustomerImage {
+		padding-bottom: 3px;
+
+	}
+
+	#dialogCustomerInterests {
+		margin-bottom: 5px;
+	}
+
+
+	img.mapPin {
+		max-height: 150px;
+		margin: 10px;
+	}
+
+	div.mapPinPointer {
+		width: 10px;
+	    height: 5px;
+	    position: relative;
+	    left: 60px;
+	    top: -15px;
+	}
+	
+@keyframes example {
+    0%   {border-width: 0px; opacity: 0}
+    50%  {border-width: 50px; opacity: 0.3}
+    100% {border-width: 0px; opacity: 0}
+}
+
+.animateBeacon {
+	animation-name: example;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}

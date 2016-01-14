@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mobile App</title>
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="./images/mobile_icon.png" />
+    <link id="shortcutIcon" rel="shortcut icon" href="./images/mobile_icon.png">
+
+    <link href="./css/ratchet.css" rel="stylesheet">
+    <link href="./css/mobileapp.css" rel="stylesheet">
+
+    <script src="./js/jquery-1.11.3.min.js"></script>
+	<script src="./js/jquery-dateFormat.min.js"></script>
+    <!--<script src="./js/ratchet.js"></script>  --> 
+    <script src="./js/app.js"></script>
+    <script src="./js/esp.js"></script>   
+
+  </head>
+  <body >
+
+    <!-- top bar -->
+    <header class="bar bar-nav">
+      <a class="icon icon-bars pull-left"></a>
+      <a class="icon icon-search pull-right" href="#"></a>
+      <h1 class="title">Telco Events</h1>
+    </header>
+    
+
+    <!-- content -->
+    <div class="content backgroundImage">    
+
+      <div class="background-transparent">
+        <div class="padded-layer">
+          <br>
+          <label for="inputCustomerId">Customer ID</label>
+          <input id="inputCustomerId" type="text" placeholder="event value" value="1" onchange="saveIntoStorage(this);">
+		  <!--label for="inputMobileNr">Mobile Nr</label>
+          <input id="inputMobileNr" type="text" placeholder="event value" value="+41795095890" onchange="saveIntoStorage(this);"-->
+		  <label for="eventValue">Event Value</label>
+          <input id="eventValue" type="text" placeholder="event value" value="10" onchange="saveIntoStorage(this);">
+          <button class="btn btn-block btn-positive" onclick="processEvent('topup_event');">Top-Up</button>
+          <button class="btn btn-block btn-positive" onclick="processEvent('sms_usage');">SMS Usage</button>
+          <button class="btn btn-block btn-positive" onclick="processEvent('call_usage');">Minutes Usage</button>
+          <button class="btn btn-block btn-positive" onclick="processEvent('data_usage');">Data Usage</button>
+		  <button class="btn btn-block btn-positive" onclick="processEvent('balance_check');">Check Balance</button>
+
+          <br><br>
+        </div> <!-- padded layer-->
+
+      </div> <!-- background transparent -->
+    </div>
+
+
+    <!-- bottom bar -->
+	<!--
+    <nav class="bar bar-tab">
+      <a class="tab-item active" href="#">
+        <span class="icon icon-home"></span>
+        <span class="tab-label">Home</span>
+      </a>
+    </nav>
+	-->
+      <!--
+      <a class="tab-item" href="login.html">
+        <span class="icon icon-person"></span>
+        <span class="tab-label">Login</span>
+      </a>
+      <a class="tab-item" href="offers.html">
+        <span class="icon icon-star-filled"></span>
+        <span class="tab-label">Offers</span>
+      </a>
+      <a class="tab-item" href="search.html">
+        <span class="icon icon-search"></span>
+        <span class="tab-label">Telco</span>
+      </a>
+      <a class="tab-item" href="settings.html">
+        <span class="icon icon-gear"></span>
+        <span class="tab-label">Settings</span>
+      </a>
+    </nav>-->
+
+    
+
+  </body>
+</html>

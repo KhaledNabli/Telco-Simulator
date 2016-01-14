@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Telco CDH Simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="description" content="Beacon Demo Simulator">
+    <meta name="author" content="khaled nabli">
+    <link rel="icon" href="http://www.sas.com/etc/designs/saswww/favicon.ico">
+
+    <link rel="apple-touch-icon" href="images/sas_icon.png"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+
+    <link href="css/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
+
+  <body> 
+    <!-- unsere seite -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                    
+            </div>
+            <div id="storeMapWrapper" class="col-xs-12">
+
+
+                <div id="storeMap">
+                </div>
+
+                <div id="config-panel">
+                    <!--span id="editDemoConfig" onclick="showConfigurator();"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></span-->
+                    <span id="editBeaconPosition" onclick="makeBeaconsEditable();"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
+                    <span id="saveBeaconPosition" onclick="saveBeaconPosition();"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+                </div>  
+
+                <div class="row">
+                    <div id="customer-list">
+
+                        <!-- customer list apperas here -->
+                    </div>
+                </div>
+
+                
+                <h2 id="infobox"></h2>
+            </div>
+        </div>
+
+        <div class="row">
+
+        </div>
+
+    </div>
+
+
+
+
+    <div id="customerInfoDialog" title="Customer Profile" style="display: none;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-2">
+                    <img id="dialogCustomerImage" class="avatarImg img-circle vcenter" src="img/lahm.jpg">
+                </div>
+                <div class="col-xs-10">
+                    <div class="row">
+                        <div class="col-xs-4"> 
+                            <p>Name: <span id="dialogCustomerName"> ... </span> </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Phone: <span id="dialogCustomerPhone"> ... </span> </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Devices: <span id="dialogCustomerDevice"> ... </span> </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <p>Age: <span id="dialogCustomerAge"> ... </span> </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Segment: <span id="dialogCustomerSegment"> ... </span> </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Avg Data-Usage: <span id="dialogCustomerAvgDataUsg"> ... </span> </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <p>Avg Top-Up: <span id="dialogCustomerAvgTopUp"> ... </span> </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Activity last Week: <span id="dialogCustomerActivityLstWeek"> ... </span> </p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Treatment: <span id="dialogCustomerCurrentOffer"> ... </span> </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div id="dialogCustomerInterests" class="progress">
+                </div>
+            </div>
+
+            <table id="customerInfoDialogCHTab" class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Campaign</th>
+                        <th>Segment</th>
+                        <th>Offer</th>
+                        <th>Info 1</th>
+                        <th>Info 2</th>
+                    </tr>
+                </thead>
+                <tbody id="customerInfoDialogCHTr">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div id="demoConfigurator"></div>
+    <script src="js/jquery-1.11.1.js" type="text/javascript"></script>
+    <script src="js/jquery-ui.js" type="text/javascript"></script>
+    <script src="js/jquery-dateFormat.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/jquery.ui.touch-punch.js"></script>
+
+    <script src="democonfig.js" type="text/javascript"></script>
+    <script src="js/configurator.js" type="text/javascript"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+
+    <script>
+    $(document).ready(function () {loadDemo();}); 
+    $(window).resize(function (event) {windowsResize(event);});
+    </script>
+</body>
+</html>
