@@ -28,7 +28,7 @@
 		margin-left: 20px;
 	}
 
-	.draggableCustomer > .col-xs-6{
+	.container.customer > .col-xs-6{
 		padding-right: 0px;
 		padding-left: 0px;
 
@@ -40,7 +40,7 @@
 		margin: 0px;
 	}
 
-	.draggableCustomer {
+	.container.customer {
 		  /*margin: 3px;*/
 		  /*border-radius: 15px;
 		  border-width: 1px;
@@ -52,7 +52,7 @@
 		  max-width: 100%;
 	}
 
-	div.draggableCustomer :active {
+	div.container.customer :active {
 		  /*margin: 3px;
 		  border-radius: 60px;
 		  border-width: 3px;
@@ -60,17 +60,17 @@
 		  border-color: rgb(255,0,0);*/
 	}
 
-	.draggableCustomer h4 {
+	.container.customer h4 {
 		 margin-top: 10px;
 		 margin-bottom: 5px;
 	}
 	  
-	.beaconPlace.editable {
+	.container.location.editable {
 		opacity: 0.6 !important;
 	}
 
 
-	.beaconPlace {
+	.container.location {
 		opacity: 0;
 		color: white;
 		text-align: center;
@@ -125,7 +125,7 @@
     100% {border-width: 0px; opacity: 0}
 }
 
-.animateBeacon {
+.animateLocation {
 	animation-name: example;
     animation-duration: 0.5s;
     animation-iteration-count: infinite;

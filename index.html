@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Telco CDH Simulator</title>
+    <title>InternetOfThings Demo Simulator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="description" content="Beacon Demo Simulator">
+    <meta name="description" content="IOT Demo Simulator">
+    <meta name="author" content="mathias bouten">
     <meta name="author" content="khaled nabli">
     <link rel="icon" href="http://www.sas.com/etc/designs/saswww/favicon.ico">
 
     <link rel="apple-touch-icon" href="images/sas_icon.png"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <link href="css/style.css" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
-  </head>
+</head>
 
   <body> 
     <!-- unsere seite -->
@@ -34,9 +31,9 @@
                 </div>
 
                 <div id="config-panel">
-                    <!--span id="editDemoConfig" onclick="showConfigurator();"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></span-->
-                    <span id="editBeaconPosition" onclick="makeBeaconsEditable();"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-                    <span id="saveBeaconPosition" onclick="saveBeaconPosition();"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+                    <span id="editDemoConfig" onclick="showConfigurator();"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></span>
+                    <span id="editLocationsPosition" onclick="makeLocationsEditable();"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
+                    <span id="saveLocationsPosition" onclick="saveLocationsPosition();"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
                 </div>  
 
                 <div class="row">
@@ -59,7 +56,7 @@
 
 
 
-
+    <!-- Customer Information Dialog -->
     <div id="customerInfoDialog" title="Customer Profile" style="display: none;">
         <div class="container-fluid">
             <div class="row">
@@ -67,80 +64,200 @@
                     <img id="dialogCustomerImage" class="avatarImg img-circle vcenter" src="img/lahm.jpg">
                 </div>
                 <div class="col-xs-10">
-                    <div class="row">
-                        <div class="col-xs-4"> 
-                            <p>Name: <span id="dialogCustomerName"> ... </span> </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p>Phone: <span id="dialogCustomerPhone"> ... </span> </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p>Devices: <span id="dialogCustomerDevice"> ... </span> </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <p>Age: <span id="dialogCustomerAge"> ... </span> </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p>Segment: <span id="dialogCustomerSegment"> ... </span> </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p>Avg Data-Usage: <span id="dialogCustomerAvgDataUsg"> ... </span> </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <p>Avg Top-Up: <span id="dialogCustomerAvgTopUp"> ... </span> </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p>Activity last Week: <span id="dialogCustomerActivityLstWeek"> ... </span> </p>
-                        </div>
-                        <div class="col-xs-4">
-                            <p>Treatment: <span id="dialogCustomerCurrentOffer"> ... </span> </p>
-                        </div>
+                    <div id="dialogCustomerFields" class="row">
+                        <!-- will be automatically created -->
                     </div>
                 </div>
 
             </div>
+            
             <div class="row">
-                <div id="dialogCustomerInterests" class="progress">
+                <div id="dialogCustomerInterests" >
+                    <!-- will be automatically created -->
                 </div>
             </div>
 
-            <table id="customerInfoDialogCHTab" class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Campaign</th>
-                        <th>Segment</th>
-                        <th>Offer</th>
-                        <th>Info 1</th>
-                        <th>Info 2</th>
-                    </tr>
-                </thead>
-                <tbody id="customerInfoDialogCHTr">
-
-                </tbody>
-            </table>
+            <div class="row">
+                <div id="dialogCustomerHistory" >
+                    <!-- will be automatically created -->
+                </div>
+            </div>
         </div>
     </div>
 
-
+    <!-- Placeholder for Configurator -->
     <div id="demoConfigurator"></div>
+
+    <!-- HTML TEMPLATES BEGIN -->
+    <script id="configCustomerRow" type="text/x-handlebars-template">
+        <tr style="background-color: {{backgroundColor}}">
+            <td><input name="id" type="number" placeholder="Id" value="{{id}}" class="form-control input-md"></td>
+            <td><input name="name" type="text" placeholder="Name" value="{{name}}" class="form-control input-md"></td>
+            <td><input name="mobile" type="text" placeholder="Mobile" value="{{mobilenr}}" class="form-control input-md"></td>
+            <td><input name="image" type="text" placeholder="Image" value="{{image}}" class="form-control input-md"></td>
+
+            {{#each customerAttributes}}
+            <td><input name="{{this.key}}" type="{{this.type}}" placeholder="{{this.label}}" value="{{this.value}}" class="form-control input-md"></td>
+            {{/each}}
+
+            <td>
+                <select name='color' class='form-control' onchange="return configColorChange(this);" >
+            {{#if backgroundColor }}
+                    <option value='{{backgroundColor}}' selected> {{backgroundColor}} </option>
+            {{/if}}
+            {{#each colorList}}
+                    <option value="{{this}}"> {{this}} </option>
+            {{/each}}
+                </select>
+            </td>
+            
+            <td class="text-center"> <button type="button" onclick="configRemoveCustomer(this);">Delete</button> </td>
+        </tr>
+    </script>
+
+    <script id="configLocationTab" type="text/x-handlebars-template">
+    <table id="configuratorLocationTable" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Label</th>
+                <th class="text-center">Color</th>
+                <th class="text-center"><button type="button" onclick="return configAddLocation({});">Add</button> </th>
+            </tr>
+        </thead>
+        <tbody id="configuratorLocationTbody"></tbody>
+    </table>
+    </script>
+
+    <script id="configLocationRow" type="text/x-handlebars-template">
+        <tr style="background-color: {{backgroundColor}}">
+            <td><input name="id" type="number" placeholder="Id" value="{{id}}" class="form-control input-md"></td>
+            <td><input name="name" type="text" placeholder="Name" value="{{name}}" class="form-control input-md"></td>
+
+            {{#each locationAttributes}}
+            <td><input name="{{this.key}}" type="{{this.type}}" placeholder="{{this.label}}" value="{{this.value}}" class="form-control input-md"></td>
+            {{/each}}
+
+            <td>
+                <select name='color' class='form-control' onchange="return configColorChange(this);" >
+            {{#if backgroundColor }}
+                    <option value='{{backgroundColor}}' selected> {{backgroundColor}} </option>
+            {{/if}}
+            {{#each colorList}}
+                    <option value="{{this}}"> {{this}} </option>
+            {{/each}}
+                </select>
+            </td>
+            
+            <td class="text-center"> <button type="button" onclick="configRemoveLocation(this);">Delete</button> </td>
+        </tr>
+    </script>
+
+
+    <script id="configCustomerTab" type="text/x-handlebars-template">
+        <thead>
+            <tr >
+            <th class="text-center">ID</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Mobile Nr</th>
+            <th class="text-center">Image</th>
+            {{#each customerAttributes}}
+            <th class="text-center">{{this.label}}</th>
+            {{/each}}
+            <th class="text-center">Color</th>
+            <th class="text-center" width="10%"><button type="button" onclick="return configAddCustomer({});">Add</button> </th>
+            </tr>
+        </thead>
+        <tbody id="configuratorCustomerTbody"></tbody>
+    </script>
+
+    <script id="storeMapDiv" type="text/x-handlebars-template">
+        <img id="storeMapImg" src="{{image}}"></img>
+    </script>
+
+    <script id="custDialogue" type="text/x-handlebars-template">
+        <div class="col-xs-4">
+        <p>Name: <span id="dialogCustomerName"> ... </span> </p>
+        </div>
+        <div class="col-xs-4">
+        <p>Phone: <span id="dialogCustomerPhone"> ... </span> </p>
+        </div>
+        {{#each customerAttributes}}
+        <div class="col-xs-4"><p> {{this.label}}: <span id="dialogCustomer_{{this.key}}"> ... </span> </p></div>
+        {{/each}}
+    </script>
+
+    <script id="customerContainerDiv" type="text/x-handlebars-template">
+        <div class="col-xs-12">
+            <div id="customer_div_{{id}}" 
+                class="customer container" 
+                style="z-index: 10; position: relative;" >
+                <img class="mapPin " src="{{image}}">
+                <div class="mapPinPointer"></div>
+            </div>
+        </div>
+    </script>
+
+    <script id="locationContainerDiv" type="text/x-handlebars-template">
+    <div id="location_div_{{id}}" 
+        class="location container {{additionalClass}}" 
+        style="position: absolute; top: {{top}}px; left: {{left}}px; width: {{width}}px; height: {{height}}px; background-color: {{color}};" >
+        <h3>{{label}}</h3>
+    </div>
+    </script>
+
+    <script id="dialogCustomerInterestBar" type="text/x-handlebars-template">
+    <div class="progress">
+    {{#each interests}}
+    <div class="progress-bar" role="progressbar" aria-valuenow="{{this.value}}" aria-valuemin="0" aria-valuemax="100" 
+        style="width: {{this.value}}%; background-color: {{this.color}}" > {{this.label}} </div>
+    {{/each}}
+    </div>
+    </script>
+
+    <script id="dialogCustomerHistoryTable" type="text/x-handlebars-template">
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Campaign</th>
+                <th>Segment</th>
+                <th>Offer</th>
+                <th colspan="2">Additional Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each contacts}}
+            <tr>
+                <td> {{this.date}} </td>
+                <td> {{this.campaign}} </td>
+                <td> {{this.segment}} </td>
+                <td> {{this.offer}} </td>
+                <td> {{this.info1}} </td>
+                <td> {{this.info2}} </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    </script>
+
+    <!-- HTML TEMPLATES END -->
+
+    <script src="js/jstz.min.js"></script>
     <script src="js/jquery-1.11.1.js" type="text/javascript"></script>
     <script src="js/jquery-ui.js" type="text/javascript"></script>
     <script src="js/jquery-dateFormat.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/jquery.ui.touch-punch.js"></script>
+    <script src="js/handlebars-4.0.5.min.js"></script>
 
     <script src="democonfig.js" type="text/javascript"></script>
     <script src="js/configurator.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
 
     <script>
-    $(document).ready(function () {loadDemo();}); 
-    $(window).resize(function (event) {windowsResize(event);});
+    $(document).ready(function () {onReady();}); 
+    $(window).resize(function (event) {onResize(event);});
     </script>
 </body>
 </html>

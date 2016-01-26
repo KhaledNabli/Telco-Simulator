@@ -1,29 +1,20 @@
-/**
-*	Init configuration ui
-*
-*/
-function initConfigurator() {
-	refreshConfigurator(demoScenario);
-}
 
 
 /**
 *	Refresh configuration ui
 *
 */
-function refreshConfigurator(demoScenario) {
-	$("#demoEspHostInput").val(demoScenario.espBeaconWindow);
+function updateConfiguratorUI() {
+	$("#demoEspHostInput").val(demoScenario.espLocationWindow);
 	$("#demoRtdmHostInput").val(demoScenario.rtdmHost);
 	$("#storeMapImgInput").val(demoScenario.storeMapImg);
 
 
-	$.each(demoScenario.customerList, function (index) {
-		configAddCustomer(demoScenario.customerList[index]);
-	});
+	configBuildCustomerTable();
 
 
-	$.each(demoScenario.beaconList, function (index) {
-		configAddBeacon(demoScenario.beaconList[index]);
+	$.each(demoScenario.locationList, function (index) {
+		configAddLocation(demoScenario.locationList[index]);
 	});
 
 }
@@ -32,12 +23,12 @@ function refreshConfigurator(demoScenario) {
 *	Read configuration from ui
 *
 */
-function updateConfiguration() {
-	demoScenario.espBeaconWindow = $("#demoEspHostInput").val();
+function updateConfigurationFromUI() {
+	demoScenario.espLocationWindow = $("#demoEspHostInput").val();
 	demoScenario.rtdmHost = $("#demoRtdmHostInput").val(); 
 	demoScenario.storeMapImg = $("#storeMapImgInput").val();
 	demoScenario.customerList = configGetCustomersFromUi();
-	demoScenario.beaconList = configGetBeaconsFromUi();
+	demoScenario.locationList = configGetLocationsFromUi();
 }
 
 /**
@@ -45,11 +36,11 @@ function updateConfiguration() {
 *
 */
 function saveConfiguration() {
-	updateConfiguration();
+	updateConfigurationFromUI();
 	refreshCustomers(demoScenario.customerList);
-	refreshBeacons(demoScenario.beaconList);
+	refreshLocations(demoScenario.locationList);
 	closeConfigurator();
-	window.localStorage.demoScenario = JSON.stringify(demoScenario);
+	//window.localStorage.demoScenario = JSON.stringify(demoScenario);
 	connectToProvider('saveScenario', demoScenario);
 }
 
@@ -64,9 +55,9 @@ function closeConfigurator() {
 
 function resetConfiguration() {
 	$("#configuratorCustomerTbody tr").remove();
-	$("#configuratorBeaconTbody tr").remove();
+	$("#configuratorLocationTbody tr").remove();
 	demoScenario = defaultDemoScenario;
-	refreshConfigurator(demoScenario);
+	updateConfiguratorUI(demoScenario);
 }
 
 function helpConfiguration() {
@@ -74,22 +65,51 @@ function helpConfiguration() {
 }
 
 
+function configBuildCustomerTable() {
+	var tableHeaderRows = Array();
+
+	for (var customField of demoScenario.customFields) {
+		if(["id", "label", "color", "img", "mobilenr"].includes(customField.key)) {
+			continue;
+		}
+
+		if(customField.entity == "customer") {
+			tableHeaderRows.push({label: customField.label});
+		}
+	}
+
+	$("#configuratorCustomerTable").html(htmlTemplates.configCustomerTab({customerAttributes: tableHeaderRows}));
+
+	// display all customers
+	$.each(demoScenario.customerList, function (index) {
+		configAddCustomer(demoScenario.customerList[index]);
+	});
+
+}
 
 function configAddCustomer(customerObj) {
 	var newEntry = customerObj == undefined || customerObj.id == undefined;
 	var color = (newEntry || customerObj.color == undefined) ? getRandomeColor() : customerObj.color;
 	var newEntryId = newEntry ? configGetNextCustomerId() : customerObj.id;
-	htmlTag = "<tr style='background-color: " + color + "'" +">"
-		+"<td><input name='id' type='number' placeholder='ID' value='"+ (newEntry ? newEntryId : customerObj.id) +"'   class='form-control input-md'/>" +  "</td>"
-		+"<td><input name='label' type='text' placeholder='Label' value='"+ (newEntry ? "" : customerObj.label) +"'   class='form-control input-md'/>" +  "</td>"
-		+"<td><input name='img' type='text' placeholder='Image Url' value='"+ (newEntry ? "" : customerObj.img) +"'   class='form-control input-md'/>" + "</td>"
-		+"<td><input name='age' type='number' placeholder='Age' value='"+ (newEntry ? "" : customerObj.age) +"'   class='form-control input-md'/>" + "</td>"
-		+"<td><input name='mobilenr' type='text' placeholder='Mobile' value='"+ (newEntry ? "" : customerObj.mobilenr) +"'   class='form-control input-md'/>" + "</td>"
-		+"<td><select name='color' class='form-control' onchange=\"return configColorChange(this);\" > "+ renderColorList(color) +" </select>" + "</td>"
-		+"<td class=\"text-center\"> <button type=\"button\" onclick=\"configRemoveCustomer(this);\">Delete</button> </td>"
-		+"</tr>";
-	$("#configuratorCustomerTbody").append(htmlTag);
-	return newEntry;
+
+	var newCustomerEntry = {id: newEntryId, name: customerObj.label, image: customerObj.img, mobilenr: customerObj.mobilenr, backgroundColor: color, colorList: colors, customerAttributes: Array()};
+	// populate customerAttributes array with customeFields
+	for (var customField of demoScenario.customFields) {
+
+		// this fields are included in the template - ignore if present
+		if(["id", "label", "color", "img", "mobilenr"].includes(customField.key)) {
+			continue;
+		}
+		
+		if(customField.entity == "customer") {
+			newCustomerEntry.customerAttributes.push({label: customField.label, key: customField.key, value: customerObj[customField.key], type: "text"});
+		}
+	}
+
+	// render template and append to table
+	$("#configuratorCustomerTbody").append(htmlTemplates.configCustomerRow(newCustomerEntry));
+
+	return newCustomerEntry;
 }
 
 function configGetNextCustomerId() {
@@ -107,11 +127,20 @@ function configGetCustomersFromUi() {
 
 		var customerObj = {};
 		customerObj.id = parseInt($(this).find("input[name='id']").val());
-		customerObj.label = $(this).find("input[name='label']").val();
-		customerObj.img = $(this).find("input[name='img']").val();
-		customerObj.age = parseInt($(this).find("input[name='age']").val());
-		customerObj.mobilenr = $(this).find("input[name='mobilenr']").val();
+		customerObj.label = $(this).find("input[name='name']").val();
+		customerObj.img = $(this).find("input[name='image']").val();
+		customerObj.mobilenr = $(this).find("input[name='mobile']").val();
 		customerObj.color = $(this).find("select[name='color']").val();
+		for (var customField of demoScenario.customFields) {
+			// this fields are included in the template - ignore if present
+			if(["id", "label", "color", "img", "mobilenr"].includes(customField.key)) {
+				continue;
+			}
+			if(customField.entity == "customer") {
+				customerObj[customField.key] = $(this).find("input[name='" + customField.key + "']").val();	
+			}
+		}
+
 		console.log(customerObj);
 		customerList.push(customerObj);
 	});
@@ -126,63 +155,76 @@ function configRemoveCustomer(element) {
 	return false;
 }
 
-function configAddBeacon(beaconObj) {
-	var newEntry = beaconObj == undefined || beaconObj.id == undefined;
-	var color = (newEntry || beaconObj.color == undefined) ? getRandomeColor() : beaconObj.color;
-	var newEntryId = newEntry ? (9 + Math.ceil(100 * Math.random())) : beaconObj.id;
+function configAddLocation(locationObj) {
+	var newEntry = locationObj == undefined || locationObj.id == undefined;
+	var color = (newEntry || locationObj.color == undefined) ? getRandomeColor() : locationObj.color;
+	var newEntryId = newEntry ? (9 + Math.ceil(100 * Math.random())) : locationObj.id;
+	var entryName = newEntry ? "" : locationObj.label;
 
-	htmlTag = "<tr style='background-color: " + color + "'" +">"
-		+"<td><input name='id' type='number' placeholder='ID' value='"+ (newEntry ? newEntryId : beaconObj.id) +"'   class='form-control input-md'/>" +  "</td>"
-		+"<td><input name='label' type='text' placeholder='Label' value='"+ (newEntry ? "" : beaconObj.label) +"'   class='form-control input-md'/>" +  "</td>"
-		+"<td><input name='store' type='text' placeholder='Store' value='"+ (newEntry ? "" : beaconObj.store) +"'   class='form-control input-md'/>" 
-		+ "<input name='existing' type='hidden' value='"+ (newEntry ? "true" : "false") +"'/>"+ "</td>"
-		+"<td><select name='color' class='form-control' onchange=\"return configColorChange(this);\" > "+ renderColorList(color) +" </select>" + "</td>"
-		+"<td class=\"text-center\"> <button type=\"button\" onclick=\"configRemoveCustomer(this);\">Delete</button> </td>"
-		+"</tr>";
-	$("#configuratorBeaconTbody").append(htmlTag);
+
+	var newLocationEntry = {id: newEntryId, name: entryName, locationAttributes: Array(), backgroundColor: color, colorList: colors};
+
+	for (var customField of demoScenario.customFields) {
+		if (customField.entity == "location") {
+			// do not process this fields - as they are already rendered
+			if(["id", "label"].includes(customField.key)) {
+				continue;
+			}
+
+			newLocationEntry.locationAttributes.push({label: customField.label, key: customField.key, value: locationObj[customField.key], type: "text"});
+		}
+	}
+
+	$("#configuratorLocationTbody").append(htmlTemplates.configLocationRow(newLocationEntry));
 	return false;
 }
 
-function configRemoveBeacon(element) {
+function configRemoveLocation(element) {
 	$(element).parent().parent().remove();
 	return false;
 }
 
-function configGetBeaconsFromUi() {
-	var beaconList = [];
+function configGetLocationsFromUi() {
+	var locationList = [];
+	var switchToEditMode = false;
 
-	$("#configuratorBeaconTbody tr").each(function() {
+	$("#configuratorLocationTbody tr").each(function() {
 
-		var beaconObj = {};
-		beaconObj.id = parseInt($(this).find("input[name='id']").val());
-		beaconObj.label = $(this).find("input[name='label']").val();
-		beaconObj.store = $(this).find("input[name='store']").val();
-		beaconObj.color = $(this).find("select[name='color']").val();
+		var locationObj = {};
+		locationObj.id = parseInt($(this).find("input[name='id']").val());
+		locationObj.label = $(this).find("input[name='label']").val();
+		locationObj.color = $(this).find("select[name='color']").val();
 
 		// check if new:
-		var beaconIndex = findObjectById(demoScenario.beaconList, beaconObj.id);
+		var locationIndex = findIndexByKey(demoScenario.locationList, "id", locationObj.id);
 
-		if(beaconIndex > -1) {
+		if(locationIndex > -1) {
 			// existing
-			beaconObj.existing = true;
-			beaconObj.size = demoScenario.beaconList[beaconIndex].size;
-			beaconObj.position = demoScenario.beaconList[beaconIndex].position;
+			//locationObj.newlyAdded = true;
+			locationObj.size = demoScenario.locationList[locationIndex].size;
+			locationObj.position = demoScenario.locationList[locationIndex].position;
 		} else {
-			// new beacon
-			beaconObj.existing = false;
-			beaconObj.size = {};
-			beaconObj.size.height = 150;
-			beaconObj.size.width = 150;
-			beaconObj.position = {};
-			beaconObj.position.top = 50 + Math.ceil(500 * Math.random());
-			beaconObj.position.left = 50 + Math.ceil(800 * Math.random());
+			// new location
+			//locationObj.newlyAdded = false;
+			locationObj.size = {};
+			locationObj.size.height = 150;
+			locationObj.size.width = 150;
+			locationObj.position = {};
+			locationObj.position.top = 50 + Math.ceil(500 * Math.random());
+			locationObj.position.left = 50 + Math.ceil(800 * Math.random());
+			switchToEditMode = true;
 		}
 
-		console.log(beaconObj);
-		beaconList.push(beaconObj);
+		console.log(locationObj);
+		locationList.push(locationObj);
 	});
 
-	return beaconList;	
+
+	if(switchToEditMode == true) {
+		makeLocationsEditable();
+	}
+	
+	return locationList;	
 }
 
 

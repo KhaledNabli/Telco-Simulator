@@ -1,0 +1,83 @@
+{	
+	"customFields": [
+		{
+			"entity": "customer",
+			"key": "age",
+			"label": "Age",
+			"rtdmKey": "customerAge",
+			"espKey": "memberAge",
+			"style": "" 
+		},
+		{
+			"entity": "customer",
+			"key": "device",
+			"label": "Device",
+			"rtdmKey": "customerDevice",
+			"espKey": "customerDevice",
+			"style": ""
+		},
+		{
+			"entity": "customer",
+			"key": "avgSmsUsg",
+			"label": "Avg SMS Usage",
+			"rtdmKey": "avgSmsUsg",
+			"espKey": "avgSmsUsg",
+			"style": ""
+		},
+		{
+			"entity": "customer",
+			"key": "avgTopUp",
+			"label": "Avg Top Up",
+			"rtdmKey": "avgTopUp",
+			"espKey": "avgTopUp",
+			"style": ""
+		},
+		{
+			"entity": "customer",
+			"key": "avgDataUsg",
+			"label": "Avg Data Usage",
+			"rtdmKey": "avgDataUsg",
+			"espKey": "avgData",
+			"style": ""
+		},
+		{
+			"entity": "customer",
+			"key": "avgNatMin",
+			"label": "Avg National Minutes",
+			"rtdmKey": "avgNatMin",
+			"espKey": "avgNatMin",
+			"style": ""
+		},
+		{
+			"entity": "customer",
+			"key": "roamingFlg",
+			"label": "Roaming Flag",
+			"rtdmKey": "roamingFlg",
+			"espKey": "roamingFlg",
+			"style": ""
+		}
+	],
+	"espUrl":"http:\/\/racesx11058.demo.sas.com:8081\/inject\/TelcoGeoDetection\/TelcoGeoQuery\/GeoEvents",
+	"rtdmHost":"racesx11058.demo.sas.com",
+	"rtdmEvent":"IOT_Get_Customer_Profile",
+	"storeMapImg": "img/geomap.jpg",
+	"interestCalculation" : "mean_value",
+	"storeMapOrigWidth": 0,
+	"storeMapScale": 1,
+	"customerList": [
+		{"id":1, "label": "Khaled", "age": 29, "color": "aquamarine", "device": "Data Capable", "avgTopUp": "35", "avgSmsUsg": "110", "avgDataUsg" : "1024", "avgNatMin":"130", "avgIntMin" : "30", "roamingFlg" : "no", "img": "img/nabli.jpg", "mobilenr": "41795095890" }, 
+		{"id":2, "label": "Mathias", "age": 31, "color": "aliceblue", 	"device": "Non-Data", "avgTopUp": "15", "avgSmsUsg": "40", "avgDataUsg" : "0", "avgNatMin":"689", "avgIntMin" : "1200", "roamingFlg" : "no", "img": "img/bouten.jpg", "mobilenr": "41795095890"}, 
+		{"id":3, "label": "Nico", "age": 37, "color": "blanchedalmond", "device": "Non-Data", "avgTopUp": "10", "avgSmsUsg": "0", "avgDataUsg" : "0", "avgNatMin":"0", "avgIntMin" : "0", "roamingFlg" : "yes", "img": "img/payares.jpg", "mobilenr": "41795095890"}
+	],
+	"locationList": [
+		{"id":1,"label":"Airport","color":"red","size":{"height":175,"width":197},"position":{"top":841,"left":698}},
+		{"id":2,"label":"Shopping Centers","color":"darkgreen","size":{"height":94,"width":128},"position":{"top":587,"left":1007}},
+		{"id":3,"label":"Business Destricts","color":"blue","size":{"height":160,"width":180},"position":{"top":488,"left":768}},
+		{"id":4,"label":"City Center","color":"maroon","size":{"height":123,"width":80},"position":{"top":86,"left":541}},
+		{"id":5,"label":"Bayshore","color":"orange","size":{"height":54,"width":143},"position":{"top":861,"left":465}},
+		{"id":6,"label":"SM Mall of Asia","color":"darkorange","size":{"height":116,"width":69},"position":{"top":694,"left":488}},
+		{"id":7,"label":"Ocen Park","color":"darkblue","size":{"height":86,"width":110},"position":{"top":326,"left":400}},
+		{"id":8,"label":"Golf Club","color":"brown","size":{"height":86,"width":138},"position":{"top":230,"left":995}},
+		{"id":107,"label":"Smart Araneta Coliseum","store":"","color":"fuchsia","existing":false,"size":{"height":71,"width":255},"position":{"top":16,"left":1021}}
+	]
+}

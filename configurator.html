@@ -16,7 +16,6 @@
 					<br>
 					This demo has been developed by 
 						<a href="mailto:khaled.nablie@sas.com">Khaled Nabli </a> and 
-						<a href="mailto:siegfried.radspieler@sas.com">Siegfried Radspieler </a> and 
 						<a href="mailto:mathias.bouten@sas.com">Mathias Bouten </a>.
 					<br><br>
 					
@@ -49,14 +48,11 @@
 						<li role="presentation" class="active">
 							<a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a>
 						</li>
-						<!--li role="presentation" >
-							<a href="#storeConfig" aria-controls="customerProfile" role="tab" data-toggle="tab">Stores</a>
-						</li-->
 						<li role="presentation" >
 							<a href="#customerConfig" aria-controls="customerAnalytics" role="tab" data-toggle="tab">Customers</a>
 						</li>
 						<li role="presentation">
-							<a href="#beaconConfig" aria-controls="smsRecipients" role="tab" data-toggle="tab">Beacons</a>
+							<a href="#locationConfig" aria-controls="smsRecipients" role="tab" data-toggle="tab">Locations</a>
 						</li>
 					</ul>
 
@@ -122,53 +118,27 @@
 							</form>
 						</div>
 
-						<!-- Tab: Store Configuration -->
-						<div id="storeConfig" role="tabpanel" class="tab-pane" >
+
+						<!-- Tab: Location Configuration -->
+						<div id="locationConfig" role="tabpanel" class="tab-pane" >
 							<form class="form-horizontal" role="form">
 
 								<div class="form-group"></div>
-
-								<!-- Store Grid -->
+								<!-- location Grid -->
 								<div class="col-sm-12">
-									<table id="configuratorStoreTable" class="table table-bordered table-hover">
+									<table id="configuratorLocationTable" class="table table-bordered table-hover">
 										<thead>
 											<tr >
-												<th class="text-center" width="10%">ID</th>
-												<th class="text-center" width="40%">Store Label</th>
-												<th class="text-center" width="40%">Store Image</th>
-												<th class="text-center" width="10%"><button type="button" onclick="return configAddStore(undefined);">Add</button> </th>
+												<th class="text-center">ID</th>
+												<th class="text-center">Label</th>
+												<th class="text-center">Color</th>
+												<th class="text-center"><button type="button" onclick="return configAddLocation({});">Add</button> </th>
 											</tr>
 										</thead>
-										<tbody id="configuratorStoreTbody"></tbody>
+										<tbody id="configuratorLocationTbody"></tbody>
 									</table>
 								</div>
-								<!-- Ende Store Grid -->
-
-								<div class="form-group"></div>
-							</form>
-						</div>
-
-						<!-- Tab: Beacon Configuration -->
-						<div id="beaconConfig" role="tabpanel" class="tab-pane" >
-							<form class="form-horizontal" role="form">
-
-								<div class="form-group"></div>
-								<!-- Beacon Grid -->
-								<div class="col-sm-12">
-									<table id="configuratorBeaconTable" class="table table-bordered table-hover">
-										<thead>
-											<tr >
-												<th class="text-center" width="10%">ID</th>
-												<th class="text-center" width="30%">Label</th>
-												<th class="text-center" width="30%">Store</th>
-												<th class="text-center" width="20%">Color</th>
-												<th class="text-center" width="10%"><button type="button" onclick="return configAddBeacon({});">Add</button> </th>
-											</tr>
-										</thead>
-										<tbody id="configuratorBeaconTbody"></tbody>
-									</table>
-								</div>
-								<!-- Ende Beacon Grid -->
+								<!-- Ende Location Grid -->
 								<div class="form-group"></div>
 							</form>
 						</div>

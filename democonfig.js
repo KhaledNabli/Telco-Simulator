@@ -1,31 +1,3 @@
-
-
-var defaultDemoScenario = {};
-
-
-defaultDemoScenario.espBeaconWindow = "http://racesx11058.demo.sas.com:8081/inject/TelcoGeoDetection/TelcoGeoQuery/GeoEvents?blocksize=1";
-defaultDemoScenario.rtdmHost = "racesx11058.demo.sas.com";
-defaultDemoScenario.rtdmEvent = "ESP_Beacon_Get_Customer_Profile";
-
-
-defaultDemoScenario.storeMapImg = "img/geomap.jpg";
-defaultDemoScenario.storeMapOrigWidth = 1846;
-defaultDemoScenario.storeMapScale = 1;
-
-
-defaultDemoScenario.currentStore = "telco";
-defaultDemoScenario.storeList = [{id:"telco", label:"telco Store", img:"img/storemap.png"}];
-
-defaultDemoScenario.customerList = [
-	{id:1, label: "Seth", age: 29, color: "aquamarine", device: "Data Capable", avgTopUp: "35", avgSmsUsg: "110", avgDataUsg : "1024", avgNatMin:"130", avgIntMin : "30", roamingFlg : "no", img: "img/seth.jpg", 		mobilenr: "639985315540" }, 
-	{id:2, label: "Khaye", age: 31, color: "aliceblue", 	device: "Non-Data", avgTopUp: "15", avgSmsUsg: "40", avgDataUsg : "0", avgNatMin:"689", avgIntMin : "1200", roamingFlg : "no", img: "img/khaye.jpg", 	mobilenr: "639399371432"}, 
-	{id:3, label: "Nico", age: 37, color: "blanchedalmond", device: "Non-Data", avgTopUp: "10", avgSmsUsg: "0", avgDataUsg : "0", avgNatMin:"0", avgIntMin : "0", roamingFlg : "yes", img: "img/payares.jpg", 		mobilenr: "491724201695"},
-];
-
-
-defaultDemoScenario.beaconList = [{"id":1,"label":"Airport","store":"telco","color":"red","existing":true,"size":{"height":175,"width":197},"position":{"top":841,"left":698}},{"id":2,"label":"Shopping Centers","store":"telco","color":"darkgreen","existing":true,"size":{"height":94,"width":128},"position":{"top":587,"left":1007}},{"id":3,"label":"Business Destricts","store":"telco","color":"blue","existing":true,"size":{"height":160,"width":180},"position":{"top":488,"left":768}},{"id":4,"label":"City Center","store":"telco","color":"maroon","existing":true,"size":{"height":123,"width":80},"position":{"top":86,"left":541}},{"id":5,"label":"Bayshore","store":"telco","color":"orange","existing":true,"size":{"height":54,"width":143},"position":{"top":861,"left":465}},{"id":6,"label":"SM Mall of Asia","store":"telco","color":"darkorange","existing":true,"size":{"height":116,"width":69},"position":{"top":694,"left":488}},{"id":7,"label":"Ocen Park","store":"telco","color":"darkblue","existing":true,"size":{"height":86,"width":110},"position":{"top":326,"left":400}},{"id":8,"label":"Golf Club","store":"telco","color":"brown","existing":true,"size":{"height":86,"width":138},"position":{"top":230,"left":995}},{"id":107,"label":"Smart Araneta Coliseum","store":"","color":"fuchsia","existing":false,"size":{"height":71,"width":255},"position":{"top":16,"left":1021}}];
-
-
 var colors = [
             "aliceblue",
             "antiquewhite",
