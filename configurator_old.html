@@ -12,28 +12,11 @@
 			<div class="modal-body">
 				
 				<div id="configuratorAboutUs" style="display: none">
-					
 					<br>
 					This demo has been developed by 
 						<a href="mailto:khaled.nablie@sas.com">Khaled Nabli </a> and 
 						<a href="mailto:mathias.bouten@sas.com">Mathias Bouten </a>.
 					<br><br>
-					
-					
-					<br>
-					This Demo Configurator can be used to change the content of this demo.<br>
-					<br>
-					<table class="table table-bordered table-hover">
-						<tr><td>Profile 		</td> <td>Customer profile content for the Advisor Frontend of this demo</td></tr>
-						<tr><td>Analytics 	</td> <td>Customer analytics content for the analytics bars in the Advisor Frontend</td></tr>
-						<tr><td>SMS 			</td> <td>SMS recipients can be managed here to send out SMS when offers are accepted in the Advisor Frontend</td></tr>
-						<tr><td>Action History </td> <td>Recent customer actions shown in the Action History part of the Advisor Frontend</td></tr>
-						<tr><td>Next Best Actions </td> <td>New offer recommendations for the customer displayed in the Advisor Frontend</td></tr>
-						<tr><td>Search Post History </td> <td>Search strings and post contents of the customer displayed in the Advisor Frontend</td></tr>
-						<tr><td>Images </td> <td>You can configure which images should appear in the poster and the iphone area of the demo</td></tr>
-					</table>
-					<br><br>
-					
 				</div>
 
 				
@@ -49,10 +32,13 @@
 							<a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a>
 						</li>
 						<li role="presentation" >
-							<a href="#customerConfig" aria-controls="customerAnalytics" role="tab" data-toggle="tab">Customers</a>
+							<a href="#customerConfig" aria-controls="customerConfig" role="tab" data-toggle="tab">Customers</a>
 						</li>
 						<li role="presentation">
-							<a href="#locationConfig" aria-controls="smsRecipients" role="tab" data-toggle="tab">Locations</a>
+							<a href="#locationConfig" aria-controls="locationConfig" role="tab" data-toggle="tab">Locations</a>
+						</li>
+						<li role="presentation">
+							<a href="#fieldsConfig" aria-controls="fieldsConfig" role="tab" data-toggle="tab">Custom Fields</a>
 						</li>
 					</ul>
 
@@ -96,24 +82,9 @@
 						<div id="customerConfig" role="tabpanel" class="tab-pane" >
 							<form class="form-horizontal" role="form">
 								<div class="form-group"></div>
-								<!-- Store Grid -->
-								<div class="col-sm-12">
-									<table id="configuratorCustomerTable" class="table table-bordered table-hover">
-										<thead>
-											<tr >
-												<th class="text-center" width="10%">ID</th>
-												<th class="text-center" width="15%">Label</th>
-												<th class="text-center" width="20%">Image</th>
-												<th class="text-center" width="10%">Age</th>
-												<th class="text-center" width="20%">Mobile</th>
-												<th class="text-center" width="15%">Color</th>
-												<th class="text-center" width="10%"><button type="button" onclick="return configAddCustomer({});">Add</button> </th>
-											</tr>
-										</thead>
-										<tbody id="configuratorCustomerTbody"></tbody>
-									</table>
+								<div id="configuratorCustomerTable" class="col-sm-12">
+
 								</div>
-								<!-- Ende Store Grid -->
 								<div class="form-group"></div>
 							</form>
 						</div>
@@ -125,23 +96,28 @@
 
 								<div class="form-group"></div>
 								<!-- location Grid -->
-								<div class="col-sm-12">
-									<table id="configuratorLocationTable" class="table table-bordered table-hover">
-										<thead>
-											<tr >
-												<th class="text-center">ID</th>
-												<th class="text-center">Label</th>
-												<th class="text-center">Color</th>
-												<th class="text-center"><button type="button" onclick="return configAddLocation({});">Add</button> </th>
-											</tr>
-										</thead>
-										<tbody id="configuratorLocationTbody"></tbody>
-									</table>
+								<div id="configuratorLocationTable" class="col-sm-12">
+									
 								</div>
 								<!-- Ende Location Grid -->
 								<div class="form-group"></div>
 							</form>
 						</div>
+
+						<!-- Tab: Fields Configuration -->
+						<div id="fieldsConfig" role="tabpanel" class="tab-pane" >
+							<form class="form-horizontal" role="form">
+
+								<div class="form-group"></div>
+								<!-- location Grid -->
+								<div id="configuratorFieldsTable" class="col-sm-12">
+									
+								</div>
+								<!-- Ende Location Grid -->
+								<div class="form-group"></div>
+							</form>
+						</div>
+
 					</div>
 				</div>
 			</div>

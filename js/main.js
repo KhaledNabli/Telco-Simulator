@@ -74,7 +74,7 @@ function createCustomerDialog() {
 
 
 function loadConfiguratorUI() {
-	$("#demoConfigurator").load("./configurator.html", 
+	$("#demoConfigurator").load("./configurator_old.html", 
 		function () {
 			console.log("Loading Configurator completed.");
 			updateConfiguratorUI(); // defined in configurator.js
@@ -205,7 +205,8 @@ function onDropOver(event, ui) {
 	}
 
 	// send event
-	sendEventToESP(demoScenario.espUrl, eventObject); // .done()... to check connectivity
+	var espUrl = "http://" + demoScenario.espHost + ":" + demoScenario.espAdminPort + "/inject/" + demoScenario.espProject + "/" + demoScenario.espQuery + "/" + demoScenario.espWindow
+	sendEventToESP(espUrl, eventObject); // .done()... to check connectivity
 }
 
 
@@ -305,6 +306,7 @@ function transformRtdmDatagrid(datagrid) {
 
 
 function onProfileReceivedFromRtdm(rtdmResponse) {
+	var customerIndex = findIndexByKey(demoScenario.customerList, "id", rtdmResponse.outputs.customerId);
 	var interests = transformRtdmDatagrid(rtdmResponse.outputs.interests);
 	var contactHistory = transformRtdmDatagrid(rtdmResponse.outputs.contactHistory);
 
@@ -313,6 +315,15 @@ function onProfileReceivedFromRtdm(rtdmResponse) {
 	updateCustomerContacthistory(contactHistory.values);
 
 	// TODO: update customFields
+	for (var customField of demoScenario.customFields) {
+		if(customField.entity == "customer" && customField.rtdmKey != "" && rtdmResponse.outputs.hasOwnProperty(customField.rtdmKey)) {
+			if(customerIndex >= 0) {
+				demoScenario.customerList[customerIndex][customField.key] = rtdmResponse.outputs[customField.rtdmKey];
+			}
+			
+			$("#dialogCustomer_" + customField.key).html(rtdmResponse.outputs[customField.rtdmKey]);
+		}
+	}
 }
 
 function updateCustomerInterestsBar(interests) {
@@ -421,6 +432,7 @@ function getObjectColorByKey(entity, key, value) {
 	var objectColor = (objectIndex < 0) ? getRandomeDarkColor() : demoScenario[objectType][objectIndex].color;
 	return objectColor;
 }
+
 
 function findIndexByKey(list, key, value) {
 	return list.findIndex(function (element) { return element[key] === value; });

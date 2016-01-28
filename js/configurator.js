@@ -12,11 +12,7 @@ function updateConfiguratorUI() {
 
 	configBuildCustomerTable();
 
-
-	$.each(demoScenario.locationList, function (index) {
-		configAddLocation(demoScenario.locationList[index]);
-	});
-
+	configBuildLocationTable();
 }
 
 /**
@@ -66,7 +62,7 @@ function helpConfiguration() {
 
 
 function configBuildCustomerTable() {
-	var tableHeaderRows = Array();
+	var tableCols = Array();
 
 	for (var customField of demoScenario.customFields) {
 		if(["id", "label", "color", "img", "mobilenr"].includes(customField.key)) {
@@ -74,17 +70,36 @@ function configBuildCustomerTable() {
 		}
 
 		if(customField.entity == "customer") {
-			tableHeaderRows.push({label: customField.label});
+			tableCols.push({label: customField.label});
 		}
 	}
 
-	$("#configuratorCustomerTable").html(htmlTemplates.configCustomerTab({customerAttributes: tableHeaderRows}));
+	$("#configuratorCustomerTable").html(htmlTemplates.configCustomerTab({tableColumns: tableCols}));
 
 	// display all customers
 	$.each(demoScenario.customerList, function (index) {
 		configAddCustomer(demoScenario.customerList[index]);
 	});
+}
 
+function configBuildLocationTable() {
+	var tableCols = Array();
+
+	for (var customField of demoScenario.customFields) {
+		if(["id", "label", "color"].includes(customField.key)) {
+			continue;
+		}
+
+		if(customField.entity == "location") {
+			tableCols.push({label: customField.label});
+		}
+	}
+
+	$("#configuratorLocationTable").html(htmlTemplates.configLocationTab({tableColumns: tableCols}));
+
+	$.each(demoScenario.locationList, function (index) {
+		configAddLocation(demoScenario.locationList[index]);
+	});
 }
 
 function configAddCustomer(customerObj) {
@@ -192,7 +207,7 @@ function configGetLocationsFromUi() {
 
 		var locationObj = {};
 		locationObj.id = parseInt($(this).find("input[name='id']").val());
-		locationObj.label = $(this).find("input[name='label']").val();
+		locationObj.label = $(this).find("input[name='name']").val();
 		locationObj.color = $(this).find("select[name='color']").val();
 
 		// check if new:

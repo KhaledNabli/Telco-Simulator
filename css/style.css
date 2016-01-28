@@ -1,8 +1,6 @@
 	body {
-	}
-
-	#storeMapWrapper {
-		position: relative;
+		max-height: 100%;
+		overflow: hidden;
 	}
 
 	#storeMap {
@@ -12,10 +10,6 @@
 
 	#storeMapImg {
 		width: 100%;
-		border-radius: 10px;
-		border-width: 3px;
-		border-style: dotted;
-		border-color: rgb(130,130,130);
 	}
 
 	#infobox {
@@ -86,8 +80,9 @@
 	}
 
 	#config-panel {
-		  padding-left: 15px;
-		  margin: 5px;
+		position: fixed;
+	    right: 10px;
+	    bottom: 5px;
 	}
 
 
