@@ -1,0 +1,147 @@
+<!-- Start Tab: Global -->
+<div role="tabpanel" class="tab-pane active" id="tab_general">
+    <div class="container">
+        <div class="area-demolinks">
+            
+            <div class="row">
+                <div class="col-lg-7 col-lg-offset-1">
+                    <h5>Demo Links</h5>
+                    <span>Location Simuator: <a target="_blank" class="link2locationapp"></a></span>
+                    <br />
+                    <span>Transaction Simulator: <a target="_blank" class="link2mobileapp"></a></span>
+                    <br />
+                    <span>Stream Viewer: <a target="_blank" class="link2streamviewer"></a></span>
+
+                </div>
+                <div class="col-lg-4">
+                    <h5>Mobile App</h5>
+                    <div class="qr2mobileapp" ></div>
+                </div>
+            </div>
+        </div>
+<hr />
+        <div class="row">
+            <h4>General Information</h4>
+            <form class="form-horizontal" role="form">
+                <div class="form-group"></div>                        
+
+                <div class="form-group">
+                    <label for="demoName" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="general_demoName" placeholder="Enter the name of your demo here - so it is easy to find and share" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="demoDescription" class="col-sm-2 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" id="general_demoDescription" placeholder="Enter the description of your demo here - so it is easy to find and share" required ></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="userEmail" class="col-sm-2 control-label">Your Email</label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control" id="general_userEmail" placeholder="Enter your email adress here" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+<hr>
+        <div class="row">
+            <h4>Real-Time Decision Manger</h4>
+            <form class="form-horizontal" role="form">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="general_rtdmHost" class="col-sm-4 control-label">Host Adress</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">  
+                                <input type="text" class="form-control" id="general_rtdmHost" placeholder="racesxXXXXX.demo.sas.com" required="">
+                                <div class="input-group-addon" style="padding: 5px;">
+                                    <button type="button" class="btn btn-xs btn-info" onclick="onValidateRTDMConnection(this);">
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="locationApp_rtdmEvent" class="col-sm-4 control-label">Event Customer Profile</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">    
+                                <select class="form-control selection-rtdm-events" id="locationApp_rtdmEvent">
+                                </select>
+                                <div class="input-group-addon" style="padding: 5px;">
+                                    <button type="button" class="btn btn-xs btn-info" onclick="onUpdateRTDMEventSelections();">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <h4>Event Stream Processing</h4>
+            <form class="form-horizontal" role="form">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="general_espHost" class="col-sm-2 control-label">Host Adress</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">  
+                            <input type="text" class="form-control" id="general_espHost" placeholder="racesxXXXXX.demo.sas.com">
+                            <div class="input-group-addon" style="padding: 5px;">
+                                <button type="button" class="btn btn-xs btn-info" onclick="onValidateESPConnection(this);">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="general_espPorts" class="col-sm-2 control-label">Ports <br/> (HTTP PubSub / Admin)</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="general_espPubSubPort" value="8081" placeholder="default: 8081">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="general_espAdminPort" value="44445" placeholder="default: 44445"> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label for="locationApp_rtdmEvent" class="col-sm-2 control-label">Source Window for locations</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">    
+                            <select class="form-control selection-esp-windows" id="locationApp_espWindow">
+                            </select>
+                            <div class="input-group-addon" style="padding: 5px;">
+                                <button type="button" class="btn btn-xs btn-info" onclick="onUpdateESPWindowSelections(this);">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="locationApp_rtdmEvent" class="col-sm-2 control-label">Source Window for transactions</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">    
+                            <select class="form-control selection-esp-windows" id="mobileApp_espWindow">
+                            </select>
+                            <div class="input-group-addon" style="padding: 5px;">
+                                <button type="button" class="btn btn-xs btn-info" onclick="onUpdateESPWindowSelections(this);">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div><!-- End of Container -->
+</div><!-- End Tab: Global -->

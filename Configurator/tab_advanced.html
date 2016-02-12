@@ -1,0 +1,101 @@
+<!-- Start Tab: Advanced -->
+<div role="tabpanel" class="tab-pane" id="tab_advanced">
+	<div class="container">
+
+		<div class="row">
+			<h4>Mobile App</h4>
+			<div class="col-sm-6">
+				<h5>Transaction Types</h5>
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr >
+							<th class="text-center" width="40%">Transaction</th>
+							<th class="text-center" width="50%">Button Label</th>
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileTransaction({});">Add Event</button> </th>
+						</tr>
+					</thead>
+					<tbody id="configuratorMobileTrxTbody"></tbody>
+				</table>
+			</div>
+			<div class="col-sm-6">
+				<h5>Transaction Parameter</h5>
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr >
+							<th class="text-center" width="30%">Parameter</th>
+							<th class="text-center" width="30%">Input Label</th>
+							<th class="text-center" width="30%">Type</th>
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileParameter({});">Add Parameter</button> </th>
+						</tr>
+					</thead>
+					<tbody id="configuratorMobileParametersTbody"></tbody>
+				</table>
+			</div>
+			<div class="col-sm-12">
+				<h5>Transaction Generator</h5>
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr >
+							<th class="text-center" width="20%">Transaction</th>
+							<th class="text-center" width="25%">Button Label</th>
+							<th class="text-center" width="15%">Interval from (ms)</th>
+							<th class="text-center" width="15%">Interval to (ms)</th>
+							<th class="text-center" width="10%">Value from</th>
+							<th class="text-center" width="10%">Value to</th>
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileGenerator({});">Add Generator</button> </th>
+						</tr>
+					</thead>
+					<tbody id="configuratorMobileGeneratorsTbody"></tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<h4>Location Simulator</h4>
+			<div class="col-sm-12">
+			<h5>Custom Fields</h5>
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr >
+						<th class="text-center" width="15%">Entity</th>
+						<th class="text-center" width="15%">Key</th>
+						<th class="text-center" width="20%">Label</th>
+						<th class="text-center" width="15%">ESP Variable</th>
+						<th class="text-center" width="15%">RTDM Variable</th>
+						<th class="text-center" width="10%">Style</th>
+						<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddCustomField({});">Add Field</button> </th>
+					</tr>
+				</thead>
+				<tbody id="configuratorCustomFieldTbody"></tbody>
+			</table>
+			</div>
+			<form class="form-horizontal" role="form">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="locationApp_rtdmEvent" class="col-sm-6 control-label">Interest Calculation Function</label>
+					    <div class="col-sm-6">
+					    	<select class="form-control" id="locationApp_interestCalculation"> 
+					    		<option value="mean_value">Mean</option>
+					    		<option value="sum_value">Sum</option>
+					    		<option value="count_value">Count</option>
+					    		<option value="min_value">Min</option>
+					    		<option value="max_value">Max</option>
+					    	</select>
+					    </div>
+					</div>
+				</div>
+				<div class="col-sm-6"></div>
+			</form>
+		</div>
+		<div class="row">
+			<h4>Event Stream Viewer</h4>
+                <div class="form-group">
+                    <label for="demoDescription" class="col-sm-2 control-label">Streamviewer URL</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="general_streamViewerUrl" placeholder="Enter URL template for Streamviewer and substitute RACE Image Adress with %ESPHost%" required ></textarea>
+                    </div>
+                </div>
+        </div>
+	</div> 
+</div>
+<!-- End Tab: Advanced -->

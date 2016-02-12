@@ -1,242 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>InternetOfThings Demo Simulator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="description" content="IOT Demo Simulator">
-    <meta name="author" content="mathias bouten">
-    <meta name="author" content="khaled nabli">
-    <link rel="icon" href="http://www.sas.com/etc/designs/saswww/favicon.ico">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="images/configurator_icon.png" />
+    <link rel="shortcut icon" href="images/configurator_icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes" /><!-- hide top bar in mobile safari-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>IOT Demo Configurator</title>
 
-    <link rel="apple-touch-icon" href="images/sas_icon.png"/>
-    
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.lumen.min.css" rel="stylesheet">
+    <link href="css/configurator.css" rel="stylesheet">
+    <link href="css/select2.min.css" rel="stylesheet" type="text/css">
+    <link href="css/select2-bootstrap.min.css" rel="stylesheet" type="text/css">
 
-    <link href="css/style.css" rel="stylesheet">
-</head>
+  </head>
 
-  <body> 
-    <div id="storeMap">
+  <body>
+    <!-- Navigation Start -->
+    <div id="configuratorNavigation">
     </div>
-    <div id="config-panel">
-        <span id="editDemoConfig" onclick="showConfigurator();"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></span>
-        <span id="editLocationsPosition" onclick="makeLocationsEditable();"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></span>
-        <span id="saveLocationsPosition" onclick="saveLocationsPosition();"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
-    </div>  
-    <div id="customer-list">
-        <!-- customer list apperas here -->
+    <!-- Navigation End -->
+
+    <!-- Modal Popups Start -->
+    <div id="configuratorModalToken">
     </div>
-
-
-
-    <!-- Customer Information Dialog -->
-    <div id="customerInfoDialog" title="Customer Profile" style="display: none;">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-2">
-                    <img id="dialogCustomerImage" class="avatarImg img-circle vcenter" src="img/lahm.jpg">
-                </div>
-                <div class="col-xs-10">
-                    <div id="dialogCustomerFields" class="row">
-                        <!-- will be automatically created -->
-                    </div>
-                </div>
-
-            </div>
-            
-            <div class="row">
-                <div id="dialogCustomerInterests" >
-                    <!-- will be automatically created -->
-                </div>
-            </div>
-
-            <div class="row">
-                <div id="dialogCustomerHistory" >
-                    <!-- will be automatically created -->
-                </div>
-            </div>
-        </div>
+    <div id="configuratorModalImage">
     </div>
-
-    <!-- Placeholder for Configurator -->
-    <div id="demoConfigurator"></div>
-
-    <!-- HTML TEMPLATES BEGIN -->
-    <script id="configCustomerTab" type="text/x-handlebars-template">                        
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr >
-            <th class="text-center">ID</th>
-            <th class="text-center">Name</th>
-            <th class="text-center">Mobile Nr</th>
-            <th class="text-center">Image</th>
-            {{#each tableColumns}}
-            <th class="text-center">{{this.label}}</th>
-            {{/each}}
-            <th class="text-center">Color</th>
-            <th class="text-center" width="10%"><button type="button" onclick="return configAddCustomer({});">Add</button> </th>
-            </tr>
-        </thead>
-        <tbody id="configuratorCustomerTbody"></tbody>
-    </table>
-    </script>
-
-    <script id="configCustomerRow" type="text/x-handlebars-template">
-        <tr style="background-color: {{backgroundColor}}">
-            <td><input name="id" type="number" placeholder="Id" value="{{id}}" class="form-control input-md"></td>
-            <td><input name="name" type="text" placeholder="Name" value="{{name}}" class="form-control input-md"></td>
-            <td><input name="mobile" type="text" placeholder="Mobile" value="{{mobilenr}}" class="form-control input-md"></td>
-            <td><input name="image" type="text" placeholder="Image" value="{{image}}" class="form-control input-md"></td>
-
-            {{#each customerAttributes}}
-            <td><input name="{{this.key}}" type="{{this.type}}" placeholder="{{this.label}}" value="{{this.value}}" class="form-control input-md"></td>
-            {{/each}}
-
-            <td>
-                <select name='color' class='form-control' onchange="return configColorChange(this);" >
-            {{#if backgroundColor }}
-                    <option value='{{backgroundColor}}' selected> {{backgroundColor}} </option>
-            {{/if}}
-            {{#each colorList}}
-                    <option value="{{this}}"> {{this}} </option>
-            {{/each}}
-                </select>
-            </td>
-            
-            <td class="text-center"> <button type="button" onclick="configRemoveCustomer(this);">Delete</button> </td>
-        </tr>
-    </script>
-
-    <script id="configLocationTab" type="text/x-handlebars-template">
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th class="text-center">ID</th>
-                <th class="text-center">Label</th>
-                {{#each tableColumns}}
-                <th class="text-center">{{this.label}}</th>
-                {{/each}}
-                <th class="text-center">Color</th>
-                <th class="text-center"><button type="button" onclick="return configAddLocation({});">Add</button> </th>
-            </tr>
-        </thead>
-        <tbody id="configuratorLocationTbody"></tbody>
-    </table>
-    </script>
-
-    <script id="configLocationRow" type="text/x-handlebars-template">
-        <tr style="background-color: {{backgroundColor}}">
-            <td><input name="id" type="number" placeholder="Id" value="{{id}}" class="form-control input-md"></td>
-            <td><input name="name" type="text" placeholder="Name" value="{{name}}" class="form-control input-md"></td>
-
-            {{#each locationAttributes}}
-            <td><input name="{{this.key}}" type="{{this.type}}" placeholder="{{this.label}}" value="{{this.value}}" class="form-control input-md"></td>
-            {{/each}}
-
-            <td>
-                <select name='color' class='form-control' onchange="return configColorChange(this);" >
-            {{#if backgroundColor }}
-                    <option value='{{backgroundColor}}' selected> {{backgroundColor}} </option>
-            {{/if}}
-            {{#each colorList}}
-                    <option value="{{this}}"> {{this}} </option>
-            {{/each}}
-                </select>
-            </td>
-            
-            <td class="text-center"> <button type="button" onclick="configRemoveLocation(this);">Delete</button> </td>
-        </tr>
-    </script>
-
-    <script id="storeMapDiv" type="text/x-handlebars-template">
-        <img id="storeMapImg" src="{{image}}"></img>
-    </script>
-
-    <script id="custDialogue" type="text/x-handlebars-template">
-        <div class="col-xs-4">
-        <p>Name: <span id="dialogCustomerName"> ... </span> </p>
-        </div>
-        <div class="col-xs-4">
-        <p>Phone: <span id="dialogCustomerPhone"> ... </span> </p>
-        </div>
-        {{#each customerAttributes}}
-        <div class="col-xs-4"><p> {{this.label}}: <span id="dialogCustomer_{{this.key}}"> ... </span> </p></div>
-        {{/each}}
-    </script>
-
-    <script id="customerContainerDiv" type="text/x-handlebars-template">
-        <div class="col-xs-12">
-            <div id="customer_div_{{id}}" 
-                class="customer container" 
-                style="z-index: 10; position: relative;" >
-                <img class="mapPin " src="{{image}}">
-                <div class="mapPinPointer"></div>
-            </div>
-        </div>
-    </script>
-
-    <script id="locationContainerDiv" type="text/x-handlebars-template">
-    <div id="location_div_{{id}}" 
-        class="location container {{additionalClass}}" 
-        style="position: absolute; top: {{top}}px; left: {{left}}px; width: {{width}}px; height: {{height}}px; background-color: {{color}};" >
-        <h3>{{label}}</h3>
+    <div id="configuratorModalImagePreview">
     </div>
-    </script>
-
-    <script id="dialogCustomerInterestBar" type="text/x-handlebars-template">
-    <div class="progress">
-    {{#each interests}}
-    <div class="progress-bar" role="progressbar" aria-valuenow="{{this.value}}" aria-valuemin="0" aria-valuemax="100" 
-        style="width: {{this.value}}%; background-color: {{this.color}}" > {{this.label}} </div>
-    {{/each}}
+    <div id="configuratorModalHelp">
     </div>
-    </script>
+    <!-- Modal Popups End -->
 
-    <script id="dialogCustomerHistoryTable" type="text/x-handlebars-template">
-    <table class="table table-condensed table-striped">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Campaign</th>
-                <th>Segment</th>
-                <th>Offer</th>
-                <th colspan="2">Additional Info</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each contacts}}
-            <tr>
-                <td> {{this.date}} </td>
-                <td> {{this.campaign}} </td>
-                <td> {{this.segment}} </td>
-                <td> {{this.offer}} </td>
-                <td> {{this.info1}} </td>
-                <td> {{this.info2}} </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    </script>
+    <!-- Tab Content Start -->
+    <div id="configuratorTabContent" class="tab-content">
+    </div>
+    <!-- Tab Content End -->
 
-    <!-- HTML TEMPLATES END -->
 
-    <script src="js/jstz.min.js"></script>
-    <script src="js/jquery-1.11.1.js" type="text/javascript"></script>
-    <script src="js/jquery-ui.js" type="text/javascript"></script>
-    <script src="js/jquery-dateFormat.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/jquery.ui.touch-punch.js"></script>
-    <script src="js/handlebars-4.0.5.min.js"></script>
+    <!-- Footer Start -->
+    <div id="footerNavBar">
+    </div>
+    <!-- Footer End -->
 
-    <script src="democonfig.js" type="text/javascript"></script>
+
+    <!-- HTML Templates Start -->
+    <div id="handlebarsTemplates">
+    </div>
+    <!-- HTML Templates End -->
+
+
+    <script src="js/ext/jquery-1.11.1.js" type="text/javascript"></script>
+    <script src="js/ext/select2.min.js"></script>
+    <script src="js/ext/jquery-ui.js" type="text/javascript"></script>
+    <script src="js/ext/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/ext/handlebars-4.0.5.min.js" type="text/javascript"></script>
+    <script src="js/ext/holder.min.js" type="text/javascript"></script>
+    <script src="js/ext/jquery.xml2json.js" type="text/javascript"></script>
+    <script src="js/ext/qrcode.js" type="text/javascript"></script>
+    <script src="js/api.js" type="text/javascript"></script>
+    <script src="js/colors.js" type="text/javascript"></script>
     <script src="js/configurator.js" type="text/javascript"></script>
-    <script src="js/main.js" type="text/javascript"></script>
+    <script type="text/javascript">
 
-    <script>
-    $(document).ready(function () {onReady();}); 
-    $(window).resize(function (event) {onResize(event);});
+    $( document ).ready(function() {
+
+
+      
+      var contentToRender = [
+        {div:"#configuratorNavigation", contentUrl:"./Configurator/navigation.html"},
+        {div:"#configuratorModalToken", contentUrl:"./Configurator/modal_load_token.html"},
+        {div:"#configuratorModalImage", contentUrl:"./Configurator/modal_upload_image.html"},
+        {div:"#configuratorModalImagePreview", contentUrl:"./Configurator/modal_preview_image.html"},
+        {div:"#configuratorModalHelp", contentUrl:"./Configurator/modal_help.html"},
+        {div:"#configuratorTabContent", contentUrl:[
+                "./Configurator/tab_general.html", 
+                "./Configurator/tab_customers.html", 
+                "./Configurator/tab_locations.html",
+                "./Configurator/tab_advanced.html",
+                ]
+        },
+        {div:"#footerNavBar", contentUrl:"./Configurator/footer.html"},
+        {div:"#handlebarsTemplates", contentUrl:"./Configurator/templates.html"},
+      ];
+
+
+      var promiseToRender = [];
+      contentToRender.map(function (contentObj) {
+        var tempDiv = $("<div></div>");
+        var promise = {};
+        if(contentObj.contentUrl instanceof Array && contentObj.contentUrl.length > 0) {
+          for(var i = 0; i < contentObj.contentUrl.length; i++) {
+            promise = $.get(contentObj.contentUrl[i], function (responseHtml){
+              $(contentObj.div).append(responseHtml);
+            });
+            promiseToRender.push(promise);
+          }
+        }
+        else {
+          promise = $.get(contentObj.contentUrl, function (responseHtml){
+            $(contentObj.div).append(responseHtml);
+          });
+          promiseToRender.push(promise);
+        }
+      });
+
+      // wait until ALL elements are loaded (promise orchestration)
+      $.when.apply($, promiseToRender).done(function () {
+        startConfigurator();
+      });
+
+    });
     </script>
-</body>
+  </body>
 </html>
+
+

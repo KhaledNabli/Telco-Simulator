@@ -27,24 +27,31 @@ function onConfigurationLoadedHandler() {
 	displayMapAndLocations();
 	refreshCustomers(demoScenario.customerList);
 	createCustomerDialog();
-	loadConfiguratorUI();
+	location.hash = demoScenario.token;
+	document.title = "Location Sim " +demoScenario.general.demoName ;
+	//loadConfiguratorUI();
 }
 
 function loadDefaultConfiguration(callFunctionWhenReady) {
-	$.getJSON("config.json", function(configJSON) {
-	    demoScenario = configJSON;
+	var token = location.href.split("#")[1] ? decodeURIComponent(location.href.split("#")[1]) : "";
+	loadConfigurationFromToken(token, callFunctionWhenReady);
+
+}
+
+function loadConfigurationFromToken(token, callFunctionWhenReady) {
+	getConfigurationByToken(token).done(function (configJSON) {
+		demoScenario = configJSON;
+	    
+	    if(configJSON.message) {
+	    	alert(configJSON.message)
+	    }
 	    callFunctionWhenReady();
 	});
 }
 
-function loadConfigurationFromToken(token, callFunctionWhenReady) {
-	// TODO get configuration from token server
-	callFunctionWhenReady();
-}
-
 function displayMapAndLocations() {
 	// Display image in Tempate
-	$("#storeMap").html(htmlTemplates.storeMapDiv({image: demoScenario.storeMapImg}));
+	$("#storeMap").html(htmlTemplates.storeMapDiv({image: demoScenario.locationApp.storeMapImg}));
 
 	// workaround to resize beacons based on original image width vs browser window width
 	var newImg = new Image();
@@ -56,7 +63,7 @@ function displayMapAndLocations() {
     }
 
     // needs to be after the event handler
-    newImg.src = demoScenario.storeMapImg;
+    newImg.src = demoScenario.locationApp.storeMapImg;
 }
 
 function createCustomerDialog() {
@@ -72,9 +79,9 @@ function createCustomerDialog() {
 	$("#customerInfoDialog").dialog({autoOpen: false, resizable: false, height:450, width:750, hide: "explode"});
 }
 
-
+/*
 function loadConfiguratorUI() {
-	$("#demoConfigurator").load("./configurator_old.html", 
+	$("#demoConfigurator").load("./simulator_config.html", 
 		function () {
 			console.log("Loading Configurator completed.");
 			updateConfiguratorUI(); // defined in configurator.js
@@ -82,7 +89,7 @@ function loadConfiguratorUI() {
 		}
 	);
 }
-
+*/
 
 	
 function makeLocationsEditable() {
@@ -111,8 +118,11 @@ function saveLocationsPosition(){
 
 	makeLocationsHidden();
 	
+
 	$("#editLocationsPosition").show();
 	$("#saveLocationsPosition").hide();
+	saveConfiguration(demoScenario);
+
 }
 
 
@@ -122,7 +132,7 @@ function refreshCustomers(customerList) {
 
 	$.each(customerList, function () {
 		// Render Tempate customerDiv
-		$("#customer-list").append(htmlTemplates.customerContainerDiv({id: this.id , image: "img/map_pin_" +this.id+ ".png"}));
+		$("#customer-list").append(htmlTemplates.customerContainerDiv({id: this.id , image: this.img, pinId: this.id % 7}));
 	});
 	$( ".customer.container" ).draggable();
 
@@ -205,30 +215,10 @@ function onDropOver(event, ui) {
 	}
 
 	// send event
-	var espUrl = "http://" + demoScenario.espHost + ":" + demoScenario.espAdminPort + "/inject/" + demoScenario.espProject + "/" + demoScenario.espQuery + "/" + demoScenario.espWindow
+	var espUrl = "http://" + demoScenario.general.espHost + ":" + demoScenario.general.espPubSubPort + "/inject/" + demoScenario.locationApp.espWindow
 	sendEventToESP(espUrl, eventObject); // .done()... to check connectivity
 }
 
-
-function sendEventToESP(espUrl, eventObject) {
-	if(espUrl == "") {
-		return;
-	}
-
-	espUrl += "?blocksize=1&quiesce=false";
-
-	if(eventObject.opcode == undefined) {
-		eventObject.opcode   = "i";
-	}
-	
-    var eventBlock = [[eventObject]];
-    var eventJSON  = JSON.stringify(eventBlock);
-
-	return $.ajax({type: "POST",
-					url: espUrl,
-					contentType : "JSON",
-					data: eventJSON});
-}
 
 function displayCustomFields(entityType, entityObject, cssPrefix) {
 	for (var customField of demoScenario.customFields) {
@@ -275,35 +265,6 @@ function displayCustomerProfile(customerId) {
 }
 
 
-function transformRtdmDatagrid(datagrid) {
-	var result = {};
-	result.columns = Array();
-	result.values = Array();
-
-	if(datagrid == undefined || datagrid.length != 2 || datagrid[0].metadata == undefined || datagrid[1].data == undefined) {
-		// invalid schema!
-		console.log("Warning: Provided RTDM Datagrid has an invalid schema.");
-		return result;
-	} 
-
-	for(var columnIndex in datagrid[0].metadata) {
-		var columnMetadata = datagrid[0].metadata[columnIndex];
-		for(var columnProp in columnMetadata) {
-			result.columns.push({index: columnIndex, name: columnProp, dataType: columnMetadata[columnProp]});
-		}
-	}
-
-	for(var rowData of datagrid[1].data) {
-		var rowObject = {};
-		for(var column of result.columns) {
-			rowObject[column.name] = rowData[column.index];
-		}
-		result.values.push(rowObject);
-	}
-
-	return result;
-}
-
 
 function onProfileReceivedFromRtdm(rtdmResponse) {
 	var customerIndex = findIndexByKey(demoScenario.customerList, "id", rtdmResponse.outputs.customerId);
@@ -328,7 +289,7 @@ function onProfileReceivedFromRtdm(rtdmResponse) {
 
 function updateCustomerInterestsBar(interests) {
 	var sum = 0;
-	var key = demoScenario.interestCalculation;
+	var key = demoScenario.locationApp.interestCalculation;
 
 	// scale based on sum
 	for (var item of interests) {
@@ -367,7 +328,7 @@ function updateCustomerContacthistory(contactHistory) {
 
 
 function readCustomerProfileFromRtdm(customerId) {
-	var rtdmRequestUrl = "http://" + demoScenario.rtdmHost + "/SASDecisionServices/rest/runtime/decisions/" + demoScenario.rtdmEvent;
+	var rtdmRequestUrl = "http://" + demoScenario.general.rtdmHost + "/SASDecisionServices/rest/runtime/decisions/" + demoScenario.locationApp.rtdmEvent;
 	var contentType = 'application/vnd.sas.decision.request+json';
 	var rtdmRequest = {version : 1.0, clientTimeZone : jstz.determine().name(), inputs:{}};
 
@@ -402,14 +363,6 @@ function onResize(event) {
 	}
 }
 
-function connectToProvider(action, demoScenario) {
-	$.ajax({
-		method: "POST",
-		url: 'data/provider.php',
-		data: {action: action, param: demoScenario}
-	});
-}
-
 
 function getUrlParameter(sParam)
 {
@@ -433,7 +386,3 @@ function getObjectColorByKey(entity, key, value) {
 	return objectColor;
 }
 
-
-function findIndexByKey(list, key, value) {
-	return list.findIndex(function (element) { return element[key] === value; });
-}
