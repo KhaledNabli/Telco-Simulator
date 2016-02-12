@@ -8,9 +8,29 @@ function compileTemplates () {
 
 function onMobileAppReady() {
 	compileTemplates();
-	updateMobileAppUI();
 	console.log("Mobile App ready");
+	startMobileApp();
 }
+
+function startMobileApp() {
+    var token = window.location.href.split("#")[1];
+    loadConfiguration(token);
+}
+
+function loadConfiguration(token) {
+    console.log("Loading Configuration for Token: " + token);
+    getConfigurationByToken(token).done(function (config) { onLoadConfigurationDone(config);  });
+}
+
+function onLoadConfigurationDone(config) {
+
+    console.log("Loading Configuration for Token: " + config.token + " successfull.");
+
+    configScenario = config;
+
+    updateMobileAppUI();
+}
+
 
 function updateMobileAppUI() {
 
@@ -26,6 +46,10 @@ function updateMobileAppUI() {
 	setThemeColor(configScenario.mobileApp.colorThemeButton, "button");
 	setThemeColor(configScenario.mobileApp.colorThemeText,   "text-theme");
 	setThemeColor(configScenario.mobileApp.colorThemeBorder, "border-theme");
+
+	configScenario.mobileApp.navHistory = Array();
+	configScenario.mobileApp.navHistory.push("Home");
+	configScenario.currentPageName = "Home";
 }
 
 function getCurrentTimestamp() {
@@ -35,10 +59,9 @@ function getCurrentTimestamp() {
 
 function processEvent(eventType, value) {
 
-	var espUrl = "http://" + configScenario.espHost + ":" + configScenario.espAdminPort 
-			 + "/inject/" + configScenario.espProject + "/" + configScenario.espQuery 
-			 + "/" + configScenario.mobileApp.espWindow + "?blocksize=1";
-	
+	var espUrl = "http://" + configScenario.general.espHost + ":" + configScenario.general.espPubSubPort 
+			 + "/inject/" + configScenario.mobileApp.espWindow + "?blocksize=1";
+
 	var espEventDttm = getCurrentTimestamp();
 	
 	var eventObject = {};
@@ -59,9 +82,6 @@ function processEvent(eventType, value) {
 		console.log(" send single event " + eventType);
 	}
 
-	//console.log(eventObject);
-	
-
 	sendEventToESP(espUrl, eventObject);
 }
 
@@ -70,29 +90,31 @@ function eventGenerator(eventObject) {
 	if(eventObject.run == true) { 
 		var newInterval = Math.random() * (eventObject.intervalTo - eventObject.intervalFrom) + eventObject.intervalFrom;
 		var newData = parseInt(Math.random() * (eventObject.valueTo - eventObject.valueFrom) + eventObject.valueFrom);
-		processEvent(eventObject.key, newData); 
+		processEvent(eventObject.event, newData); 
 		
 		setTimeout(function() {
 			eventGenerator(eventObject)
 		}, newInterval); 
 
-		console.log("  " + eventObject.key + " value: " + newData); 
+		console.log("  " + eventObject.event + " value: " + newData); 
 	} 
 }
 
-function onToggleClick(element, key) {
-	var isActive = $(element).attr("class").indexOf("active") > -1;
-	var eventGeneratorObject = $.grep(configScenario.mobileApp.eventGenerators, 
-					   function(e){ return e.key == key; })[0];
+function onToggleClick(element, eventName) {
+	var isActive = $(element).attr("class").indexOf("active") > -1;	
+	var indexOfObject = findIndexByKey(configScenario.mobileApp.eventGenerators,"event",eventName);
+	//console.log("index of " + eventName + " is " + indexOfObject);
+	var eventGeneratorObject = configScenario.mobileApp.eventGenerators[indexOfObject];
+	//console.log(eventGeneratorObject);
 
 	if(isActive == true) {
 		$(element).removeClass("active");	
 		eventGeneratorObject.run = false;
-		console.log("STOP SENDING " + key);
+		console.log("STOP SENDING " + eventName);
 	} else {
 		$(element).addClass("active");
 		eventGeneratorObject.run = true;
-		console.log("START SENDING " + key);
+		console.log("START SENDING " + eventName);
 		eventGenerator(eventGeneratorObject);
 	}
 }
@@ -133,4 +155,64 @@ function setThemeColor(color, element) {
     /* replace color placeholder and add style sheet string */
     node.innerHTML = styleString.replace(new RegExp("{{color}}",'g'), color);
     document.body.appendChild(node);
+}
+
+function onNavItemClick(navToPageName, animation) {
+
+	var idPrevPage = "page" + configScenario.currentPageName;
+	var idNextPage = "page" + navToPageName;
+	var navIconPosition = "";
+
+	// if you click on same nav icon again - do nothing
+	if (idPrevPage == idNextPage) {
+		return;
+	}
+
+	//fill navigation History Array
+	configScenario.mobileApp.navHistory.push(navToPageName);
+	console.log(configScenario.mobileApp.navHistory);
+
+	if (animation == "SwipeLeft" || animation == "SwipeRight") {
+	} else {
+		if (navToPageName == "Home" ) {
+			animation = "ShowUpLeft";
+		} else if (navToPageName == "Generator") {
+			animation = "ShowUpRight";
+		} else {
+			animation = "ShowUpCenter";
+		}
+	}  	
+	appear(idNextPage, idPrevPage, animation);	
+	
+	$("#nav"  + configScenario.currentPageName).removeClass("active");
+	$("#nav" + navToPageName).addClass("active");
+	
+	// set global page variable to new page name
+	configScenario.currentPageName = navToPageName;
+
+	console.log("navToPageName: " + navToPageName);
+
+}
+
+function appear(page, prevpage, animation) {
+	var animationClass = "animate" + animation;
+	var page = "#" + page;
+	var prevpage = "#" + prevpage;
+	
+	$(page).removeClass("hidePage");
+	$(page).addClass(animationClass);
+	
+	$(page).on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", function(e){
+		console.log("hide page: " + prevpage);
+		$(prevpage).addClass("hidePage");
+		removeAnimations();
+  	});
+}
+
+function removeAnimations() {
+	$('.page').removeClass("animateShowUpLeft");
+	$('.page').removeClass("animateShowUpCenter");
+	$('.page').removeClass("animateShowUpRight");
+	$('.page').removeClass("animateSwipeLeft");
+	$('.page').removeClass("animateSwipeRight");
 }

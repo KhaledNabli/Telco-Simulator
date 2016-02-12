@@ -1,0 +1,37 @@
+<div class="backgroundTransparent">
+    <!-- header bar -->
+    <header class="border-theme bar bar-nav">
+      <a class="bar-text-theme icon icon-bars pull-left"></a>
+      <h1 id="titleMobileApp" class="bar-text-theme title">Generator</h1>
+    </header>
+
+      
+        <div class="innerContent">
+          <br>
+          <label class="text-theme">Event Name</label>         
+          <input id="input_eventName" type="text" placeholder="data_usage" value="">
+
+          <label class="text-theme">Interval From</label>         
+          <input id="input_eventName" type="text" placeholder="milliseconds" value="">
+
+          <label class="text-theme">Interval To</label>         
+          <input id="input_eventName" type="text" placeholder="milliseconds" value="">
+
+          <label class="text-theme">Value From</label>         
+          <input id="input_eventName" type="text" placeholder="min numeric value" value="">
+
+          <label class="text-theme">Value To</label>         
+          <input id="input_eventName" type="text" placeholder="max numeric value" value="">
+
+          <ul class="table-view">
+                <li class="table-view-cell">
+                  <span class="text-theme">Start Event Generation</span>
+                  <div class="toggle" onclick="onToggleClick(this, $('#input_eventName').val());">
+                    <div class="toggle-handle"></div>
+                  </div>
+                </li>
+          </ul>
+
+        </div>
+      
+</div>

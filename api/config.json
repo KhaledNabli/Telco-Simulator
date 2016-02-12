@@ -38,6 +38,14 @@
 	],
 	"mobileApp": {
 		"espWindow": "TelcoGeoDetection/TelcoGeoQuery/NetworkEvents",
+		"colorTheme":        "#428BCA",
+        "colorThemeBar":     "#034A75",
+        "colorThemeBarText": "#FFFFFF",
+        "colorThemeButton":  "#034A75",
+        "colorThemePage":    "#FFFFFF",
+        "colorThemeText":    "#034A75",
+        "colorThemeBorder":  "#034A75",
+        "homescreen_image":  "./images/home.jpg",
 		"eventParameters": [{"key": "customerId", "label": "Customer ID", "dataType": "text"},{"key": "eventValue", "label": "Event Value", "dataType": "text"}],
 		"eventTypes": [{"key": "top_up", "label": "Top-Up"}, {"key": "check_balance", "label": "Balance Check"}],
 		"eventGenerators": [{"event": "top_up", "label": "Generate Top Ups", "intervalFrom": 20, "intervalTo": 100, "valueFrom": 10, "valueTo": 50}]
