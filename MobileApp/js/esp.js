@@ -1,8 +1,4 @@
-var espServerIP = "xracesx09088.demo.sas.com";
-var espPort = "44444";
 
-// will be overwriten by processEvent function
-var espBeaconWindow = "http://" + espServerIP + ":" + espPort + "/inject/PaybackPoc/PaybackUseCases/BeaconEventSource?blocksize=1";
 
 function publishEspEvent(windowUrl, eventCsv) {
 	$.ajax({
@@ -15,33 +11,22 @@ function publishEspEvent(windowUrl, eventCsv) {
 	});
 }
 
-function getCurrentTimestamp() {
-	var currentDate = new Date();
-	return $.format.date(currentDate, "yyyy-MM-dd HH:mm:ss:SSS");
-}
+function sendEventToESP(espUrl, eventObject) {
+	if(espUrl == "") {
+		return;
+	}
 
-function processEvent(event_type) {
+	espUrl += "?blocksize=1&quiesce=false";
+
+	if(eventObject.opcode == undefined) {
+		eventObject.opcode   = "i";
+	}
 	
-	var espEventDttm = getCurrentTimestamp();
-	
-	var espServer  = jsonData["espServer"];
-	var espProject = jsonData["espProject"];
-	var espQuery   = jsonData["espQuery"];
-	var espWindow  = jsonData["espWindow"];
-	var inputValue = $("#eventValue").val();
-	var customerId = $("#inputCustomerId").val();
-	var mobileNr = $("#inputMobileNr").val();
+    var eventBlock = [[eventObject]];
+    var eventJSON  = JSON.stringify(eventBlock);
 
-	var espEvent =  customerId + "," + event_type + "," + inputValue + "," + espEventDttm;
-	console.log("input espEvent = " + espEvent);
-
-	var espBeaconWindow = "http://" + espServer + "/inject/" + espProject + "/" + espQuery + "/" + espWindow + "?blocksize=1";
-
-
-	var espEventPrefix = "i,n,,";
-	var espEventPostfix= "\r\n";
-	var espEventMessage = espEventPrefix + espEvent + espEventPostfix;
-	console.log("[processEvent] data: " + espEventMessage);
-	
-	publishEspEvent(espBeaconWindow, espEventMessage);
+	return $.ajax({type: "POST",
+					url: espUrl,
+					contentType : "JSON",
+					data: eventJSON});
 }
