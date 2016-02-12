@@ -36,15 +36,11 @@
 	}
 
 	.container.customer {
-		  /*margin: 3px;*/
-		  /*border-radius: 15px;
-		  border-width: 1px;
-		  border-style: dotted;
-		  border-color: rgb(130,130,130);
-		  */
-		  opacity: 0.95;
-		  min-height: 80px;
-		  max-width: 100%;
+		  background-size: contain;
+		  width: 125px;
+		  height: 170px;
+		  opacity: 0.90;
+		  margin: 10px;
 	}
 
 	div.container.customer :active {
@@ -101,12 +97,6 @@
 		margin-bottom: 5px;
 	}
 
-
-	img.mapPin {
-		max-height: 150px;
-		margin: 10px;
-	}
-
 	div.mapPinPointer {
 		width: 10px;
 	    height: 5px;
@@ -128,12 +118,17 @@
     animation-timing-function: ease-in-out;
 }
 
-.ratio-box{
-	position: relative;
-	width: 50%;		/* desired width */
-}
-.ratio-box:before{
-	content: "";
-	display: block;
-	padding-top: 100%; 	/* initial ratio of 1:1*/
+.custumer-image-box {
+	background-image: url('../img/no_avatar.png');
+    width: 90px;
+    height: 90px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: relative;
+    top: 19px;
+    left: 3px;
+    border-width: 3px;
+    border-style: dashed;
+
 }

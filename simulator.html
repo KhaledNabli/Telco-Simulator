@@ -36,7 +36,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-2">
-                    <img id="dialogCustomerImage" class="avatarImg img-circle vcenter" src="img/lahm.jpg">
+                    <img id="dialogCustomerImage" class="avatarImg img-circle vcenter" src="">
                 </div>
                 <div class="col-xs-10">
                     <div id="dialogCustomerFields" class="row">
@@ -156,10 +156,10 @@
 
     <script id="custDialogue" type="text/x-handlebars-template">
         <div class="col-xs-4">
-        <p>Name: <span id="dialogCustomerName"> ... </span> </p>
+            <p>Name: <span id="dialogCustomerName"> ... </span> </p>
         </div>
         <div class="col-xs-4">
-        <p>Phone: <span id="dialogCustomerPhone"> ... </span> </p>
+            <p>Phone: <span id="dialogCustomerPhone"> ... </span> </p>
         </div>
         {{#each customerAttributes}}
         <div class="col-xs-4"><p> {{this.label}}: <span id="dialogCustomer_{{this.key}}"> ... </span> </p></div>
@@ -170,9 +170,10 @@
         <div class="">
             <div id="customer_div_{{id}}" 
                 class="customer container" 
-                style="z-index: 10; position: relative; background-image: url('img/map_pin_{{pinId}}.png');background-size: contain;width: 125px;height: 170px;z-index: 0;" >
-
-                <img class="mapPin " src="{{image}}">
+                style="z-index: 10; position: relative; background-image: url('img/map_pin_{{pinId}}.png');" >
+                <div class="custumer-image-box" style="background-image: url('{{image}}'); border-color: {{color}};">
+                    
+                </div>
                 <div class="mapPinPointer"></div>
             </div>
         </div>

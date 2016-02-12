@@ -132,7 +132,7 @@ function refreshCustomers(customerList) {
 
 	$.each(customerList, function () {
 		// Render Tempate customerDiv
-		$("#customer-list").append(htmlTemplates.customerContainerDiv({id: this.id , image: this.img, pinId: this.id % 7}));
+		$("#customer-list").append(htmlTemplates.customerContainerDiv({id: this.id , image: this.img, pinId: this.id % 7, color:this.color}));
 	});
 	$( ".customer.container" ).draggable();
 
