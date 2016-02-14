@@ -920,6 +920,9 @@ function onValidateRTDMConnection(elem) {
 }
 
 
+function onResetConfigurationBtn(elem) {
+    loadConfiguration("");
+}
 
 function refreshStreamviewerUrl(oldUrl, currentEspHost, currentEspPort) {
     var oldServer = oldUrl.substring((oldUrl.indexOf('server=http://') + 'server=http://'.length), oldUrl.indexOf('&') < 0 ? oldUrl.length : oldUrl.indexOf('&'));
