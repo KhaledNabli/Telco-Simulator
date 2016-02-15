@@ -27,31 +27,6 @@
 
     </div>
 
-    <!--<div class="pageBackgroundImage page-layer page">
-        <div class="backgroundTransparent">
-            
-            <header class="border-theme bar bar-nav">
-              <a class="bar-text-theme icon icon-bars pull-left" onclick="openPane('left');"></a>
-              <h1 id="titleMobileApp" class="bar-text-theme title">Home</h1>
-            </header>
-
-            <div class="innerContent">
-              <br><div id="divInputFields"></div>
-              <br><div id="divEventButtons"></div>
-              <br><div id="divToggleButtons"></div>
-            </div>
-
-        </div>
-
-    </div>-->
-
-    <!--<nav id="footerNavBarHome" class="border-theme bar bar-tab footerNavBar">
-      <a class="tab-item active">
-        <i class="fa fa-home fa-lg"></i><br>
-        <span class="tab-label">Home</span>
-      </a>
-    </nav>-->
-
     <nav id="footerNavBar" class="border-theme bar bar-tab footerNavBar animateFooter">
       <a id="navHome" class="nav-theme tab-item active" onclick="onNavItemClick('Home');">
         <i class="fa fa-home fa-lg"></i><br>
@@ -79,16 +54,16 @@
     </script>
 
     <script id="toggleButtons" type="text/x-handlebars-template">
-              <ul class="table-view">
-              {{#each toggle}}
-                <li class="table-view-cell">
-                  <span class="text-theme">{{label}}</span>
-                  <div class="toggle" onclick="onToggleClick(this, '{{event}}');">
-                    <div class="toggle-handle"></div>
-                  </div>
-                </li>
-              {{/each}}
-              </ul>
+    <ul class="table-view">
+      {{#each toggle}}
+      <li class="table-view-cell">
+        <span class="text-theme">{{label}}</span>
+          <div class="toggle" onclick="onToggleClick(this, '{{event}}');">
+            <div class="toggle-handle"></div>
+          </div>
+      </li>
+      {{/each}}
+    </ul>
     </script>
 
     <script src="../js/ext/jquery-1.11.1.js"></script>

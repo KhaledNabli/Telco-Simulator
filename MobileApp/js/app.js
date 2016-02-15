@@ -1,5 +1,6 @@
 var htmlTemplates = {};
 
+
 function compileTemplates () {
 	$("script[type='text/x-handlebars-template']").each(function(elem) {
 		htmlTemplates[this.id] = Handlebars.compile($(this).html());
@@ -50,6 +51,13 @@ function updateMobileAppUI() {
 	configScenario.mobileApp.navHistory = Array();
 	configScenario.mobileApp.navHistory.push("Home");
 	configScenario.currentPageName = "Home";
+
+	configScenario.mobileApp.eventGeneratorObject = {};
+    /*configScenario.mobileApp.eventGeneratorObject.event       = "test";
+	configScenario.mobileApp.eventGeneratorObject.intervalFrom = 1;
+	configScenario.mobileApp.eventGeneratorObject.intervalTo   = 2;
+	configScenario.mobileApp.eventGeneratorObject.valueFrom    = 3;
+	configScenario.mobileApp.eventGeneratorObject.valueTo      = 4;*/
 }
 
 function getCurrentTimestamp() {
@@ -115,6 +123,31 @@ function onToggleClick(element, eventName) {
 		$(element).addClass("active");
 		eventGeneratorObject.run = true;
 		console.log("START SENDING " + eventName);
+		eventGenerator(eventGeneratorObject);
+	}
+}
+
+function onStartGeneratorClick(element) {
+	var isActive = $(element).attr("class").indexOf("active") > -1;
+
+	configScenario.mobileApp.eventGeneratorObject.event        = $('#input_eventName').val();
+	configScenario.mobileApp.eventGeneratorObject.intervalFrom = parseInt($('#input_intervalFrom').val());
+	configScenario.mobileApp.eventGeneratorObject.intervalTo   = parseInt($('#input_intervalTo').val());
+	configScenario.mobileApp.eventGeneratorObject.valueFrom    = parseInt($('#input_valueFrom').val());
+	configScenario.mobileApp.eventGeneratorObject.valueTo      = parseInt($('#input_valueTo').val());
+
+	var eventGeneratorObject = configScenario.mobileApp.eventGeneratorObject;
+
+	console.log(eventGeneratorObject);
+
+	if(isActive == true) {
+		$(element).removeClass("active");	
+		eventGeneratorObject.run = false;
+		console.log("STOP SENDING " + eventGeneratorObject.event);
+	} else {
+		$(element).addClass("active");
+		eventGeneratorObject.run = true;
+		console.log("START SENDING " + eventGeneratorObject.event);
 		eventGenerator(eventGeneratorObject);
 	}
 }
