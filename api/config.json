@@ -44,7 +44,7 @@
         "colorThemeButton":  "#034A75",
         "colorThemePage":    "#FFFFFF",
         "colorThemeText":    "#034A75",
-        "colorThemeBorder":  "#034A75",
+        "colorThemeBorder":  "#7C7C7C",
         "homescreen_image":  "./images/home.jpg",
 		"eventParameters": [{"key": "customerId", "label": "Customer ID", "dataType": "text"},{"key": "eventValue", "label": "Event Value", "dataType": "text"}],
 		"eventTypes": [{"key": "top_up", "label": "Top-Up"}, {"key": "check_balance", "label": "Balance Check"}],
