@@ -1,0 +1,151 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="Mathias Bouten" content="">
+  
+    <meta name="apple-mobile-web-app-capable"          content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="icon" href="./images/mobile_icon.png">
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="./images/mobile_icon.png" />
+    <link id="shortcutIcon"   rel="shortcut icon"    href="./images/mobile_icon.png">
+
+    <title>Mobile App</title>
+
+    <!--<link href="../css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="https://bootswatch.com/spacelab/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap_app.css" rel="stylesheet">
+    <link href="../css/bootstrap-switch.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+    <!-- Begin mobile pages -->
+      <div id="pageHome" class=""></div>
+      <div id="pageGenerator" class="hidePage"></div>
+    <!-- End mobile pages -->
+    </div>
+
+
+    <!-- fixed footer -->
+    <footer class="navbar navbar-fixed-bottom navbar-default">
+      <div class="container">
+        <div class="row" style="">
+          <div id="navHome" name="Home" class="col-xs-6" onclick="onNavClick(this);">
+            <p class="text-center">
+              <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
+              <br><strong>Home</strong>
+            </p>
+          </div>
+          <div id="navGenerator" name="Generator" class="col-xs-6" onclick="onNavClick(this);">
+            <p class="text-center">
+              <span class="glyphicon glyphicon-random" aria-hidden="true"></span> 
+              <br><strong>Generator</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- end footer -->
+
+
+    <!-- handlebar templates -->
+    <!-- ================================================== -->
+    <script id="eventButtons" type="text/x-handlebars-template">
+      <div class="row">
+      {{#each button}}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="form-group">
+            <button type="button" class="btn btn-primary btn-block" onclick="processEvent('{{key}}');">{{label}}</button>
+          </div>
+        </div>
+      {{/each}}
+      </div>
+    </script>
+
+    <script id="inputFields" type="text/x-handlebars-template">
+      <div class="row">
+      {{#each field}} 
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="input_{{key}}" class="col-xs-5 control-label">{{label}}</label>
+              <div class="col-xs-7">
+                <input id="input_{{key}}" type="text" class="form-control" value="1" placeholder="{{label}}">
+              </div>
+            </div>
+          </form>
+        </div>
+      {{/each}}     
+      </div>
+    </script>
+
+    <script id="toggleButtons" type="text/x-handlebars-template">
+      <div class="row">
+      {{#each toggle}}
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="height: 30px;">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label  class="col-xs-6 control-label">{{label}}</label>
+              <div class="col-xs-6">
+                <input type="checkbox" class="switch" name="{{event}}">
+              </div>
+            </div>
+          </form>
+        </div>
+        <br><br>
+      {{/each}}
+      </div>
+    </script>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+    <script src="../js/ext/jquery-1.11.1.js"></script>
+    <script src="../js/ext/bootstrap.min.js"></script>
+    <script src="../js/ext/bootstrap-switch.min.js"></script>
+    <script src="../js/ext/jquery-dateFormat.min.js"></script>   
+    <script src="../js/ext/handlebars-4.0.5.min.js"></script> 
+    <script src="../js/api.js"></script> 
+    <script src="./js/bootstrap_app.js"></script>
+    <script src="./js/esp.js"></script> 
+
+    <script>
+    //$(document).ready(function () {onMobileAppReady();}); 
+    $( document ).ready(function() {
+   
+       var contentToRender = [
+          {div:"#pageHome", contentUrl:"./page_home2.html"},
+          {div:"#pageGenerator", contentUrl:"./page_generator2.html"}
+        ];
+
+        contentToRender.map(function (contentObj) {
+          var tempDiv = $("<div></div>");
+          if(contentObj.contentUrl instanceof Array && contentObj.contentUrl.length > 0) {
+            for(var i = 0; i < contentObj.contentUrl.length; i++) {
+              tempDiv.load(contentObj.contentUrl[i], function (responseHtml){
+                $(contentObj.div).append(responseHtml);
+              });
+            }
+          }
+          else {
+            tempDiv.load(contentObj.contentUrl, function (responseHtml){
+              $(contentObj.div).append(responseHtml);
+            });
+          }
+        });
+
+        onMobileAppReady();
+       
+      }); 
+    </script>
+
+</body></html>

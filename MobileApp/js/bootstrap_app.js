@@ -55,10 +55,10 @@ function updateMobileAppUI() {
 	configScenario.mobileApp.eventGeneratorObject = {};
 
 	$(".switch").bootstrapSwitch().on('switchChange.bootstrapSwitch', function(event, state) {
-	  console.log(this); // DOM element
-	  console.log(event); // jQuery event
-	  console.log(state); // true | false
+	  onToggleClick(this, state)
 	});
+
+	$('#navHome').addClass('navItemActive');
 }
 
 function getCurrentTimestamp() {
@@ -109,46 +109,32 @@ function eventGenerator(eventObject) {
 	} 
 }
 
-function onToggleClick(element, eventName) {
-	var isActive = $(element).attr("class").indexOf("active") > -1;	
-	var indexOfObject = findIndexByKey(configScenario.mobileApp.eventGenerators,"event",eventName);
-	//console.log("index of " + eventName + " is " + indexOfObject);
-	var eventGeneratorObject = configScenario.mobileApp.eventGenerators[indexOfObject];
-	//console.log(eventGeneratorObject);
+function onToggleClick(element, state) {
+	var eventName = $(element).attr("name");
+	
+	if(eventName != "generator") {	
+		var indexOfObject = findIndexByKey(configScenario.mobileApp.eventGenerators,"event",eventName);
+		eventGeneratorObject = configScenario.mobileApp.eventGenerators[indexOfObject];
+	} else {
+		configScenario.mobileApp.eventGeneratorObject.event        
+			= $('#input_eventName').val();
+		configScenario.mobileApp.eventGeneratorObject.intervalFrom 
+			= parseInt($('#input_intervalFrom').val());
+		configScenario.mobileApp.eventGeneratorObject.intervalTo   
+			= parseInt($('#input_intervalTo').val());
+		configScenario.mobileApp.eventGeneratorObject.valueFrom    
+			= parseInt($('#input_valueFrom').val());
+		configScenario.mobileApp.eventGeneratorObject.valueTo      
+			= parseInt($('#input_valueTo').val());
+		eventGeneratorObject = configScenario.mobileApp.eventGeneratorObject;
+	}
 
-	if(isActive == true) {
-		$(element).removeClass("active");	
+	if(state == false) {	
 		eventGeneratorObject.run = false;
 		console.log("STOP SENDING " + eventName);
 	} else {
-		$(element).addClass("active");
 		eventGeneratorObject.run = true;
 		console.log("START SENDING " + eventName);
-		eventGenerator(eventGeneratorObject);
-	}
-}
-
-function onStartGeneratorClick(element) {
-	var isActive = $(element).attr("class").indexOf("active") > -1;
-
-	configScenario.mobileApp.eventGeneratorObject.event        = $('#input_eventName').val();
-	configScenario.mobileApp.eventGeneratorObject.intervalFrom = parseInt($('#input_intervalFrom').val());
-	configScenario.mobileApp.eventGeneratorObject.intervalTo   = parseInt($('#input_intervalTo').val());
-	configScenario.mobileApp.eventGeneratorObject.valueFrom    = parseInt($('#input_valueFrom').val());
-	configScenario.mobileApp.eventGeneratorObject.valueTo      = parseInt($('#input_valueTo').val());
-
-	var eventGeneratorObject = configScenario.mobileApp.eventGeneratorObject;
-
-	console.log(eventGeneratorObject);
-
-	if(isActive == true) {
-		$(element).removeClass("active");	
-		eventGeneratorObject.run = false;
-		console.log("STOP SENDING " + eventGeneratorObject.event);
-	} else {
-		$(element).addClass("active");
-		eventGeneratorObject.run = true;
-		console.log("START SENDING " + eventGeneratorObject.event);
 		eventGenerator(eventGeneratorObject);
 	}
 }
@@ -189,6 +175,18 @@ function setThemeColor(color, element) {
     /* replace color placeholder and add style sheet string */
     node.innerHTML = styleString.replace(new RegExp("{{color}}",'g'), color);
     document.body.appendChild(node);
+}
+
+function onNavClick(element) {
+	var page = $(element).attr('name');
+	var id = $(element).attr('id');
+	if (page != configScenario.currentPageName) {
+		$('#page'+page).removeClass('hidePage');
+		$('#page'+configScenario.currentPageName).addClass('hidePage');		
+		$(element).addClass('navItemActive');
+		$('#nav'+configScenario.currentPageName).removeClass('navItemActive');
+		configScenario.currentPageName = page;
+	}
 }
 
 function onNavItemClick(navToPageName, animation) {
