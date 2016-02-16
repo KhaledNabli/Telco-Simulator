@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mobile App</title>
+
+    <meta name="viewport"                              content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable"          content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="./images/mobile_icon.png" />
+    <link id="shortcutIcon"   rel="shortcut icon"    href="./images/mobile_icon.png">
+
+    <link href="./css/ratchet.css"          rel="stylesheet">
+    <link href="./css/mobileapp.css"        rel="stylesheet">  
+    <link href="./css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+  <body >
+
+    <div id="mainAppDiv" class="pageBackgroundImage">
+
+      <!-- MOBILE APP PAGES -->
+      <div id="pageGenerator"           class="pageBackgroundImage page-layer page hidePage"></div>
+
+      <div id="pageHome"            class="pageBackgroundImage page-layer page"></div>
+
+    </div>
+
+    <nav id="footerNavBar" class="border-theme bar bar-tab footerNavBar animateFooter">
+      <a id="navHome" class="nav-theme tab-item active" onclick="onNavItemClick('Home');">
+        <i class="fa fa-home fa-lg"></i><br>
+        <span class="tab-label">Home</span>
+      </a>
+      <a id="navGenerator" class="nav-theme tab-item " onclick="onNavItemClick('Generator');">
+        <i class="fa fa-globe fa-lg"></i><br>
+        <span class="tab-label">Generator</span>
+      </a>
+    </nav>
+
+
+    <!-- handlebar templates -->
+    <script id="eventButtons" type="text/x-handlebars-template">
+    {{#each button}}
+    <button class="btn btn-block btn-positive" onclick="processEvent('{{key}}');">{{label}}</button>
+    {{/each}}
+    </script>
+
+    <script id="inputFields" type="text/x-handlebars-template">
+    {{#each field}}
+    <label class="text-theme" for="input_{{key}}">{{label}}</label>
+    <input id="input_{{key}}" type="text" placeholder="event value" value="1">
+    {{/each}}
+    </script>
+
+    <script id="toggleButtons" type="text/x-handlebars-template">
+    <ul class="table-view">
+      {{#each toggle}}
+      <li class="table-view-cell">
+        <span class="text-theme">{{label}}</span>
+          <div class="toggle" onclick="onToggleClick(this, '{{event}}');">
+            <div class="toggle-handle"></div>
+          </div>
+      </li>
+      {{/each}}
+    </ul>
+    </script>
+
+    <script src="../js/ext/jquery-1.11.1.js"></script>
+    <script src="../js/ext/jquery-dateFormat.min.js"></script>   
+    <script src="../js/ext/handlebars-4.0.5.min.js"></script> 
+    <script src="../js/api.js"></script> 
+    <script src="./js/app.js"></script>
+    <script src="./js/esp.js"></script> 
+
+    <script>
+    //$(document).ready(function () {onMobileAppReady();}); 
+    $( document ).ready(function() {
+   
+       var contentToRender = [
+          {div:"#pageHome", contentUrl:"./page_home.html"},
+          {div:"#pageGenerator", contentUrl:"./page_generator.html"}
+        ];
+
+        contentToRender.map(function (contentObj) {
+          var tempDiv = $("<div></div>");
+          if(contentObj.contentUrl instanceof Array && contentObj.contentUrl.length > 0) {
+            for(var i = 0; i < contentObj.contentUrl.length; i++) {
+              tempDiv.load(contentObj.contentUrl[i], function (responseHtml){
+                $(contentObj.div).append(responseHtml);
+              });
+            }
+          }
+          else {
+            tempDiv.load(contentObj.contentUrl, function (responseHtml){
+              $(contentObj.div).append(responseHtml);
+            });
+          }
+        });
+
+        onMobileAppReady();
+       
+      });           
+
+
+    </script>
+  </body>
+</html>
