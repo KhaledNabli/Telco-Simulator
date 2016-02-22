@@ -217,6 +217,7 @@ function onDropOver(event, ui) {
 	// send event
 	var espUrl = "http://" + demoScenario.general.espHost + ":" + demoScenario.general.espPubSubPort + "/inject/" + demoScenario.locationApp.espWindow
 	sendEventToESP(espUrl, eventObject); // .done()... to check connectivity
+	//sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject);
 }
 
 
