@@ -40,6 +40,8 @@ function updateMobileAppUI() {
 	$("#divInputFields").append(htmlTemplates.inputFields({field: configScenario.mobileApp.eventParameters}));
 	$("#divEventButtons").append(htmlTemplates.eventButtons({button: configScenario.mobileApp.eventTypes}));
 	$("#divToggleButtons").append(htmlTemplates.toggleButtons({toggle: configScenario.mobileApp.eventGenerators}));
+	$("#divCustDropdown").append(htmlTemplates.custDropdown({customer: configScenario.customerList}));
+	$("#divEventDropdown").append(htmlTemplates.eventDropdown({eventType: configScenario.mobileApp.eventTypes}));
 	// set theme color
 	setThemeColor(configScenario.mobileApp.colorThemePage,   "page");
 	setThemeColor(configScenario.mobileApp.colorThemeBar,    "bar");
@@ -76,6 +78,7 @@ function processEvent(eventType, value) {
 	var eventObject = {};
 	eventObject.eventType = eventType;
 	eventObject.eventDttm = espEventDttm;
+	eventObject.customerId = $('#customerId').val();
 
 	configScenario.mobileApp.eventParameters.map(function (element) {
 		if (element.dataType == "number") {

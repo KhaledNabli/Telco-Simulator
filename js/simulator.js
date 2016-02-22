@@ -201,7 +201,7 @@ function onDropOver(event, ui) {
 	var eventObject = {eventDttm: getCurrentTimestamp(), customerId: customerId, locationId: locationId};
 
 	// TODO: design as customFields?
-	eventObject.memberNm = demoScenario.customerList[customerIndex].label;
+	eventObject.customerNm = demoScenario.customerList[customerIndex].label;
 	eventObject.mobileNr = demoScenario.customerList[customerIndex].mobilenr;
 	eventObject.locationNm = demoScenario.locationList[locationIndex].label;
 	// construct customFields for ESP 
