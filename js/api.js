@@ -57,10 +57,27 @@ function sendEventToESP(espUrl, eventObject) {
 	var eventBlock = [[eventObject]];
 	var eventJSON  = JSON.stringify(eventBlock);
 
-	return $.ajax({type: "POST",
-		url: espUrl,
-		contentType : "JSON",
-		data: eventJSON});
+	return $.post(espUrl, eventJSON);
+}
+
+
+function sendEventToESPProxy(proxyUrl, espUrl, eventObject) {
+	if(espUrl == "") {
+		return;
+	}
+
+	espUrl += "?blocksize=1&quiesce=false";
+
+	if(eventObject.opcode == undefined) {
+		eventObject.opcode   = "i";
+	}
+	
+	var eventBlock = [[eventObject]];
+	var eventJSON  = JSON.stringify(eventBlock);
+	
+	var proxyRequestData = {espRequestUrl: espUrl, espRequestData: eventJSON};
+
+	return $.post(proxyUrl, proxyRequestData);
 }
 
 
