@@ -63,12 +63,18 @@ function updateMobileAppUI() {
 	$('#navHome').addClass('navItemActive');
 }
 
+
+function addDisplayAttributeToEventParameters() {
+	//configScenario.mobileApp.eventParameters
+}
+
+
 function getCurrentTimestamp() {
 	var currentDate = new Date();
 	return $.format.date(currentDate, "yyyy-MM-dd HH:mm:ss:SSS");
 }
 
-function processEvent(eventType, value) {
+function processSingleEvent(eventType) {
 
 	var espUrl = "http://" + configScenario.general.espHost + ":" + configScenario.general.espPubSubPort 
 			 + "/inject/" + configScenario.mobileApp.espWindow + "?blocksize=1";
@@ -88,27 +94,66 @@ function processEvent(eventType, value) {
 		}
 	});
 
-	if(value != undefined) {
-		eventObject.value = value;
-	} else {
-		console.log(" send single event " + eventType);
-	}
+	console.log(" send single event " + eventType);
 
-	sendEventToESP(espUrl, eventObject);
+	//sendEventToESP(espUrl, eventObject);
+	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject);
 }
 
 
-function eventGenerator(eventObject) { 
-	if(eventObject.run == true) { 
-		var newInterval = Math.random() * (eventObject.intervalTo - eventObject.intervalFrom) + eventObject.intervalFrom;
-		var newData = parseInt(Math.random() * (eventObject.valueTo - eventObject.valueFrom) + eventObject.valueFrom);
-		processEvent(eventObject.event, newData); 
+function processGeneratedEvent(eventType, generatedValue) {
+
+	var espUrl = "http://" + configScenario.general.espHost + ":" + configScenario.general.espPubSubPort 
+			 + "/inject/" + configScenario.mobileApp.espWindow + "?blocksize=1";
+
+	var espEventDttm = getCurrentTimestamp();
+	
+	var eventObject = {};
+	eventObject.eventType = eventType;
+	eventObject.eventDttm = espEventDttm;
+	eventObject.customerId = $('#customerId').val();
+
+	configScenario.mobileApp.eventParameters.map(function (element) {
+		if (element.dataType == "number") {
+			eventObject[element.key] = parseInt($('#input_' + element.key).val());
+		} else {
+			eventObject[element.key] = $('#input_' + element.key).val();
+		}
+	});
+
+
+	eventObject.value = generatedValue;
+
+	console.log("  send generated event " + eventType);
+
+	//sendEventToESP(espUrl, eventObject);
+	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject);
+}
+
+
+function eventGenerator(eventGeneratorObject) {
+
+	if(eventGeneratorObject.run == true) { 
+
+		// generate a new interval value with random function
+		var newInterval = Math.random() * 
+				(parseInt(eventGeneratorObject.intervalTo) - parseInt(eventGeneratorObject.intervalFrom)) 
+				+ parseInt(eventGeneratorObject.intervalFrom);
+		
+		// generate a new data value with random function
+		var valueRange = (parseInt(eventGeneratorObject.valueTo) - parseInt(eventGeneratorObject.valueFrom));
+		var valueFrom = parseInt(eventGeneratorObject.valueFrom); 
+		var valueFactor = Math.random();
+		var newData = parseInt((valueFactor * valueRange) + valueFrom);
+
+		console.log("  value: " + newData);
+
+		processGeneratedEvent(eventGeneratorObject.event, newData); 
 		
 		setTimeout(function() {
-			eventGenerator(eventObject)
+			eventGenerator(eventGeneratorObject)
 		}, newInterval); 
-
-		console.log("  " + eventObject.event + " value: " + newData); 
+		 
 	} 
 }
 

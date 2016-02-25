@@ -17,7 +17,7 @@
     <title>Mobile App</title>
 
     <!--<link href="../css/bootstrap.min.css" rel="stylesheet">-->
-    <link href="https://bootswatch.com/spacelab/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.flatly.min.css" rel="stylesheet">
     <link href="./css/bootstrap_app.css" rel="stylesheet">
     <link href="../css/bootstrap-switch.min.css" rel="stylesheet">
 
@@ -60,7 +60,7 @@
     <script id="custDropdown" type="text/x-handlebars-template">
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <form class="form-horizontal">
+          <form role="form" class="form-horizontal">
             <div class="form-group">
               <label for="input_customerId" class="col-xs-5 control-label">Customer ID</label>
               <div class="col-xs-7">
@@ -98,15 +98,16 @@
     <script id="eventButtons" type="text/x-handlebars-template">
       <div class="row">
       {{#each button}}
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
           <div class="form-group">
-            <button type="button" class="btn btn-primary btn-block" onclick="processEvent('{{key}}');">{{label}}</button>
+            <button type="button" class="btn btn-primary btn-block" onclick="processSingleEvent('{{key}}');">{{label}}</button>
           </div>
         </div>
       {{/each}}
       </div>
     </script>
 
+    <!-- if default value is comma separated then use drop down list -->
     <script id="inputFields" type="text/x-handlebars-template">
       <div class="row">
       {{#each field}} 
@@ -115,7 +116,7 @@
             <div class="form-group">
               <label for="input_{{key}}" class="col-xs-5 control-label">{{label}}</label>
               <div class="col-xs-7">
-                <input id="input_{{key}}" type="text" class="form-control" value="" placeholder="{{label}}">
+                <input id="input_{{key}}" type="{{dataType}}" class="form-control" value="{{defaultValue}}" placeholder="{{label}}">
               </div>
             </div>
           </form>

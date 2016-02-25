@@ -20,7 +20,7 @@ body {
 }
 
 footer {
-  padding-top: 5px;
+  padding-top: 10px;
 }
 
 .navItemActive {
@@ -28,8 +28,9 @@ footer {
 }
 
 .navbar {
-      background-image: -webkit-linear-gradient(#6d94bf, #446e9b 50%, #3e648d);
-      border: 1px ;
+      /*background-image: -webkit-linear-gradient(#6d94bf, #446e9b 50%, #3e648d);
+      border: 1px ;*/
+      color: #000000;
 }
 
 .navbar-default .navbar-brand {
