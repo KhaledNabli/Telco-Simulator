@@ -57,7 +57,12 @@ function sendEventToESP(espUrl, eventObject) {
 	var eventBlock = [[eventObject]];
 	var eventJSON  = JSON.stringify(eventBlock);
 
-	return $.post(espUrl, eventJSON);
+	return $.ajax( {
+		type: "POST",
+		url: espUrl, 
+		data: eventJSON, 
+		contentType: "JSON"
+	});
 }
 
 

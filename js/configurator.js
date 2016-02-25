@@ -335,7 +335,13 @@ function readObjectElements(properties, selectorPrefix) {
         var selectedElements = $(selectorPrefix + property);
 
         if( selectedElements.length == 1) {
-            properties[property] = selectedElements.val();
+
+            if(selectedElements.attr('type')=='number') {
+                properties[property] = parseFloat(selectedElements.val());
+            } else {
+                properties[property] = selectedElements.val();
+            }
+            
 
         } else if ( selectedElements.length > 1 ) {
             console.log("Warning: readObjectElements is pointing to an selector: " + selectorPrefix + property + ", which is not unique. Counting: " + selectedElements.length);
@@ -437,7 +443,7 @@ function configGetCustomersFromUi() {
         customerObj.id = parseInt($(this).find("input[name='id']").val());
         customerObj.label = $(this).find("input[name='name']").val();
         customerObj.img = $(this).find("input[name='image']").val();
-        customerObj.mobilenr = $(this).find("input[name='mobile']").val();
+        customerObj.mobilenr = $(this).find("input[name='mobilenr']").val();
         customerObj.color = $(this).find("select[name='color']").val();
         for (var customField of configScenario.customFields) {
             // this fields are included in the template - ignore if present
@@ -504,6 +510,16 @@ function configGetLocationsFromUi() {
         locationObj.label = $(this).find("input[name='name']").val();
         locationObj.color = $(this).find("select[name='color']").val();
 
+        for (var customField of configScenario.customFields) {
+            // this fields are included in the template - ignore if present
+            if(["id", "label"].includes(customField.key)) {
+                continue;
+            }
+            if(customField.entity == "location") {
+                locationObj[customField.key] = $(this).find("input[name='" + customField.key + "']").val(); 
+            }
+        }
+
         // check if new:
         var locationIndex = findIndexByKey(configScenario.locationList, "id", locationObj.id);
 
@@ -567,16 +583,16 @@ function configBuildMobileParameterTable() {
     $("#configuratorMobileParametersTbody > tr").remove();
 
     configScenario.mobileApp.eventParameters.map(function (parameter) {
-        configAddMobileParameter({key: parameter.key, label: parameter.label, type: parameter.dataType});
+        configAddMobileParameter({key: parameter.key, label: parameter.label, type: parameter.dataType, defaultValue: parameter.defaultValue});
     });
 }
 
 function configAddMobileParameter(parameter) {
     parameter.dataTypes = Array();
-    parameter.dataTypes.push({value: "", label: "", selected: parameter.type == "" ? "selected" : ""});
     parameter.dataTypes.push({value: "text", label: "Text", selected: parameter.type == "text" ? "selected" : ""});
-    parameter.dataTypes.push({value: "numeric", label: "Numeric", selected: parameter.type == "numeric" ? "selected" : ""});
+    parameter.dataTypes.push({value: "number", label: "Number", selected: parameter.type == "number" ? "selected" : ""});
     parameter.dataTypes.push({value: "date", label: "Date", selected: parameter.type == "date" ? "selected" : ""});
+
 
     parameter.parameterInput = Array();
     parameter.parameterInput.push({key: parameter.key, isSelected: "selected"});
@@ -601,6 +617,7 @@ function configGetMobileParametersFromUI() {
         parameterObj.key = $(this).find("select[name='key']").val();
         parameterObj.label = $(this).find("input[name='label']").val();
         parameterObj.dataType = $(this).find("select[name='dataType']").val();
+        parameterObj.defaultValue = $(this).find("input[name='defaultValue']").val();
 
         mobileParameters.push(parameterObj);
     });
@@ -638,10 +655,10 @@ function configGetMobileGeneratorsFromUI() {
         var generatorObj = {};
         generatorObj.event = $(this).find("select[name='transaction']").val();
         generatorObj.label = $(this).find("input[name='label']").val();
-        generatorObj.intervalFrom = $(this).find("input[name='interval_from']").val();
-        generatorObj.intervalTo = $(this).find("input[name='interval_to']").val();
-        generatorObj.valueFrom = $(this).find("input[name='value_from']").val();
-        generatorObj.valueTo = $(this).find("input[name='value_to']").val();
+        generatorObj.intervalFrom = parseInt($(this).find("input[name='interval_from']").val());
+        generatorObj.intervalTo = parseInt($(this).find("input[name='interval_to']").val());
+        generatorObj.valueFrom = parseInt($(this).find("input[name='value_from']").val());
+        generatorObj.valueTo = parseInt($(this).find("input[name='value_to']").val());
 
         mobileGenerators.push(generatorObj);
     });

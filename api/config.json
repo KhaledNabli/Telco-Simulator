@@ -1,6 +1,6 @@
 {
 	"token":"",
-	"version":100,
+	"version":101,
 	"general": {
 		"demoName": "",
 		"demoDescription": "",
@@ -8,8 +8,8 @@
 		"rtdmHost": "racesx11058.demo.sas.com",
 		"espHost" : "racesx11058.demo.sas.com",
 		"streamViewerUrl" : "racesx11058.demo.sas.com",
-		"espPubSubPort": "8081",
-		"espAdminPort": "44445",
+		"espPubSubPort": 8081,
+		"espAdminPort": 44445,
 		"userEmail": ""
 	},
 	"locationApp": {
@@ -46,7 +46,7 @@
         "colorThemeText":    "#034A75",
         "colorThemeBorder":  "#7C7C7C",
         "homescreen_image":  "./images/home.jpg",
-		"eventParameters": [{"key": "customerId", "label": "Customer ID", "dataType": "text"},{"key": "eventValue", "label": "Event Value", "dataType": "text"}],
+		"eventParameters": [{"key": "customerId", "label": "Customer ID", "dataType": "text", "defaultValue": ""},{"key": "eventValue", "label": "Event Value", "dataType": "text", "defaultValue": ""}],
 		"eventTypes": [{"key": "top_up", "label": "Top-Up"}, {"key": "check_balance", "label": "Balance Check"}],
 		"eventGenerators": [{"event": "top_up", "label": "Generate Top Ups", "intervalFrom": 20, "intervalTo": 100, "valueFrom": 10, "valueTo": 50}]
 	},

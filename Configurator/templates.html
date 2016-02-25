@@ -1,4 +1,5 @@
-    <script id="configCustomerTab" type="text/x-handlebars-template">                        
+    <script id="configCustomerTab" type="text/x-handlebars-template">
+    <h4>Customers</h4>                        
     <form role="form" class="form form-horizontal">
     <table class="table table-hover">
         <thead>
@@ -79,7 +80,7 @@
                     <div class="form-group">
                         <label class="col-lg-4 control-label">Mobile</label>
                         <div class="col-lg-8">
-                            <input type="phone" value="{{mobile}}" class="form-control input-md" name="mobile" placeholder="Mobile to send SMS">
+                            <input type="phone" value="{{mobilenr}}" class="form-control input-md" name="mobilenr" placeholder="Mobile to send SMS">
                         </div>
                     </div>
                 </div>
@@ -106,6 +107,7 @@
     </script>
 
     <script id="configLocationTab" type="text/x-handlebars-template">
+    <h4>Location Spots</h4>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -140,10 +142,10 @@
                 </select>
             </td>
             <td ><input name="label" type="text" value="{{label}}" class="form-control input-md" /></td>
-            <td ><input name="interval_from" type="number" value="{{intervalFrom}}" class="form-control input-md" /></td>
-            <td ><input name="interval_to" type="number" value="{{intervalTo}}" class="form-control input-md" /></td>
-            <td ><input name="value_from" type="number" value="{{valueFrom}}" class="form-control input-md" /></td>
-            <td ><input name="value_to" type="number" value="{{valueTo}}" class="form-control input-md" /></td>
+            <td ><input name="value_from" style="background-color: beige;" placeholder="Value from" type="number" value="{{valueFrom}}" class="form-control input-md" /></td>
+            <td ><input name="value_to" style="background-color: beige;"  placeholder="Value to" type="number" value="{{valueTo}}" class="form-control input-md" /></td>
+            <td ><input name="interval_from" style="background-color: floralwhite;" min="100" placeholder="Interval from" type="number" value="{{intervalFrom}}" class="form-control input-md" /></td>
+            <td ><input name="interval_to" style="background-color: floralwhite;" placeholder="Interval to" type="number" value="{{intervalTo}}" class="form-control input-md" /></td>
             <td class="text-center"><button type="button" class="btn btn-sm btn-primary" onclick="configRemoveMobileTransaction(this);">Delete</button> </td>
         </tr>
     </script>
@@ -165,6 +167,7 @@
                     {{/each}}
                 </select>
             </td>
+            <td ><input name="defaultValue" type="text" value="{{defaultValue}}" class="form-control input-md" /></td>
             <td class="text-center"><button type="button" class="btn btn-sm btn-primary" onclick="configRemoveMobileParameter(this);">Delete</button> </td>
         </tr>
     </script>

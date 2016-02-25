@@ -1,0 +1,86 @@
+<!-- Start Tab: Location Simulator -->
+<div role="tabpanel" class="tab-pane" id="tab_transaction_simulator">
+	<div class="container">
+		<div class="row">
+			<h4>Transaction Simulator</h4>
+			<div class="col-sm-12">
+					<form role="form" class="form-horizontal">
+						<div class="form-group">
+							<label for="locationApp_rtdmEvent" class="col-sm-7 control-label">ESP Window</label>
+		                    <div class="col-sm-5">
+		                        <div class="input-group">    
+			                        <select class="form-control selection-esp-windows" id="mobileApp_espWindow">
+			                        </select>
+			                        <div class="input-group-addon" style="padding: 5px;">
+			                                <button type="button" class="btn btn-xs btn-info" onclick="onUpdateESPWindowSelections(this);">
+			                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+			                    			</button>
+			                        </div>
+			                    </div>
+		                	</div>
+		                </div>
+	            	</form>
+            </div>
+
+            <div class="col-sm-12">
+        		<hr />
+        	</div>
+
+			<div class="col-sm-6">
+				<h5>Event Types</h5>
+				<table class="table table-hover">
+					<thead>
+						<tr >
+							<th class="text-center" width="40%">Event Type <br />(will be published into ESP Variable <i>eventType</i>)</th>
+							<th class="text-center" width="50%">Button Label</th>
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileTransaction({});">Add Event</button> </th>
+						</tr>
+					</thead>
+					<tbody id="configuratorMobileTrxTbody"></tbody>
+				</table>
+			</div>
+			<div class="col-sm-6">
+				<div class="row">
+
+
+				<h5>Event Parameter</h5>
+				<table class="table table-hover">
+					<thead>
+						<tr >
+							<th class="text-center" width="25%">ESP Variable</th>
+							<th class="text-center" width="25%">Input Label</th>
+							<th class="text-center" width="15%">Display Type</th>
+							<th class="text-center" width="25%">Default Value(s)</th>
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileParameter({});">Add Parameter</button> </th>
+						</tr>
+					</thead>
+					<tbody id="configuratorMobileParametersTbody"></tbody>
+				</table>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+        		<hr />
+        	</div>
+
+			<div class="col-sm-12">
+				<h5>Event Generator</h5>
+				<table class="table table-hover">
+					<thead>
+						<tr >
+							<th class="text-center" width="20%">Event Type <br />(will be published into ESP Variable <i>eventType</i>)</th>
+							<th class="text-center" width="25%">Button Label</th>
+							<th class="text-center" width="25%" colspan="2">Value range <br />(will be published into ESP Variable <i>value</i>)</th>
+
+							<th class="text-center" width="25%" colspan="2">Event occurance interval (in millisec)<br />(will be published into ESP Variable <i>eventDttm</i>)</th>
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileGenerator({});">Add Generator</button> </th>
+						</tr>
+					</thead>
+					<tbody id="configuratorMobileGeneratorsTbody"></tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+</div>	
