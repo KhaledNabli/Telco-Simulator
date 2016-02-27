@@ -59,11 +59,11 @@
     <!-- ================================================== -->
     <script id="custDropdown" type="text/x-handlebars-template">
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form role="form" class="form-horizontal">
             <div class="form-group">
-              <label for="input_customerId" class="col-xs-5 control-label">Customer ID</label>
-              <div class="col-xs-7">
+              <label for="input_customerId" class="col-xs-5 col-sm-2 col-md-2 col-lg-2 control-label">Customer ID</label>
+              <div class="col-xs-7 col-sm-10 col-md-10 col-lg-10">
                 <select id="customerId" name="custDropdown" class="form-control input-md">
                 {{#each customer}}
                   <option value="{{id}}" >{{label}}</text>
@@ -78,7 +78,7 @@
 
     <script id="eventDropdown" type="text/x-handlebars-template">
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
           <form class="form-horizontal">
             <div class="form-group">
               <label for="input_eventName" class="col-xs-5 control-label">Event Name</label>
@@ -111,11 +111,11 @@
     <script id="inputFields" type="text/x-handlebars-template">
       <div class="row">
       {{#each field}} 
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form class="form-horizontal">
             <div class="form-group">
-              <label for="input_{{key}}" class="col-xs-5 control-label">{{label}}</label>
-              <div class="col-xs-7">
+              <label for="input_{{key}}" class="col-xs-5 col-sm-2 col-md-2 col-lg-2 control-label">{{label}}</label>
+              <div class="col-xs-7 col-sm-10 col-md-10 col-lg-10">
                 <input id="input_{{key}}" type="{{dataType}}" class="form-control" value="{{defaultValue}}" placeholder="{{label}}">
               </div>
             </div>
@@ -128,11 +128,11 @@
     <script id="toggleButtons" type="text/x-handlebars-template">
       <div class="row">
       {{#each toggle}}
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="height: 30px;">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="height: 30px;">
           <form class="form-horizontal">
             <div class="form-group">
-              <label  class="col-xs-6 control-label">{{label}}</label>
-              <div class="col-xs-6">
+              <label  class="col-xs-6 col-sm-6 col-md-6 col-lg-6 control-label">{{label}}</label>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <input type="checkbox" class="switch" name="{{event}}">
               </div>
             </div>
@@ -147,7 +147,6 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
     <script src="../js/ext/jquery-1.11.1.js"></script>
     <script src="../js/ext/bootstrap.min.js"></script>
     <script src="../js/ext/bootstrap-switch.min.js"></script>
@@ -155,7 +154,7 @@
     <script src="../js/ext/handlebars-4.0.5.min.js"></script> 
     <script src="../js/api.js"></script> 
     <script src="./js/bootstrap_app.js"></script>
-    <script src="./js/esp.js"></script> 
+    <!--<script src="./js/esp.js"></script> -->
 
     <script>
     //$(document).ready(function () {onMobileAppReady();}); 
