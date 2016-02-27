@@ -14,7 +14,8 @@ function onMobileAppReady() {
 }
 
 function startMobileApp() {
-    var token = window.location.href.split("#")[1];
+	var token = location.href.split("#")[1] ? decodeURIComponent(location.href.split("#")[1]) : "";
+    //var token = window.location.href.split("#")[1];
     loadConfiguration(token);
 }
 
