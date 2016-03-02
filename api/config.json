@@ -5,9 +5,9 @@
 		"demoName": "",
 		"demoDescription": "",
 		"expirationDate":"",
-		"rtdmHost": "racesx11058.demo.sas.com",
-		"espHost" : "racesx11058.demo.sas.com",
-		"streamViewerUrl" : "racesx11058.demo.sas.com",
+		"rtdmHost": "racesxXXXXXX.demo.sas.com",
+		"espHost" : "racesxXXXXXX.demo.sas.com",
+		"streamViewerUrl" : "racesxXXXXXX.demo.sas.com",
 		"espPubSubPort": 8081,
 		"espAdminPort": 44445,
 		"userEmail": ""
@@ -46,9 +46,20 @@
         "colorThemeText":    "#034A75",
         "colorThemeBorder":  "#7C7C7C",
         "homescreen_image":  "./images/home.jpg",
-		"eventParameters": [{"key": "customerId", "label": "Customer ID", "dataType": "text", "defaultValue": ""},{"key": "eventValue", "label": "Event Value", "dataType": "text", "defaultValue": ""}],
-		"eventTypes": [{"key": "top_up", "label": "Top-Up"}, {"key": "check_balance", "label": "Balance Check"}],
-		"eventGenerators": [{"event": "top_up", "label": "Generate Top Ups", "intervalFrom": 20, "intervalTo": 100, "valueFrom": 10, "valueTo": 50}]
+		"eventParameters": [
+			{"key": "eventValue", "label": "Event Value", "dataType": "text", "defaultValue": ""}
+		],
+		"eventTypes": [
+			{"key": "example_event", "label": "Example Event"}
+		],
+		"eventGenerators": [
+			{"event": "example_event", 
+			"label": "Generate Events", 
+			"intervalFrom": 20, 
+			"intervalTo": 100, 
+			"valueFrom": 10, 
+			"valueTo": 50}
+		]
 	},
 	"customFields": [
 		{
@@ -64,54 +75,6 @@
 			"key": "device",
 			"label": "Device",
 			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgSmsUsg",
-			"label": "Avg SMS Usage",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgTopUp",
-			"label": "Avg Top Up",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgDataUsg",
-			"label": "Data Usage",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgNatMin",
-			"label": "Avg National Minutes",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "roamingFlg",
-			"label": "Roaming Flag",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "lastUpdate",
-			"label": "Last Update",
-			"rtdmKey": "currentTime",
 			"espKey": "",
 			"style": ""
 		}

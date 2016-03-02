@@ -122,7 +122,10 @@ function processGeneratedEvent(eventType, generatedValue) {
 		}
 	});
 
-
+	// configScenario.mobileApp.eventTypeKey = "eventType"
+	// configScenario.mobileApp.eventDttmKey = "eventDttm"
+	// configScenario.mobileApp.generatedValuesKey = "value" oder "amount"
+	// eventObject[configScenario.mobileApp.generatedValuesKey] = generatedValue;
 	eventObject.value = generatedValue;
 
 	console.log("  send generated event " + eventType);
