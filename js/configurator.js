@@ -776,6 +776,13 @@ function initConfiguratorSelections() {
     var locationAppRtdmEvent = configScenario.locationApp.rtdmEvent;
     selectionElements.push({id: "locationApp_rtdmEvent", label: locationAppRtdmEvent, value: locationAppRtdmEvent});
 
+    //added by Mathias Bouten - bootstrap colorPicker
+    $(".colorPickerInput").colorpicker();
+    $("#mobileColorButtonBack").colorpicker('setValue', configScenario.mobileApp.colorButtonBack);
+    $("#mobileColorNavbarBack").colorpicker('setValue', configScenario.mobileApp.colorNavbarBack);
+    $("#mobileColorPageBack").colorpicker('setValue', configScenario.mobileApp.colorPageBack);
+    $("#mobileColorPageText").colorpicker('setValue', configScenario.mobileApp.colorPageText);
+    //end colorPicker
 
     initSelectionListOptions(selectionElements);
 }

@@ -23,23 +23,89 @@ footer {
   padding-top: 10px;
 }
 
+#pageGenerator {
+  position:absolute;
+}
+#pageHome {
+  position:absolute;
+}
+
+.footer-bordered {
+  border-width: 1;
+  border-top-color: grey;
+  height: 0;
+}
+
+.header-bordered {
+  border-width: 1;
+  border-bottom-color: grey;
+  height: 0;
+}
+
+.navbar-header { 
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .navItemActive {
   color: #eeeeee;
 }
 
+.navItemInActive {
+  color: rgba(0, 0, 0, 0.4);
+}
+
 .navbar {
-      /*background-image: -webkit-linear-gradient(#6d94bf, #446e9b 50%, #3e648d);
-      border: 1px ;*/
-      color: #000000;
+  color: #000000;
+  min-height: 50px;
+  padding-top: 4px;
 }
 
 .navbar-default .navbar-brand {
-    color: #eeeeee;
+  color: #eeeeee;
+}
+
+.navbar-left-icon {
+  float: left;
+}
+
+.navbar-right-icon {
+  float: right;
+}
+
+.navbar-title {
+  font-size: 18px;
+  text-align: center;
+  padding-top: 0px;
+  padding-right: 15px;
+  padding-bottom:15px;
+  padding-left: 15px;
+  color: #eeeeee;
+}
+
+.page {
+  position: relative;
+  top: 0px;
+  bottom: 0px;
+}
+
+.pageContent {
+  position: relative;
+  top: 60px;
+  margin-top: 15px;
+  margin-bottom:60px;
+}
+
+a {
+  color: #eeeeee;
 }
 
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
+body {
+  padding-top: 0px;
+}
 
 body > .container {
   padding: 60px 15px 0;
@@ -75,3 +141,66 @@ code {
 @-ms-viewport     { width: device-width; }
 @-o-viewport      { width: device-width; }
 @viewport         { width: device-width; }
+
+
+
+/***** animations ******/
+
+@keyframes showUp {
+  0% {
+    opacity:0.5;
+    transform: translate(0px,300px) scaleX(0.1) scaleY(0.1);
+  }
+  100% {
+    opacity:1; top: 0px; left:0px; right:0px;
+     transform: translate(0px,0px) scaleX(1) scaleY(1);
+  }
+}
+
+.animateShowUpCenter {
+    animation-name: showUp;
+    animation-duration: 0.5s;
+    /*animation-fill-mode: forwards;*/
+}
+
+@keyframes leftPaneOpen {
+  0%   { transform: translate(-100%,0px); }
+  100% { transform: translate(0px,0px); }
+}
+
+@keyframes leftPaneClose {
+  0%   { transform: translate(0px,0px); }
+  100% { transform: translate(-100%,0px);visibility: hidden; }
+}
+
+.LeftpaneOpen {
+  animation-name: leftPaneOpen;
+  animation-duration: 0.5s;
+}
+
+.LeftpaneClose {
+  animation-name: leftPaneClose;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.leftPane {
+  background-size: 100% 100%;
+  position: absolute;
+  z-index: 1100;
+  top: 0;
+  bottom: 0;
+  right: 40px;
+  left:0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+  overflow: hidden; 
+  -webkit-box-shadow: 5px 5px 5px black;
+  -moz-box-shadow:    5px 5px 5px black;
+  box-shadow:         5px 5px 5px black;
+  transition-property: left right;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  transition-delay: 0s;    
+}

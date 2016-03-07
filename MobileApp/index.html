@@ -25,25 +25,28 @@
 
   <body>
 
-    <div class="container">
+  <div class="containter"> 
     <!-- Begin mobile pages -->
-      <div id="pageHome" class=""></div>
-      <div id="pageGenerator" class="hidePage"></div>
+      <div id="pageHome"      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page">
+      </div>
+      <div id="pageGenerator" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 page hidePage">
+      </div>
+      <div id="pageLeftpane"  class="col-xs-11 col-sm-11 col-md-11 col-lg-11 page hidePage leftPane"></div>
+  </div>
     <!-- End mobile pages -->
-    </div>
 
 
     <!-- fixed footer -->
-    <footer class="navbar navbar-fixed-bottom navbar-default">
+    <footer class="navbar navbar-fixed-bottom navbar-default footer-bordered">
       <div class="container">
         <div class="row" style="">
-          <div id="navHome" name="Home" class="col-xs-6" onclick="onNavClick(this);">
-            <p class="text-center">
-              <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
+          <div id="navHome" class="col-xs-6 navItemActive" onclick="onNavItemClick('Home');">
+            <p class="text-center"> 
+              <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
               <br><strong>Home</strong>
             </p>
           </div>
-          <div id="navGenerator" name="Generator" class="col-xs-6" onclick="onNavClick(this);">
+          <div id="navGenerator" class="col-xs-6 navItemInActive" onclick="onNavItemClick('Generator');">
             <p class="text-center">
               <span class="glyphicon glyphicon-random" aria-hidden="true"></span> 
               <br><strong>Generator</strong>
@@ -69,7 +72,7 @@
                   <option value="{{id}}" >{{label}}</text>
                 {{/each}}
                 </select>
-                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -78,11 +81,11 @@
 
     <script id="eventDropdown" type="text/x-handlebars-template">
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <form class="form-horizontal">
             <div class="form-group">
-              <label for="input_eventName" class="col-xs-5 control-label">Event Name</label>
-              <div class="col-xs-7">
+              <label for="input_eventName" class="col-xs-5 col-sm-3 col-md-3 col-lg-3 control-label">Event Name</label>
+              <div class="col-xs-7 col-sm-9 col-md-9 col-lg-9">
                 <select id="input_eventName" name="eventDropdown" class="form-control input-md">
                 {{#each eventType}}
                   <option value="{{key}}" >{{label}}</text>
@@ -115,9 +118,23 @@
           <form class="form-horizontal">
             <div class="form-group">
               <label for="input_{{key}}" class="col-xs-5 col-sm-2 col-md-2 col-lg-2 control-label">{{label}}</label>
+              
+              {{#if this.defaultValueList }}
+              <div class="col-xs-7 col-sm-10 col-md-10 col-lg-10">
+                <select id="input_{{key}}" class="form-control input-md">
+                  {{#each this.defaultValueList}}
+                  <option value="{{this}}" >{{this}}</text>
+                  {{/each}}
+                </select>
+              </div>
+
+              {{else}}
               <div class="col-xs-7 col-sm-10 col-md-10 col-lg-10">
                 <input id="input_{{key}}" type="{{dataType}}" class="form-control" value="{{defaultValue}}" placeholder="{{label}}">
               </div>
+              
+              {{/if}}
+
             </div>
           </form>
         </div>
@@ -162,7 +179,8 @@
    
        var contentToRender = [
           {div:"#pageHome", contentUrl:"./page_home.html"},
-          {div:"#pageGenerator", contentUrl:"./page_generator.html"}
+          {div:"#pageGenerator", contentUrl:"./page_generator.html"},
+          {div:"#pageLeftpane", contentUrl:"./page_leftpane.html"}
         ];
 
         contentToRender.map(function (contentObj) {

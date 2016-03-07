@@ -33,24 +33,33 @@ function onLoadConfigurationDone(config) {
     updateMobileAppUI();
 }
 
+function checkVersion(config) {
+	if (config.version < 102) {
+		//2C3E50 rot:D62C1A blau:217DBB grün:166104 telekom-pink:D90A7D
+		config.mobileApp.colorNavbarBack = '#2C3E50'; 
+		config.mobileApp.colorNavbarText = '#eeeeee';
+		config.mobileApp.colorPageBack = '#eeeeee';
+		config.mobileApp.colorPageText = '#2C3E50';
+		config.mobileApp.colorButtonBack = '#2C3E50';	
+		config.mobileApp.colorButtonText = '#eeeeee';
+		config.mobileApp.colorNavItemInactive = 'rgba(0, 0, 0, 0.4)';
+		config.mobileApp.colorNavItemActive = '#eeeeee';
+	}	
+}
+
 
 function updateMobileAppUI() {
+	checkVersion(configScenario);
 
 	$('.pageBackgroundImage').css("background-image","url('"+configScenario.mobileApp.homescreen_image+"')");
-	
+	addDisplayAttributeToEventParameters(configScenario.mobileApp.eventParameters);
+
 	$("#divInputFields").append(htmlTemplates.inputFields({field: configScenario.mobileApp.eventParameters}));
 	$("#divEventButtons").append(htmlTemplates.eventButtons({button: configScenario.mobileApp.eventTypes}));
 	$("#divToggleButtons").append(htmlTemplates.toggleButtons({toggle: configScenario.mobileApp.eventGenerators}));
 	$("#divCustDropdown").append(htmlTemplates.custDropdown({customer: configScenario.customerList}));
 	$("#divEventDropdown").append(htmlTemplates.eventDropdown({eventType: configScenario.mobileApp.eventTypes}));
-	// set theme color
-	setThemeColor(configScenario.mobileApp.colorThemePage,   "page");
-	setThemeColor(configScenario.mobileApp.colorThemeBar,    "bar");
-	setThemeColor(configScenario.mobileApp.colorThemeBarText,"bar-text");
-	setThemeColor(configScenario.mobileApp.colorThemeButton, "button");
-	setThemeColor(configScenario.mobileApp.colorThemeText,   "text-theme");
-	setThemeColor(configScenario.mobileApp.colorThemeBorder, "border-theme");
-
+	
 	configScenario.mobileApp.navHistory = Array();
 	configScenario.mobileApp.navHistory.push("Home");
 	configScenario.currentPageName = "Home";
@@ -61,12 +70,28 @@ function updateMobileAppUI() {
 	  onToggleClick(this, state)
 	});
 
-	$('#navHome').addClass('navItemActive');
+	setThemeColor('navbar-back', configScenario.mobileApp.colorNavbarBack);
+	setThemeColor('navbar-text', configScenario.mobileApp.colorNavbarText);
+	setThemeColor('page-back', configScenario.mobileApp.colorPageBack);
+	setThemeColor('page-text', configScenario.mobileApp.colorPageText);
+	setThemeColor('button-back', configScenario.mobileApp.colorButtonBack);	
+	setThemeColor('button-text', configScenario.mobileApp.colorButtonText);
+	setThemeColor('navbar-text-inactive', configScenario.mobileApp.colorNavItemInactive);
+	setThemeColor('navbar-text-active', configScenario.mobileApp.colorNavItemActive);
+	
 }
 
 
-function addDisplayAttributeToEventParameters() {
-	//configScenario.mobileApp.eventParameters
+function addDisplayAttributeToEventParameters(eventParameters) {
+	//create two more attributes for default values
+	//if there is a comma separated list, then add attribute displayAsDropDown
+	//and add an array with default values
+	eventParameters.map(function (element) {
+		var defaultValueList = element.defaultValue.split(",");
+		if (defaultValueList.length > 1) {
+			element.defaultValueList = defaultValueList;
+		} 
+	});
 }
 
 
@@ -191,112 +216,72 @@ function onToggleClick(element, state) {
 	}
 }
 
-function setThemeColor(color, element) {
-	/* style sheet string with placeholder for color */
-	var styleString = "";
+function setThemeColor(element, color) {
 
-	if (element == "page") {
-		
-		$('.backgroundTransparent').css('background-color', color);
-		//$('.page-layer').css('background-color', color);
-		//styleString = ".page-layer { background-color: {{color}}; }";
-	} else if (element == "bar") {
-		$('.bar').css('background-color', color);
-		$('.topbar').css('background-color', color);
-	} else if (element == "button") {
-		$('.btn-positive').css('background-color', color);
-	} else if (element == "bar-text") {
-		$('.bar-text-theme').css('color', color);
-		styleString = ".bar-tab .tab-item.active {"
-    				+ "  color: {{color}}; }";
-	} else if (element == "text-theme") {
-		$('.text-theme').css('color', color);
-		styleString = ".text-theme, .navigate-right:after, .push-right:after {"
-    				+ "  color: {{color}}; }";
-	} else if (element == "border-theme") {
-		$('.badge-theme').css('background-color', color);
-		$('.border-theme').css('border-bottom-color', color);
-		$('.border-theme').css('border-top-color', color);
-		styleString = ".border-theme { border-bottom-color: {{color}}; border-top-color: {{color}}; }"
-                    + ".nav-theme { color: {{color}}; }"
-                    + ".bar-tab .tab-item { color: {{color}}; }"
-                    + ".badge-theme{ background-color: {{color}};}";
-	}
-
-    var node = document.createElement('style');
-    /* replace color placeholder and add style sheet string */
-    node.innerHTML = styleString.replace(new RegExp("{{color}}",'g'), color);
-    document.body.appendChild(node);
-}
-
-function onNavClick(element) {
-	var page = $(element).attr('name');
-	var id = $(element).attr('id');
-	if (page != configScenario.currentPageName) {
-		$('#page'+page).removeClass('hidePage');
-		$('#page'+configScenario.currentPageName).addClass('hidePage');		
-		$(element).addClass('navItemActive');
-		$('#nav'+configScenario.currentPageName).removeClass('navItemActive');
-		configScenario.currentPageName = page;
+	if (element == "page-back") {		
+		$('.page').css('background-color', color);
+	} else if (element == "page-text") {
+		$('body').css('color', color);
+	} else if (element == "navbar-back") {
+		$('.navbar-default').css('background-color', color);
+	} else if (element == "navbar-text") {
+		$('.navbar-brand').css('color', color);
+		$('.navbar-brand:focus').css('color', color);
+	} else if (element == "button-back") {
+		$('.btn').css('background-color', color);
+		$('.btn').css('border-width', 0);
+		$('.bootstrap-switch-handle-on.bootstrap-switch-primary').css('background-color',color);
+	} else if (element == "button-text") {
+		$('.btn').css('color', color);
+		$('.bootstrap-switch-handle-on.bootstrap-switch-primary').css('color',color);
+	} else if (element == "navbar-text-inactive") {
+		$('.navItemInActive').css('color', color);
+	} else if (element == "navbar-text-active") {
+		$('.navItemActive').css('color', color);
 	}
 }
 
-function onNavItemClick(navToPageName, animation) {
+function onNavItemClick(navToPageName) {
+	var idNavItemFrom = '#nav' + configScenario.currentPageName;
+	var idNavItemTo = '#nav' + navToPageName;
+	if (navToPageName != configScenario.currentPageName) {
+		$('#page'+navToPageName).removeClass('hidePage');
+		$('#page'+navToPageName).addClass('animateShowUpCenter');
+		$('#page'+configScenario.currentPageName).addClass('hidePage');	
 
-	var idPrevPage = "page" + configScenario.currentPageName;
-	var idNextPage = "page" + navToPageName;
-	var navIconPosition = "";
+		$(idNavItemTo).addClass('navItemActive');
+		$(idNavItemTo).removeClass('navItemInActive');
 
-	// if you click on same nav icon again - do nothing
-	if (idPrevPage == idNextPage) {
-		return;
+		$(idNavItemFrom).removeClass('navItemActive');
+		$(idNavItemFrom).addClass('navItemInActive');
+
+		configScenario.currentPageName = navToPageName;
 	}
-
-	//fill navigation History Array
-	configScenario.mobileApp.navHistory.push(navToPageName);
-	console.log(configScenario.mobileApp.navHistory);
-
-	if (animation == "SwipeLeft" || animation == "SwipeRight") {
-	} else {
-		if (navToPageName == "Home" ) {
-			animation = "ShowUpLeft";
-		} else if (navToPageName == "Generator") {
-			animation = "ShowUpRight";
-		} else {
-			animation = "ShowUpCenter";
-		}
-	}  	
-	appear(idNextPage, idPrevPage, animation);	
-	
-	$("#nav"  + configScenario.currentPageName).removeClass("active");
-	$("#nav" + navToPageName).addClass("active");
-	
-	// set global page variable to new page name
-	configScenario.currentPageName = navToPageName;
-
-	console.log("navToPageName: " + navToPageName);
-
+	/*setThemeColor('navbar-text-inactive', 'rgba(0, 0, 0, 0.4)');
+	setThemeColor('navbar-text-active', '#eeeeee');
+	*/
+	setThemeColor('navbar-text-inactive', configScenario.mobileApp.colorNavItemInactive);
+	setThemeColor('navbar-text-active', configScenario.mobileApp.colorNavItemActive);
 }
 
-function appear(page, prevpage, animation) {
-	var animationClass = "animate" + animation;
-	var page = "#" + page;
-	var prevpage = "#" + prevpage;
-	
-	$(page).removeClass("hidePage");
-	$(page).addClass(animationClass);
-	
-	$(page).on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", function(e){
-		console.log("hide page: " + prevpage);
-		$(prevpage).addClass("hidePage");
-		removeAnimations();
-  	});
+function openPane(element) {
+	var pane = $(element).attr("name");
+	var paneId = "#page" + pane;
+	$(paneId).removeClass('hidePage');
+	$(paneId).removeClass(pane + 'Close');
+	$(paneId).addClass(pane + 'Open');
 }
+
+function closePane(element) {
+	var pane = $(element).attr("name");
+	var paneId = "#page" + pane;
+	$(paneId).removeClass(pane + 'Open');
+	$(paneId).addClass(pane + 'Close');
+}
+
 
 function removeAnimations() {
-	$('.page').removeClass("animateShowUpLeft");
 	$('.page').removeClass("animateShowUpCenter");
-	$('.page').removeClass("animateShowUpRight");
 	$('.page').removeClass("animateSwipeLeft");
 	$('.page').removeClass("animateSwipeRight");
 }

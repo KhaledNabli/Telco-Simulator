@@ -1,6 +1,6 @@
 {
 	"token":"",
-	"version":101,
+	"version":102,
 	"general": {
 		"demoName": "",
 		"demoDescription": "",
@@ -38,13 +38,14 @@
 	],
 	"mobileApp": {
 		"espWindow": "TelcoGeoDetection/TelcoGeoQuery/NetworkEvents",
-		"colorTheme":        "#428BCA",
-        "colorThemeBar":     "#034A75",
-        "colorThemeBarText": "#FFFFFF",
-        "colorThemeButton":  "#034A75",
-        "colorThemePage":    "#FFFFFF",
-        "colorThemeText":    "#034A75",
-        "colorThemeBorder":  "#7C7C7C",
+		"colorNavbarBack": "#2C3E50", 
+		"colorNavbarText": "#eeeeee",
+		"colorPageBack": "#eeeeee",
+		"colorPageText": "#2C3E50",
+		"colorButtonBack": "#2C3E50",	
+		"colorButtonText": "#eeeeee",
+		"colorNavItemInactive": "rgba(0, 0, 0, 0.4)",
+		"colorNavItemActive": "#eeeeee",
         "homescreen_image":  "./images/home.jpg",
 		"eventParameters": [
 			{"key": "eventValue", "label": "Event Value", "dataType": "text", "defaultValue": ""}
