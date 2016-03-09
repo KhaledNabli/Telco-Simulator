@@ -7,7 +7,7 @@
 		"expirationDate":"",
 		"rtdmHost": "racesxXXXXXX.demo.sas.com",
 		"espHost" : "racesxXXXXXX.demo.sas.com",
-		"streamViewerUrl" : "racesxXXXXXX.demo.sas.com",
+		"streamViewerUrl" : "http://gersasci61.ger.sas.com/streamviewer/?server=http://racesxXXXXXX.demo.sas.com:8081",
 		"espPubSubPort": 8081,
 		"espAdminPort": 44445,
 		"userEmail": ""
