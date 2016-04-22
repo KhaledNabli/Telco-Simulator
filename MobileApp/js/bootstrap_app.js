@@ -123,11 +123,21 @@ function processSingleEvent(eventType) {
 	console.log(" send single event " + eventType);
 
 	//sendEventToESP(espUrl, eventObject);
-	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject);
+	$('#divWarningMessage').hide();
+	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
+		function(result) {
+			if (result.search("injected") > 0) {
+				//console.log("Success");
+			} else {
+				console.log("Failed");
+				$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+				$('#divWarningMessage').show();
+			}
+		});
 }
 
 
-function processGeneratedEvent(eventType, generatedValue) {
+function processGeneratedEvent(eventGeneratorObject, generatedValue, toggleElement) {
 
 	var espUrl = "http://" + configScenario.general.espHost + ":" + configScenario.general.espPubSubPort 
 			 + "/inject/" + configScenario.mobileApp.espWindow + "?blocksize=1";
@@ -135,7 +145,7 @@ function processGeneratedEvent(eventType, generatedValue) {
 	var espEventDttm = getCurrentTimestamp();
 	
 	var eventObject = {};
-	eventObject.eventType = eventType;
+	eventObject.eventType = eventGeneratorObject.event;
 	eventObject.eventDttm = espEventDttm;
 	eventObject.customerId = $('#customerId').val();
 
@@ -153,14 +163,26 @@ function processGeneratedEvent(eventType, generatedValue) {
 	// eventObject[configScenario.mobileApp.generatedValuesKey] = generatedValue;
 	eventObject.value = generatedValue;
 
-	console.log("  send generated event " + eventType);
+	console.log("  send generated event " + eventGeneratorObject.event);
 
 	//sendEventToESP(espUrl, eventObject);
-	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject);
+	$('#divWarningMessage').hide();
+	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
+		function(result) {
+			if (result.search("injected") > 0) {
+				//console.log("Success" + eventGeneratorObject.run);
+			} else {
+				eventGeneratorObject.run = false;
+				$(toggleElement).bootstrapSwitch("state", false);
+				$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+				$('#divWarningMessage').show();
+				console.log("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+			}
+		});
 }
 
 
-function eventGenerator(eventGeneratorObject) {
+function eventGenerator(eventGeneratorObject, toggleElement) {
 
 	if(eventGeneratorObject.run == true) { 
 
@@ -177,7 +199,7 @@ function eventGenerator(eventGeneratorObject) {
 
 		console.log("  value: " + newData);
 
-		processGeneratedEvent(eventGeneratorObject.event, newData); 
+		processGeneratedEvent(eventGeneratorObject, newData, toggleElement); 
 		
 		setTimeout(function() {
 			eventGenerator(eventGeneratorObject)
@@ -186,8 +208,8 @@ function eventGenerator(eventGeneratorObject) {
 	} 
 }
 
-function onToggleClick(element, state) {
-	var eventName = $(element).attr("name");
+function onToggleClick(toggleElement, state) {
+	var eventName = $(toggleElement).attr("name");
 	
 	if(eventName != "generator") {	
 		var indexOfObject = findIndexByKey(configScenario.mobileApp.eventGenerators,"event",eventName);
@@ -212,7 +234,7 @@ function onToggleClick(element, state) {
 	} else {
 		eventGeneratorObject.run = true;
 		console.log("START SENDING " + eventName);
-		eventGenerator(eventGeneratorObject);
+		eventGenerator(eventGeneratorObject, toggleElement);
 	}
 }
 
