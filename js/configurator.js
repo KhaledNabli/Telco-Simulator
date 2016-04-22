@@ -962,3 +962,11 @@ function refreshStreamviewerUrl(oldUrl, currentEspHost, currentEspPort) {
 
     return newStreamviewerUrl;
 }
+
+function minmax(value, min, max) {
+    if(parseInt(value) < min || isNaN(value) || value == "" ) 
+        return min; 
+    else if(parseInt(value) > max) 
+        return 2000; 
+    else return value;
+}
