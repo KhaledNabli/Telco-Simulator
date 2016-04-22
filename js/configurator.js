@@ -967,6 +967,6 @@ function minmax(value, min, max) {
     if(parseInt(value) < min || isNaN(value) || value == "" ) 
         return min; 
     else if(parseInt(value) > max) 
-        return 2000; 
+        return max; 
     else return value;
 }

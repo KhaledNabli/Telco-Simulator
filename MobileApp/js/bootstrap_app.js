@@ -187,6 +187,11 @@ function eventGenerator(eventGeneratorObject, toggleElement) {
 	if(eventGeneratorObject.run == true) { 
 
 		// generate a new interval value with random function
+		if(parseInt(eventGeneratorObject.intervalFrom) < 250) {
+			console.log("intervalFrom was " + eventGeneratorObject.intervalFrom);
+			eventGeneratorObject.intervalFrom = 250;
+			console.log("intervalFrom is changed to " + eventGeneratorObject.intervalFrom);
+		}
 		var newInterval = Math.random() * 
 				(parseInt(eventGeneratorObject.intervalTo) - parseInt(eventGeneratorObject.intervalFrom)) 
 				+ parseInt(eventGeneratorObject.intervalFrom);
