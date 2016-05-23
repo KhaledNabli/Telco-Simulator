@@ -1,0 +1,229 @@
+<!-- Start Tab: Environment -->
+<div role="tabpanel" class="tab-pane" id="tab_environment">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>Environment Settings</h4>
+				<form class="form-horizontal" role="form">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="general_rtdmHost" class="col-sm-4 control-label">SAS Real-Time Decision Manager Server</label>
+							<div class="col-sm-8">
+								<div class="input-group">  
+									<input type="text" class="form-control" id="general_rtdmHost" placeholder="racesxXXXXX.demo.sas.com" required="">
+									<div class="input-group-addon" style="padding: 5px;">
+										<button type="button" class="btn btn-xs btn-info" onclick="onValidateRTDMConnection(this);">
+											<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</form>
+
+
+				<form class="form-horizontal" role="form">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="general_espHost" class="col-sm-2 control-label">SAS Event Stream Processing Server</label>
+							<div class="col-sm-4">
+								<div class="input-group">  
+									<input type="text" class="form-control" id="general_espHost" placeholder="racesxXXXXX.demo.sas.com">
+									<div class="input-group-addon" style="padding: 5px;">
+										<button type="button" class="btn btn-xs btn-info" onclick="onValidateESPConnection(this);">
+											<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<label for="general_espPorts" class="col-sm-2 control-label">Ports <br/> (HTTP PubSub / Admin)</label>
+							<div class="col-sm-2">
+								<input type="number" class="form-control" id="general_espPubSubPort" value="8081" placeholder="default: 8081">
+							</div>
+							<div class="col-sm-2">
+								<input type="number" class="form-control" id="general_espAdminPort" value="44445" placeholder="default: 44445"> 
+							</div>
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+
+			<div class="col-sm-12">
+				<hr/>
+			</div>
+
+			<div class="col-sm-12">
+				<h4>Connect to ESP and RTDM</h4>
+				<form class="form-horizontal">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="locationApp_espWindow" class="col-sm-4 control-label">Publish <b>Location</b> Events to this ESP Window</label>
+							<div class="col-sm-8">
+								<div class="input-group">    
+									<select class="form-control selection-esp-windows" id="locationApp_espWindow">
+									</select>
+									<div class="input-group-addon" style="padding: 5px;">
+										<button type="button" class="btn btn-xs btn-info" onclick="onUpdateESPWindowSelections(this);">
+											<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="locationApp_rtdmEvent" class="col-sm-4 control-label">Retrieve Customer Profile from this RTDM Event</label>
+							<div class="col-sm-8">
+								<div class="input-group">    
+									<select class="form-control selection-rtdm-events" id="locationApp_rtdmEvent">
+									</select>
+									<div class="input-group-addon" style="padding: 5px;">
+										<button type="button" class="btn btn-xs btn-info" onclick="onUpdateRTDMEventSelections();">
+											<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="locationApp_rtdmEvent" class="col-sm-4 control-label">Publish <b>Transaction</b> Events to this ESP Window</label>
+							<div class="col-sm-8">
+								<div class="input-group">    
+									<select class="form-control selection-esp-windows" id="mobileApp_espWindow">
+									</select>
+									<div class="input-group-addon" style="padding: 5px;">
+										<button type="button" class="btn btn-xs btn-info" onclick="onUpdateESPWindowSelections(this);">
+											<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<hr/>
+			</div>
+
+
+
+
+			<div class="col-sm-12">
+				<hr/>
+			</div>
+
+			<div class="col-sm-12">
+				<h4>Datafields</h4>
+				<p>Explain how this will be used in the demo....</p>
+				<table class="table table-hover">
+					<thead>
+						<tr >
+							<th class="text-center" width="15%">Entity</th>
+							<th class="text-center" width="15%">Variable</th>
+							<th class="text-center" width="20%">Label</th>
+							<th class="text-center" width="15%">ESP Variable</th>
+							<th class="text-center" width="15%">RTDM Variable</th>
+							<!--th class="text-center" width="10%">Style</th-->
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddCustomField({});">Add Field</button> </th>
+						</tr>
+					</thead>
+					<tbody id="configuratorCustomFieldTbody">
+						<tr>
+							<td >Customer</td>
+							<td >id</td>
+							<td >Customer ID</td>
+							<td >customerId</td>
+							<td ></td>
+							<td class="text-center">default attribute</td>
+						</tr>
+
+						<tr>
+							<td >Customer</td>
+							<td >label</td>
+							<td >Customer Name</td>
+							<td >customerNm</td>
+							<td ></td>
+							<td class="text-center">default attribute</td>
+						</tr>
+
+						<tr>
+							<td >Location</td>
+							<td >id</td>
+							<td >Location ID</td>
+							<td >locationId</td>
+							<td ></td>
+							<td class="text-center">default attribute</td>
+						</tr>
+
+						<tr>
+							<td >Location</td>
+							<td >label</td>
+							<td >Location Name</td>
+							<td >locationNm</td>
+							<td ></td>
+							<td class="text-center">default attribute</td>
+						</tr>
+
+						<tr>
+							<td >Event</td>
+							<td >eventDttm</td>
+							<td >Event Timestamp</td>
+							<td >eventDttm</td>
+							<td ></td>
+							<td class="text-center">default attribute</td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="col-sm-12">
+				<hr/>
+			</div>
+			
+			<div class="col-sm-12">
+				<h4>Customer Interest</h4>
+				<form class="form-horizontal" role="form">
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="locationApp_rtdmEvent" class="col-sm-6 control-label">Calculation Method</label>
+							<div class="col-sm-6">
+								<select class="form-control" id="locationApp_interestCalculation"> 
+									<option value="mean_value">Mean</option>
+									<option value="sum_value">Sum</option>
+									<option value="count_value">Count</option>
+									<option value="min_value">Min</option>
+									<option value="max_value">Max</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="col-sm-12">
+				<hr/>
+			</div>
+
+			<div class="col-sm-12">
+				<h4>Event Stream Viewer</h4>
+				<div class="form-group">
+					<label for="general_streamViewerUrl" class="col-sm-2 control-label">Streamviewer URL</label>
+					<textarea class="form-control col-sm-10" id="general_streamViewerUrl" placeholder="Enter URL template for Streamviewer and substitute RACE Image Adress with %ESPHost%" required ></textarea>
+				</div>
+			</div>
+
+
+		</div>
+	</div>            
+</div><!-- End Tab: Environment -->

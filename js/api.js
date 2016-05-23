@@ -31,8 +31,15 @@ function saveConfiguration(config) {
 
 
 function callApi(parameters) {
-	var baseUrl = window.location.protocol + "//" + window.location.host + "/IOTSimulator/api/";
-	return $.ajax(baseUrl, {
+	var apiUrl = window.location.protocol + "//" + window.location.host + "/IOTSimulator/api/";
+	return $.ajax(apiUrl, {
+		type: 'POST',
+		data: parameters
+	} );
+}
+
+function callRemoteApi(apiUrl, parameters) {
+	return $.ajax(apiUrl, {
 		type: 'POST',
 		data: parameters
 	} );

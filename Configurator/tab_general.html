@@ -1,25 +1,6 @@
 <!-- Start Tab: Global -->
 <div role="tabpanel" class="tab-pane active" id="tab_general">
     <div class="container">
-        <div class="area-demolinks">
-            
-            <div class="row">
-                <div class="col-lg-7 col-lg-offset-1">
-                    <h5>Demo Links</h5>
-                    <span>Location Simuator: <a target="_blank" class="link2locationapp"></a></span>
-                    <br />
-                    <span>Transaction Simulator: <a target="_blank" class="link2mobileapp"></a></span>
-                    <br />
-                    <span>Stream Viewer: <a target="_blank" class="link2streamviewer"></a></span>
-
-                </div>
-                <div class="col-lg-4">
-                    <h5>Mobile App</h5>
-                    <div class="qr2mobileapp" ></div>
-                </div>
-            </div>
-        </div>
-<hr />
         <div class="row">
             <h4>General Information</h4>
             <form class="form-horizontal" role="form">
@@ -47,84 +28,30 @@
                 </div>
             </form>
         </div>
-<hr>
-        <div class="row">
-            <h4>Real-Time Decision Manger</h4>
-            <form class="form-horizontal" role="form">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="general_rtdmHost" class="col-sm-4 control-label">Host Adress</label>
-                        <div class="col-sm-8">
-                            <div class="input-group">  
-                                <input type="text" class="form-control" id="general_rtdmHost" placeholder="racesxXXXXX.demo.sas.com" required="">
-                                <div class="input-group-addon" style="padding: 5px;">
-                                    <button type="button" class="btn btn-xs btn-info" onclick="onValidateRTDMConnection(this);">
-                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="locationApp_rtdmEvent" class="col-sm-4 control-label">Event Customer Profile</label>
-                        <div class="col-sm-8">
-                            <div class="input-group">    
-                                <select class="form-control selection-rtdm-events" id="locationApp_rtdmEvent">
-                                </select>
-                                <div class="input-group-addon" style="padding: 5px;">
-                                    <button type="button" class="btn btn-xs btn-info" onclick="onUpdateRTDMEventSelections();">
-                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                -->
-            </form>
-        </div>
 
-        <div class="row">
-            <h4>Event Stream Processing</h4>
-            <form class="form-horizontal" role="form">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="general_espHost" class="col-sm-2 control-label">Host Adress</label>
-                    <div class="col-sm-4">
-                        <div class="input-group">  
-                            <input type="text" class="form-control" id="general_espHost" placeholder="racesxXXXXX.demo.sas.com">
-                            <div class="input-group-addon" style="padding: 5px;">
-                                <button type="button" class="btn btn-xs btn-info" onclick="onValidateESPConnection(this);">
-                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <label for="general_espPorts" class="col-sm-2 control-label">Ports <br/> (HTTP PubSub / Admin)</label>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" id="general_espPubSubPort" value="8081" placeholder="default: 8081">
-                    </div>
-                    <div class="col-sm-2">
-                        <input type="number" class="form-control" id="general_espAdminPort" value="44445" placeholder="default: 44445"> 
-                    </div>
-                </div>
+        <div class="row" style="word-wrap: break-word;">
+            <h4>Demo Links</h4>
+            <div class="col-lg-3">
+                <h5>Location Map</h5>
+                <a target="_blank" class="link2locationapp" ></a>
             </div>
 
-        </form>
-    </div>
+            <div class="col-lg-3">
+                <h5>Stream Viewer</h5>
+                <a target="_blank" class="link2streamviewer" ></a>
+            </div>
 
-            <div class="row">
-            <h4>Event Stream Viewer</h4>
-                <div class="form-group">
-                    <label for="demoDescription" class="col-sm-2 control-label">Streamviewer URL</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" id="general_streamViewerUrl" placeholder="Enter URL template for Streamviewer and substitute RACE Image Adress with %ESPHost%" required ></textarea>
-                    </div>
-                </div>
+            <div class="col-lg-3">
+                <h5>Mobile App</h5>
+                <a target="_blank" class="link2mobileapp" ></a>
+            </div>
+
+            <div class="col-lg-3">
+                <h5>Mobile App (QR Scan)</h5>
+                <div class="qr2mobileapp" ></div>
+            </div>
         </div>
-</div><!-- End of Container -->
+
+        
+    </div><!-- End of Container -->
 </div><!-- End Tab: Global -->

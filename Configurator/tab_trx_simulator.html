@@ -2,29 +2,12 @@
 <div role="tabpanel" class="tab-pane" id="tab_transaction_simulator">
 	<div class="container">
 		<div class="row">
-			<h4>Transaction Simulator</h4>
 			<div class="col-sm-12">
-					<form role="form" class="form-horizontal">
-						<div class="form-group">
-							<label for="locationApp_rtdmEvent" class="col-sm-7 control-label">ESP Window</label>
-		                    <div class="col-sm-5">
-		                        <div class="input-group">    
-			                        <select class="form-control selection-esp-windows" id="mobileApp_espWindow">
-			                        </select>
-			                        <div class="input-group-addon" style="padding: 5px;">
-			                                <button type="button" class="btn btn-xs btn-info" onclick="onUpdateESPWindowSelections(this);">
-			                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-			                    			</button>
-			                        </div>
-			                    </div>
-		                	</div>
-		                </div>
-	            	</form>
-            </div>
+			<h4>Mobile App to simulate transactions</h4>
+			<p>Explain how to configure</p>
+			</div>
 
-            <div class="col-sm-12">
-        		<hr />
-        	</div>
+
 
 			<div class="col-sm-6">
 				<h5>Event Types</h5>
@@ -54,7 +37,16 @@
 							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileParameter({});">Add Parameter</button> </th>
 						</tr>
 					</thead>
-					<tbody id="configuratorMobileParametersTbody"></tbody>
+					<tbody id="configuratorMobileParametersTbody">
+						<tr>
+							<td >customerId</td>
+							<td >Customer ID</td>
+							<td >Number</td>
+							<td ></td>
+							<td class="text-center">default parameter</td>
+						</tr>
+
+					</tbody>
 				</table>
 				</div>
 			</div>

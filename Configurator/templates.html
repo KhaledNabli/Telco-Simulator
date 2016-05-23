@@ -1,11 +1,11 @@
     <script id="configCustomerTab" type="text/x-handlebars-template">
-    <h4>Customers</h4>                        
+    <h4>Customer Profiles</h4>                        
     <form role="form" class="form form-horizontal">
     <table class="table table-hover">
         <thead>
             <tr >
-            <th class="text-center" width="10%">Image</th>
-            <th class="text-center" width="70%">Customer Attributes</th>
+            <th class="text-center" width="10%"></th>
+            <th class="text-center" width="70%"></th>
 
             <th class="text-center" width="10%"><button type="button" class="btn btn-primary" onclick="return configAddCustomer({});">Add Customer</button> </th>
             </tr>
@@ -151,7 +151,7 @@
     </script>
 
     <script id="configMobileParameterRow" type="text/x-handlebars-template">
-        <tr>
+        <tr class="editable">
             <td >
                 <select name="key" class="form-control input-md selection-esp-transaction-input">
                     {{#each parameterInput}}
@@ -173,7 +173,7 @@
     </script>
 
     <script id="configCustomFieldRow" type="text/x-handlebars-template">
-        <tr>
+        <tr class="editable">
             <td >
                 <select name="entity" class="form-control input-md">
                 {{#each entityTypes}}
@@ -197,7 +197,7 @@
                 {{/each}}
                 </select>
             </td>
-            <td ><input name="style" type="text" value="{{style}}" class="form-control input-md" /></td>
+            <!--td ><input name="style" type="text" value="{{style}}" class="form-control input-md" /></td-->
             <td class="text-center"><button type="button" class="btn btn-sm btn-primary" onclick="configRemoveCustomField(this);">Delete</button> </td>
         </tr>
     </script>

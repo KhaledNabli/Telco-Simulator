@@ -297,6 +297,7 @@ function onClickPreviewImage(event) {
 
 function onLoadExistingDemoBtn() {
     var existingDemosList = [];
+    
     return getExistingDemos().done(function (existingDemos) {
         existingDemosList = existingDemos.map(function (item) {
             var id = item.token;
@@ -407,9 +408,6 @@ function configAddCustomer(customerObj) {
     // populate customerAttributes array with customeFields
     for (var customField of configScenario.customFields) {
 
-
-
-
         // this fields are included in the template - ignore if present
         if(["id", "label", "color", "img", "mobilenr"].includes(customField.key)) {
             continue;
@@ -421,17 +419,35 @@ function configAddCustomer(customerObj) {
     }
 
     // render template and append to table
-    $("#configuratorCustomerTbody").append(htmlTemplates.configCustomerRow(newCustomerEntry));
+    if(newEntry) {
+        $("#configuratorCustomerTbody").prepend(htmlTemplates.configCustomerRow(newCustomerEntry));
+    } else {
+        $("#configuratorCustomerTbody").append(htmlTemplates.configCustomerRow(newCustomerEntry));
+    }
+
     Holder.run();
     return newCustomerEntry;
 }
 
 function configGetNextCustomerId() {
-    return $("#configuratorCustomerTbody tr").map(function() {
-        return parseInt($(this).find("input[name='id']").val());
-    }).toArray().reduce(function(previousValue, currentValue, index, array) {
-        return Math.max(currentValue, previousValue);
-    }) + 1;
+
+    var customerIds =   $("#configuratorCustomerTbody tr").map(function() {
+                            return parseInt($(this).find("input[name='id']").val());
+                        }).toArray();
+
+    console.log(customerIds.length);
+
+    if(customerIds.length == 0) {
+        // if list ist empty, then start with id = 1
+        return 1;
+    }
+        
+    else {
+        // get the highest id and increment
+        return  customerIds.reduce(function(previousValue, currentValue, index, array) {
+                    return Math.max(currentValue, previousValue);
+                }) + 1;
+    }
 }
 
 function configGetCustomersFromUi() {
@@ -580,7 +596,7 @@ function configRemoveMobileTransaction(elem) {
 
 
 function configBuildMobileParameterTable() {
-    $("#configuratorMobileParametersTbody > tr").remove();
+    $("#configuratorMobileParametersTbody > tr.editable").remove();
 
     configScenario.mobileApp.eventParameters.map(function (parameter) {
         configAddMobileParameter({key: parameter.key, label: parameter.label, type: parameter.dataType, defaultValue: parameter.defaultValue});
@@ -612,7 +628,7 @@ function configAddMobileParameter(parameter) {
 
 function configGetMobileParametersFromUI() {
     var mobileParameters = Array();
-    $("#configuratorMobileParametersTbody > tr").each(function () {
+    $("#configuratorMobileParametersTbody > tr.editable").each(function () {
         var parameterObj = {};
         parameterObj.key = $(this).find("select[name='key']").val();
         parameterObj.label = $(this).find("input[name='label']").val();
@@ -673,7 +689,7 @@ function configRemoveMobileGenerator(elem) {
 
 
 function configBuildCustomFieldTable() {
-    $("#configuratorCustomFieldTbody > tr").remove();
+    $("#configuratorCustomFieldTbody > tr.editable").remove();
 
     configScenario.customFields.map(function (customField) {
         configAddCustomField(customField);        
@@ -717,7 +733,7 @@ function configAddCustomField(customField) {
 function configGetCustomFieldsFromUI() {
     var customFields = Array();
 
-    $("#configuratorCustomFieldTbody > tr").each(function () {
+    $("#configuratorCustomFieldTbody > tr.editable").each(function () {
         var customFieldObj = {};
         customFieldObj.entity = $(this).find("select[name='entity']").val();
         customFieldObj.key = $(this).find("input[name='key']").val();

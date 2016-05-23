@@ -3,7 +3,6 @@ session_set_cookie_params(3600*24*30);
 session_start();
 
 
-
 @$http_proxy = "srv01gr.unx.sas.com:80";
 @$demoConfigFile = "config.json";
 @$demoConfig = array();
@@ -29,10 +28,6 @@ if ($mysql_link->connect_errno) {
 }
 
 $mysql_link->query("set names 'utf8';");
-
-
-
-
 
 return processRequest();
 exit;
@@ -213,7 +208,8 @@ function saveConfig($config) {
 
 		$createConfigSql = "INSERT INTO `iot_demo`.`demo_config` (`id`, `token`, `config_name`, `config_desc`, `config_json`, `create_dttm`, `modify_dttm`, `modify_by`, `email_to`) VALUES (NULL, '".$token."', '".$configName."', '".$configDesc."', '".$configString."', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '".$userIP."', '".$userEmail."');";
 		$createConfigResult = $mysql_link->query($createConfigSql);
-		$config->message = "Configuration saved successfully - with new Token: " . $token;;
+		$config->message = "Configuration saved successfully - with new Token: " . $token;
+		$config->readOnly = 0;
 	}
 
 
@@ -238,8 +234,6 @@ function copyConfig($token) {
 
 		$createConfigSql = "INSERT INTO `iot_demo`.`demo_config` (`id`, `token`, `config_name`, `config_desc`, `config_json`, `create_dttm`, `modify_dttm`, `modify_by`, `email_to`) VALUES (NULL, '".$newToken."', '".$configName."', '".$configDesc."', '".$configString."', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '".$userIP."', '".$userEmail."');";
 		$createConfigResult = $mysql_link->query($createConfigSql);
-
-
 	}
 
 	return $newToken;
