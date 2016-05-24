@@ -65,11 +65,54 @@
 							<th class="text-center" width="25%" colspan="2">Value range <br />(will be published into ESP Variable <i>value</i>)</th>
 
 							<th class="text-center" width="25%" colspan="2">Event occurance interval (in millisec)<br />(will be published into ESP Variable <i>eventDttm</i>)</th>
-							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileGenerator({});">Add Generator</button> </th>
+							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileGenerator({valueFrom:0, valueTo:0, intervalFrom:200, intervalTo:1000});">Add Generator</button> </th>
 						</tr>
 					</thead>
 					<tbody id="configuratorMobileGeneratorsTbody"></tbody>
 				</table>
+			</div>
+
+			<div class="col-sm-12">
+        		<hr />
+        	</div>
+
+        	<div class="col-sm-12">
+				<h5>Color Picker</h5>
+				<div class="form-group">
+			        <label for="mobileColorNavbarBack" class="col-sm-2 control-label">Navbar Background</label>
+			        <div class="col-sm-4">
+			            <div id="mobileColorNavbarBack" class="input-group colorPickerInput">
+			                <input type="text" value="" class="form-control" id="mobileApp_colorNavbarBack"/>
+			                <span class="input-group-addon"><i></i></span>
+			            </div>
+			        </div>
+
+			        <label for="mobileColorButtonBack" class="col-sm-2 control-label">Button Background</label>
+			        <div class="col-sm-4">
+			            <div id="mobileColorButtonBack" class="input-group colorPickerInput">
+			                <input type="text" value="" class="form-control" id="mobileApp_colorButtonBack"/>
+			                <span class="input-group-addon"><i></i></span>
+			            </div>
+			        </div>
+			    </div>
+
+			    <div class="form-group">
+			        <label for="mobileColorPageBack" class="col-sm-2 control-label">Page Background</label>
+			        <div class="col-sm-4">
+			            <div id="mobileColorPageBack" class="input-group colorPickerInput">
+			                <input type="text" value="" class="form-control" id="mobileApp_colorPageBack"/>
+			                <span class="input-group-addon"><i></i></span>
+			            </div>
+			        </div>
+
+			        <label for="mobileColorPageText" class="col-sm-2 control-label">Page Text</label>
+			        <div class="col-sm-4">
+			            <div id="mobileColorPageText" class="input-group colorPickerInput">
+			                <input type="text" value="" class="form-control" id="mobileApp_colorPageText"/>
+			                <span class="input-group-addon"><i></i></span>
+			            </div>
+			        </div>
+			    </div>
 			</div>
 		</div>
 

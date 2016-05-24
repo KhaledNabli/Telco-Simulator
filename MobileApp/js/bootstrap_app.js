@@ -14,7 +14,8 @@ function onMobileAppReady() {
 }
 
 function startMobileApp() {
-    var token = window.location.href.split("#")[1];
+	var token = location.href.split("#")[1] ? decodeURIComponent(location.href.split("#")[1]) : "";
+    //var token = window.location.href.split("#")[1];
     loadConfiguration(token);
 }
 
@@ -32,24 +33,33 @@ function onLoadConfigurationDone(config) {
     updateMobileAppUI();
 }
 
+function checkVersion(config) {
+	if (config.version < 102) {
+		//2C3E50 rot:D62C1A blau:217DBB grün:166104 telekom-pink:D90A7D
+		config.mobileApp.colorNavbarBack = '#2C3E50'; 
+		config.mobileApp.colorNavbarText = '#eeeeee';
+		config.mobileApp.colorPageBack = '#eeeeee';
+		config.mobileApp.colorPageText = '#2C3E50';
+		config.mobileApp.colorButtonBack = '#2C3E50';	
+		config.mobileApp.colorButtonText = '#eeeeee';
+		config.mobileApp.colorNavItemInactive = 'rgba(0, 0, 0, 0.4)';
+		config.mobileApp.colorNavItemActive = '#eeeeee';
+	}	
+}
+
 
 function updateMobileAppUI() {
+	checkVersion(configScenario);
 
 	$('.pageBackgroundImage').css("background-image","url('"+configScenario.mobileApp.homescreen_image+"')");
-	
+	addDisplayAttributeToEventParameters(configScenario.mobileApp.eventParameters);
+
 	$("#divInputFields").append(htmlTemplates.inputFields({field: configScenario.mobileApp.eventParameters}));
 	$("#divEventButtons").append(htmlTemplates.eventButtons({button: configScenario.mobileApp.eventTypes}));
 	$("#divToggleButtons").append(htmlTemplates.toggleButtons({toggle: configScenario.mobileApp.eventGenerators}));
 	$("#divCustDropdown").append(htmlTemplates.custDropdown({customer: configScenario.customerList}));
 	$("#divEventDropdown").append(htmlTemplates.eventDropdown({eventType: configScenario.mobileApp.eventTypes}));
-	// set theme color
-	setThemeColor(configScenario.mobileApp.colorThemePage,   "page");
-	setThemeColor(configScenario.mobileApp.colorThemeBar,    "bar");
-	setThemeColor(configScenario.mobileApp.colorThemeBarText,"bar-text");
-	setThemeColor(configScenario.mobileApp.colorThemeButton, "button");
-	setThemeColor(configScenario.mobileApp.colorThemeText,   "text-theme");
-	setThemeColor(configScenario.mobileApp.colorThemeBorder, "border-theme");
-
+	
 	configScenario.mobileApp.navHistory = Array();
 	configScenario.mobileApp.navHistory.push("Home");
 	configScenario.currentPageName = "Home";
@@ -60,15 +70,37 @@ function updateMobileAppUI() {
 	  onToggleClick(this, state)
 	});
 
-	$('#navHome').addClass('navItemActive');
+	setThemeColor('navbar-back', configScenario.mobileApp.colorNavbarBack);
+	setThemeColor('navbar-text', configScenario.mobileApp.colorNavbarText);
+	setThemeColor('page-back', configScenario.mobileApp.colorPageBack);
+	setThemeColor('page-text', configScenario.mobileApp.colorPageText);
+	setThemeColor('button-back', configScenario.mobileApp.colorButtonBack);	
+	setThemeColor('button-text', configScenario.mobileApp.colorButtonText);
+	setThemeColor('navbar-text-inactive', configScenario.mobileApp.colorNavItemInactive);
+	setThemeColor('navbar-text-active', configScenario.mobileApp.colorNavItemActive);
+	
 }
+
+
+function addDisplayAttributeToEventParameters(eventParameters) {
+	//create two more attributes for default values
+	//if there is a comma separated list, then add attribute displayAsDropDown
+	//and add an array with default values
+	eventParameters.map(function (element) {
+		var defaultValueList = element.defaultValue.split(",");
+		if (defaultValueList.length > 1) {
+			element.defaultValueList = defaultValueList;
+		} 
+	});
+}
+
 
 function getCurrentTimestamp() {
 	var currentDate = new Date();
 	return $.format.date(currentDate, "yyyy-MM-dd HH:mm:ss:SSS");
 }
 
-function processEvent(eventType, value) {
+function processSingleEvent(eventType) {
 
 	var espUrl = "http://" + configScenario.general.espHost + ":" + configScenario.general.espPubSubPort 
 			 + "/inject/" + configScenario.mobileApp.espWindow + "?blocksize=1";
@@ -88,32 +120,101 @@ function processEvent(eventType, value) {
 		}
 	});
 
-	if(value != undefined) {
-		eventObject.value = value;
-	} else {
-		console.log(" send single event " + eventType);
-	}
+	console.log(" send single event " + eventType);
 
-	sendEventToESP(espUrl, eventObject);
+	//sendEventToESP(espUrl, eventObject);
+	$('#divWarningMessage').hide();
+	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
+		function(result) {
+			if (result.search("injected") > 0) {
+				//console.log("Success");
+			} else {
+				console.log("Failed");
+				$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+				$('#divWarningMessage').show();
+			}
+		});
 }
 
 
-function eventGenerator(eventObject) { 
-	if(eventObject.run == true) { 
-		var newInterval = Math.random() * (eventObject.intervalTo - eventObject.intervalFrom) + eventObject.intervalFrom;
-		var newData = parseInt(Math.random() * (eventObject.valueTo - eventObject.valueFrom) + eventObject.valueFrom);
-		processEvent(eventObject.event, newData); 
+function processGeneratedEvent(eventGeneratorObject, generatedValue, toggleElement) {
+
+	var espUrl = "http://" + configScenario.general.espHost + ":" + configScenario.general.espPubSubPort 
+			 + "/inject/" + configScenario.mobileApp.espWindow + "?blocksize=1";
+
+	var espEventDttm = getCurrentTimestamp();
+	
+	var eventObject = {};
+	eventObject.eventType = eventGeneratorObject.event;
+	eventObject.eventDttm = espEventDttm;
+	eventObject.customerId = $('#customerId').val();
+
+	configScenario.mobileApp.eventParameters.map(function (element) {
+		if (element.dataType == "number") {
+			eventObject[element.key] = parseInt($('#input_' + element.key).val());
+		} else {
+			eventObject[element.key] = $('#input_' + element.key).val();
+		}
+	});
+
+	// configScenario.mobileApp.eventTypeKey = "eventType"
+	// configScenario.mobileApp.eventDttmKey = "eventDttm"
+	// configScenario.mobileApp.generatedValuesKey = "value" oder "amount"
+	// eventObject[configScenario.mobileApp.generatedValuesKey] = generatedValue;
+	eventObject.value = generatedValue;
+
+	console.log("  send generated event " + eventGeneratorObject.event);
+
+	//sendEventToESP(espUrl, eventObject);
+	$('#divWarningMessage').hide();
+	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
+		function(result) {
+			if (result.search("injected") > 0) {
+				//console.log("Success" + eventGeneratorObject.run);
+			} else {
+				eventGeneratorObject.run = false;
+				$(toggleElement).bootstrapSwitch("state", false);
+				$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+				$('#divWarningMessage').show();
+				console.log("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+			}
+		});
+}
+
+
+function eventGenerator(eventGeneratorObject, toggleElement) {
+
+	if(eventGeneratorObject.run == true) { 
+
+		// generate a new interval value with random function
+		if(parseInt(eventGeneratorObject.intervalFrom) < 250) {
+			console.log("intervalFrom was " + eventGeneratorObject.intervalFrom);
+			eventGeneratorObject.intervalFrom = 250;
+			console.log("intervalFrom is changed to " + eventGeneratorObject.intervalFrom);
+		}
+		var newInterval = Math.random() * 
+				(parseInt(eventGeneratorObject.intervalTo) - parseInt(eventGeneratorObject.intervalFrom)) 
+				+ parseInt(eventGeneratorObject.intervalFrom);
+		
+		// generate a new data value with random function
+		var valueRange = (parseInt(eventGeneratorObject.valueTo) - parseInt(eventGeneratorObject.valueFrom));
+		var valueFrom = parseInt(eventGeneratorObject.valueFrom); 
+		var valueFactor = Math.random();
+		var newData = parseInt((valueFactor * valueRange) + valueFrom);
+
+		console.log("  value: " + newData);
+
+		processGeneratedEvent(eventGeneratorObject, newData, toggleElement); 
 		
 		setTimeout(function() {
-			eventGenerator(eventObject)
+			eventGenerator(eventGeneratorObject)
 		}, newInterval); 
-
-		console.log("  " + eventObject.event + " value: " + newData); 
+		 
 	} 
 }
 
-function onToggleClick(element, state) {
-	var eventName = $(element).attr("name");
+function onToggleClick(toggleElement, state) {
+	var eventName = $(toggleElement).attr("name");
 	
 	if(eventName != "generator") {	
 		var indexOfObject = findIndexByKey(configScenario.mobileApp.eventGenerators,"event",eventName);
@@ -138,116 +239,76 @@ function onToggleClick(element, state) {
 	} else {
 		eventGeneratorObject.run = true;
 		console.log("START SENDING " + eventName);
-		eventGenerator(eventGeneratorObject);
+		eventGenerator(eventGeneratorObject, toggleElement);
 	}
 }
 
-function setThemeColor(color, element) {
-	/* style sheet string with placeholder for color */
-	var styleString = "";
+function setThemeColor(element, color) {
 
-	if (element == "page") {
-		
-		$('.backgroundTransparent').css('background-color', color);
-		//$('.page-layer').css('background-color', color);
-		//styleString = ".page-layer { background-color: {{color}}; }";
-	} else if (element == "bar") {
-		$('.bar').css('background-color', color);
-		$('.topbar').css('background-color', color);
-	} else if (element == "button") {
-		$('.btn-positive').css('background-color', color);
-	} else if (element == "bar-text") {
-		$('.bar-text-theme').css('color', color);
-		styleString = ".bar-tab .tab-item.active {"
-    				+ "  color: {{color}}; }";
-	} else if (element == "text-theme") {
-		$('.text-theme').css('color', color);
-		styleString = ".text-theme, .navigate-right:after, .push-right:after {"
-    				+ "  color: {{color}}; }";
-	} else if (element == "border-theme") {
-		$('.badge-theme').css('background-color', color);
-		$('.border-theme').css('border-bottom-color', color);
-		$('.border-theme').css('border-top-color', color);
-		styleString = ".border-theme { border-bottom-color: {{color}}; border-top-color: {{color}}; }"
-                    + ".nav-theme { color: {{color}}; }"
-                    + ".bar-tab .tab-item { color: {{color}}; }"
-                    + ".badge-theme{ background-color: {{color}};}";
-	}
-
-    var node = document.createElement('style');
-    /* replace color placeholder and add style sheet string */
-    node.innerHTML = styleString.replace(new RegExp("{{color}}",'g'), color);
-    document.body.appendChild(node);
-}
-
-function onNavClick(element) {
-	var page = $(element).attr('name');
-	var id = $(element).attr('id');
-	if (page != configScenario.currentPageName) {
-		$('#page'+page).removeClass('hidePage');
-		$('#page'+configScenario.currentPageName).addClass('hidePage');		
-		$(element).addClass('navItemActive');
-		$('#nav'+configScenario.currentPageName).removeClass('navItemActive');
-		configScenario.currentPageName = page;
+	if (element == "page-back") {		
+		$('.page').css('background-color', color);
+	} else if (element == "page-text") {
+		$('body').css('color', color);
+	} else if (element == "navbar-back") {
+		$('.navbar-default').css('background-color', color);
+	} else if (element == "navbar-text") {
+		$('.navbar-brand').css('color', color);
+		$('.navbar-brand:focus').css('color', color);
+	} else if (element == "button-back") {
+		$('.btn').css('background-color', color);
+		$('.btn').css('border-width', 0);
+		$('.bootstrap-switch-handle-on.bootstrap-switch-primary').css('background-color',color);
+	} else if (element == "button-text") {
+		$('.btn').css('color', color);
+		$('.bootstrap-switch-handle-on.bootstrap-switch-primary').css('color',color);
+	} else if (element == "navbar-text-inactive") {
+		$('.navItemInActive').css('color', color);
+	} else if (element == "navbar-text-active") {
+		$('.navItemActive').css('color', color);
 	}
 }
 
-function onNavItemClick(navToPageName, animation) {
+function onNavItemClick(navToPageName) {
+	var idNavItemFrom = '#nav' + configScenario.currentPageName;
+	var idNavItemTo = '#nav' + navToPageName;
+	if (navToPageName != configScenario.currentPageName) {
+		$('#page'+navToPageName).removeClass('hidePage');
+		$('#page'+navToPageName).addClass('animateShowUpCenter');
+		$('#page'+configScenario.currentPageName).addClass('hidePage');	
 
-	var idPrevPage = "page" + configScenario.currentPageName;
-	var idNextPage = "page" + navToPageName;
-	var navIconPosition = "";
+		$(idNavItemTo).addClass('navItemActive');
+		$(idNavItemTo).removeClass('navItemInActive');
 
-	// if you click on same nav icon again - do nothing
-	if (idPrevPage == idNextPage) {
-		return;
+		$(idNavItemFrom).removeClass('navItemActive');
+		$(idNavItemFrom).addClass('navItemInActive');
+
+		configScenario.currentPageName = navToPageName;
 	}
-
-	//fill navigation History Array
-	configScenario.mobileApp.navHistory.push(navToPageName);
-	console.log(configScenario.mobileApp.navHistory);
-
-	if (animation == "SwipeLeft" || animation == "SwipeRight") {
-	} else {
-		if (navToPageName == "Home" ) {
-			animation = "ShowUpLeft";
-		} else if (navToPageName == "Generator") {
-			animation = "ShowUpRight";
-		} else {
-			animation = "ShowUpCenter";
-		}
-	}  	
-	appear(idNextPage, idPrevPage, animation);	
-	
-	$("#nav"  + configScenario.currentPageName).removeClass("active");
-	$("#nav" + navToPageName).addClass("active");
-	
-	// set global page variable to new page name
-	configScenario.currentPageName = navToPageName;
-
-	console.log("navToPageName: " + navToPageName);
-
+	/*setThemeColor('navbar-text-inactive', 'rgba(0, 0, 0, 0.4)');
+	setThemeColor('navbar-text-active', '#eeeeee');
+	*/
+	setThemeColor('navbar-text-inactive', configScenario.mobileApp.colorNavItemInactive);
+	setThemeColor('navbar-text-active', configScenario.mobileApp.colorNavItemActive);
 }
 
-function appear(page, prevpage, animation) {
-	var animationClass = "animate" + animation;
-	var page = "#" + page;
-	var prevpage = "#" + prevpage;
-	
-	$(page).removeClass("hidePage");
-	$(page).addClass(animationClass);
-	
-	$(page).on("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", function(e){
-		console.log("hide page: " + prevpage);
-		$(prevpage).addClass("hidePage");
-		removeAnimations();
-  	});
+function openPane(element) {
+	var pane = $(element).attr("name");
+	var paneId = "#page" + pane;
+	$(paneId).removeClass('hidePage');
+	$(paneId).removeClass(pane + 'Close');
+	$(paneId).addClass(pane + 'Open');
 }
+
+function closePane(element) {
+	var pane = $(element).attr("name");
+	var paneId = "#page" + pane;
+	$(paneId).removeClass(pane + 'Open');
+	$(paneId).addClass(pane + 'Close');
+}
+
 
 function removeAnimations() {
-	$('.page').removeClass("animateShowUpLeft");
 	$('.page').removeClass("animateShowUpCenter");
-	$('.page').removeClass("animateShowUpRight");
 	$('.page').removeClass("animateSwipeLeft");
 	$('.page').removeClass("animateSwipeRight");
 }

@@ -78,8 +78,10 @@ function updateTokenDemoLinks() {
         $('a.link2locationapp').html(baseUrl + 'simulator.html/#' + encodedToken);
         $('a.link2locationapp').attr('href', baseUrl + 'simulator.html#' + encodedToken);
 
-        $('a.link2streamviewer').html(baseUrl + 'Streamviewer/#' + encodedToken);
-        $('a.link2streamviewer').attr('href', baseUrl + 'Streamviewer/#' + encodedToken);
+        //$('a.link2streamviewer').html(baseUrl + 'Streamviewer/#' + encodedToken);
+        //$('a.link2streamviewer').attr('href', baseUrl + 'Streamviewer/#' + encodedToken);
+        $('a.link2streamviewer').html(baseUrl + 'Streamviewer');
+        $('a.link2streamviewer').attr('href', configScenario.general.streamViewerUrl);      
 
         $('div.qr2mobileapp > canvas').remove();
         $('div.qr2mobileapp').qrcode({text: baseUrl + 'MobileApp/#' + encodedToken, size: 150})
@@ -124,6 +126,11 @@ function readConfigurationFromUI() {
     configScenario.mobileApp.eventTypes = configGetMobileTransactionsFromUI();
     configScenario.mobileApp.eventGenerators = configGetMobileGeneratorsFromUI();
     configScenario.customFields = configGetCustomFieldsFromUI();
+
+    /*** update the stream viewer url with espHost name ***/
+    var serverNameToReplace = configScenario.general.streamViewerUrl.match(RegExp("\\?server=http://(.*):" + configScenario.general.espPubSubPort))[1];
+    console.log("replace existing server name: " + serverNameToReplace);
+    configScenario.general.streamViewerUrl = configScenario.general.streamViewerUrl.replace(serverNameToReplace,configScenario.general.espHost);
 }
 
 function onCopyConfiguration() {
@@ -792,6 +799,13 @@ function initConfiguratorSelections() {
     var locationAppRtdmEvent = configScenario.locationApp.rtdmEvent;
     selectionElements.push({id: "locationApp_rtdmEvent", label: locationAppRtdmEvent, value: locationAppRtdmEvent});
 
+    //added by Mathias Bouten - bootstrap colorPicker
+    $(".colorPickerInput").colorpicker();
+    $("#mobileColorButtonBack").colorpicker('setValue', configScenario.mobileApp.colorButtonBack);
+    $("#mobileColorNavbarBack").colorpicker('setValue', configScenario.mobileApp.colorNavbarBack);
+    $("#mobileColorPageBack").colorpicker('setValue', configScenario.mobileApp.colorPageBack);
+    $("#mobileColorPageText").colorpicker('setValue', configScenario.mobileApp.colorPageText);
+    //end colorPicker
 
     initSelectionListOptions(selectionElements);
 }
@@ -963,4 +977,12 @@ function refreshStreamviewerUrl(oldUrl, currentEspHost, currentEspPort) {
     var newStreamviewerUrl = oldUrl.replace(oldServer, newServer);
 
     return newStreamviewerUrl;
+}
+
+function minmax(value, min, max) {
+    if(parseInt(value) < min || isNaN(value) || value == "" ) 
+        return min; 
+    else if(parseInt(value) > max) 
+        return max; 
+    else return value;
 }

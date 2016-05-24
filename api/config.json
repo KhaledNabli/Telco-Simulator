@@ -1,13 +1,13 @@
 {
 	"token":"",
-	"version":101,
+	"version":102,
 	"general": {
 		"demoName": "",
 		"demoDescription": "",
 		"expirationDate":"",
-		"rtdmHost": "racesx11058.demo.sas.com",
-		"espHost" : "racesx11058.demo.sas.com",
-		"streamViewerUrl" : "racesx11058.demo.sas.com",
+		"rtdmHost": "racesxXXXXXX.demo.sas.com",
+		"espHost" : "racesxXXXXXX.demo.sas.com",
+		"streamViewerUrl" : "http://gersasci61.ger.sas.com/streamviewer/?server=http://racesxXXXXXX.demo.sas.com:8081",
 		"espPubSubPort": 8081,
 		"espAdminPort": 44445,
 		"userEmail": ""
@@ -38,17 +38,29 @@
 	],
 	"mobileApp": {
 		"espWindow": "TelcoGeoDetection/TelcoGeoQuery/NetworkEvents",
-		"colorTheme":        "#428BCA",
-        "colorThemeBar":     "#034A75",
-        "colorThemeBarText": "#FFFFFF",
-        "colorThemeButton":  "#034A75",
-        "colorThemePage":    "#FFFFFF",
-        "colorThemeText":    "#034A75",
-        "colorThemeBorder":  "#7C7C7C",
+		"colorNavbarBack": "#2C3E50", 
+		"colorNavbarText": "#eeeeee",
+		"colorPageBack": "#eeeeee",
+		"colorPageText": "#2C3E50",
+		"colorButtonBack": "#2C3E50",	
+		"colorButtonText": "#eeeeee",
+		"colorNavItemInactive": "rgba(0, 0, 0, 0.4)",
+		"colorNavItemActive": "#eeeeee",
         "homescreen_image":  "./images/home.jpg",
-		"eventParameters": [{"key": "customerId", "label": "Customer ID", "dataType": "text", "defaultValue": ""},{"key": "eventValue", "label": "Event Value", "dataType": "text", "defaultValue": ""}],
-		"eventTypes": [{"key": "top_up", "label": "Top-Up"}, {"key": "check_balance", "label": "Balance Check"}],
-		"eventGenerators": [{"event": "top_up", "label": "Generate Top Ups", "intervalFrom": 20, "intervalTo": 100, "valueFrom": 10, "valueTo": 50}]
+		"eventParameters": [
+			{"key": "eventValue", "label": "Event Value", "dataType": "text", "defaultValue": ""}
+		],
+		"eventTypes": [
+			{"key": "example_event", "label": "Example Event"}
+		],
+		"eventGenerators": [
+			{"event": "example_event", 
+			"label": "Generate Events", 
+			"intervalFrom": 20, 
+			"intervalTo": 100, 
+			"valueFrom": 10, 
+			"valueTo": 50}
+		]
 	},
 	"customFields": [
 		{
@@ -64,54 +76,6 @@
 			"key": "device",
 			"label": "Device",
 			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgSmsUsg",
-			"label": "Avg SMS Usage",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgTopUp",
-			"label": "Avg Top Up",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgDataUsg",
-			"label": "Data Usage",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "avgNatMin",
-			"label": "Avg National Minutes",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "roamingFlg",
-			"label": "Roaming Flag",
-			"rtdmKey": "",
-			"espKey": "",
-			"style": ""
-		},
-		{
-			"entity": "customer",
-			"key": "lastUpdate",
-			"label": "Last Update",
-			"rtdmKey": "currentTime",
 			"espKey": "",
 			"style": ""
 		}

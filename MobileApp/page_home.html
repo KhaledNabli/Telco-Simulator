@@ -1,17 +1,28 @@
 <!-- Fixed header -->
-<header class="navbar navbar-fixed-top navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Transaction Simulator</a>
-    </div>
-  </div>
+<header class="navbar navbar-fixed-top navbar-default header-bordered">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 navbar-header">
+		<h4 class=" navbar-title">
+			<a class="navbar-left-icon" name="Leftpane" onclick="openPane(this);">
+				<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+			</a>
+			Transaction Simulator 
+			<a class="navbar-right-icon" onclick="onNavItemClick('Generator');">
+				<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> 
+			</a>
+		</h4>
+	</div>
+	
 </header>
 
-<div id="divCustDropdown"></div>
+<div class="pageContent ">
+	<div id="divCustDropdown"></div>
 
-<div id="divInputFields"></div>
-<br>
-<div id="divEventButtons"></div>
-<br>
-<div id="divToggleButtons"></div>
+	<div id="divInputFields"></div>
+	<br>
+	<div id="divEventButtons"></div>
+	<br>
+	<div id="divToggleButtons"></div>
+	<br>
 
+	<div id="divWarningMessage" class="alert alert-warning" role="alert" style="display:none"></div>
+</div>
