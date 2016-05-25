@@ -12,8 +12,30 @@
 
           <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
-              <h4 class="modal-title" id="myModalLabel">IOT Default Demos</h4>
-              <p>You can use one of the standard demo configurations. You can use this demos - but not overwrite them. If you change the configuration a new personalized token will be generated.<br /></p>
+              <h4 class="modal-title" id="myModalLabel">IoT Demos</h4>
+              <p>You can use one of the standard demo configurations. You can use this demos - but not overwrite them. If you change the configuration, a new personalized token will be generated.<br /></p>
+
+              <div class="media">
+                <div class="media-left">
+                  <img class="media-object" alt="Telco" src="images/telco_icon.png">
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><a data-dismiss="modal" onClick="loadConfiguration('telco')">Telco Demo</a></h4>
+                  <p>This demo utilizes the original Telco Throtteling use cases.<br/>
+                    Documentation can be found <a href="http://sww.sas.com/blogs/wp/gpci/iot-for-telco-new-demo-content-2/" target="_blank">here</a></p>
+                </div>
+              </div>
+
+              <div class="media">
+                <div class="media-left">
+                  <img class="media-object" alt="Retail" src="images/retail_icon.png">
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><a data-dismiss="modal" onClick="loadConfiguration('retail')">Retail Demo</a></h4>
+                  <p>This demo utilizes beacon / instore location and personalized POS offers. Contributed by <b>Anita Dengale</b><br/>
+                    Documentation can be found <a href="http://sww.sas.com/blogs/wp/gpci/iot-for-retail-demo-content/" target="_blank">here</a></p>
+                </div>
+              </div>
 
 
               <div class="media">
@@ -21,50 +43,33 @@
                   <img class="media-object" alt="Banking" src="images/banking_icon.png">
                 </div>
                 <div class="media-body">
-                  <h4 class="media-heading"><a data-dismiss="modal" onClick="loadConfiguration('banking')">Banking Demo</a></h4>
-                  <p>This demo utilizes personalized credit limit. Token: banking</p>
+                  <h4 class="media-heading"><a data-dismiss="modal" >Banking Demo [Coming Soon]</a></h4>
+                  <p>This demo utilizes personalized credit limit.</p>
                 </div>
               </div>
 
 
-            <div class="media">
-              <div class="media-left">
-                <img class="media-object" alt="Retail" src="images/retail_icon.png">
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading"><a data-dismiss="modal" onClick="loadConfiguration('retail')">Retail Demo</a></h4>
-                <p>This demo utilizes beacon / instore location and personalized POS offers. Token: retail</p>
-              </div>
-            </div>
 
-            <div class="media">
-              <div class="media-left">
-                <img class="media-object" alt="Telco" src="images/telco_icon.png">
-              </div>
-              <div class="media-body">
-                <h4 class="media-heading"><a data-dismiss="modal" onClick="loadConfiguration('telco')">Telco Demo</a></h4>
-                <p>This demo utilizes the original Telco Throtteling use cases. Token: telco</p>
-              </div>
-            </div>
 
-            <hr />
 
-            <h4 class="modal-title" id="myModalLabel">User Contributed Demos</h4>
-            <p>or you can use one of the user provided demo configurations. Please use this carefully and in coordination with the demo owner.<br /></p>
-            <form class="form-horizontal" role="form">                       
-              <div class="form-group">
-                <div class="col-sm-12">
-                  <select id="selectToken" class="input-large form-control" style="width:100%" ></select>                   
+              <hr />
+
+              <h4 class="modal-title" id="myModalLabel">User Contributed Demos</h4>
+              <p>or you can use one of the user provided demo configurations. Please use this carefully and in coordination with the demo owner.<br /></p>
+              <form class="form-horizontal" role="form">                       
+                <div class="form-group">
+                  <div class="col-sm-12">
+                    <select id="selectToken" class="input-large form-control" style="width:100%" ></select>                   
+                  </div>
                 </div>
-              </div>
-            </form>         
+              </form>         
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="onLoadTokenBtn(this);">Load</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="onLoadTokenBtn(this);">Load</button>
+        </div>
       </div>
     </div>
   </div>
-</div>

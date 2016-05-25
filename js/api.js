@@ -1,6 +1,44 @@
 
 
+function migrateToCurrentConfiguration(config) {
+	var currentVersion = 102;
 
+    if(config.version == 101) {
+        // entferne alles was seit 101 nicht mehr gebraucht wird
+        delete config.mobileApp.colorThemeBar;
+        delete config.mobileApp.colorThemeBarText;
+        delete config.mobileApp.colorThemeButton;
+        delete config.mobileApp.colorThemePage;
+        delete config.mobileApp.colorThemeText;
+        delete config.mobileApp.colorThemeBorder;
+        console.log("INFO: version 101 detected - deleting unessaccery properties.");
+
+        // füge alles hinzu was seit 100 hinzu kommt
+    }
+
+    if(config.version == 102) {
+        // entferne alles was seit 102 nicht mehr gebraucht wird
+
+        // füge alles hinzu was seit 101 hinzu kommt
+    }
+
+    if (config.version < currentVersion) {
+        // füge alles hinzu was seit 102 hinzugekommen ist
+        console.log("INFO: older version detected - adding required properties.");
+        config.mobileApp.colorNavbarBack = '#2C3E50'; 
+        config.mobileApp.colorNavbarText = '#eeeeee';
+        config.mobileApp.colorPageBack = '#eeeeee';
+        config.mobileApp.colorPageText = '#2C3E50';
+        config.mobileApp.colorButtonBack = '#2C3E50';   
+        config.mobileApp.colorButtonText = '#eeeeee';
+        config.mobileApp.colorNavItemInactive = 'rgba(0, 0, 0, 0.4)';
+        config.mobileApp.colorNavItemActive = '#eeeeee';
+
+        config.version = currentVersion;
+    }
+
+    return config;
+}
 
 
 function getExistingDemos(userEmail, maxItems) {

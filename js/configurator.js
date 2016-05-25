@@ -14,14 +14,16 @@ function loadConfiguration(token) {
 }
 
 function onLoadConfigurationDone(config) {
-    if(config.version == undefined) {
-        // offer migration
-    }
+
+    // check the config version and handle changes
+    config = migrateToCurrentConfiguration(config);
 
     console.log("Loading Configuration for Token: " + config.token + " successfull.");
+
     if(config.message) {
         alert(config.message);
     }
+
     configScenario = config;
 
     if(config.readOnly == "1") {
@@ -30,7 +32,6 @@ function onLoadConfigurationDone(config) {
         configScenario.general.userEmail = "";
         console.log("This Demo is marked as read-only.");
     }
-
 
     updateConfiguratorUI();
 }
