@@ -844,7 +844,14 @@ function onUpdateESPWindowSelections(elem) {
     espEngine.portHttpPubSub = $("#general_espPubSubPort").val();
 
     $("select.selection-esp-windows").prop("disabled", true);
-    queryESPModel(espEngine, updateESPWindowSelections);
+    getRaceServerInfo(espEngine.host).success(function (response) { 
+        console.log('onUpdateESPWindowSelections - espVersion:', response.espVersion);
+        queryESPModel(espEngine, response.espVersion, updateESPWindowSelections);
+    }).error(function (response) { 
+        var espVersion = "3.1";
+        console.log('onUpdateESPWindowSelections - espVersion: 3.1 or older');
+        queryESPModel(espEngine, espVersion, updateESPWindowSelections);
+    });
 }
 
 
@@ -951,12 +958,32 @@ function onValidateESPConnection(elem) {
     jqElem.removeClass("btn-success");
     jqElem.removeClass("btn-danger");
 
-    $("select.selection-esp-windows").prop("disabled", true);
-    queryESPModel(espEngine, updateESPWindowSelections).success(function (elem) {
-        jqElem.addClass("btn-success");
-    }).error(function (elem) {
-        jqElem.addClass("btn-danger");
+    /** added by Mathias 4.8.2016 - check ESP Version **/
+    getRaceServerInfo(espEngine.host).success(function (response) { 
+        console.log('onValidateESPConnection - espVersion:', response.espVersion);
+        $('#espVersion').html(response.espVersion);
+        $('#rtdmVersion').html(response.rtdmVersion);
+
+        $("select.selection-esp-windows").prop("disabled", true);
+        queryESPModel(espEngine, response.espVersion, updateESPWindowSelections).success(function (elem) {
+            jqElem.addClass("btn-success");
+        }).error(function (elem) {
+            jqElem.addClass("btn-danger");
+        }); 
+    }).error(function (response) {
+        console.log('onValidateESPConnection - espVersion: 3.1 or older');
+        $('#espVersion').html("3.1");
+        $('#rtdmVersion').html("6.4");
+
+        $("select.selection-esp-windows").prop("disabled", true);
+        queryESPModel(espEngine, espVersion, updateESPWindowSelections).success(function (elem) {
+            jqElem.addClass("btn-success");
+        }).error(function (elem) {
+            jqElem.addClass("btn-danger");
+        }); 
     });
+
+    
 }
 
 function onValidateRTDMConnection(elem) {

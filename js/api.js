@@ -215,14 +215,26 @@ function queryRTDMEvents(rtdmEngine, onDoneHandler) {
 
 
 // TODO: Khaled - shame on you :)
-function queryESPModel(espEngine, onDoneHandler) {
+function queryESPModel(espEngine, espVersion, onDoneHandler) {
 	var espQueryUrl = "http://" + espEngine.host + ":" + espEngine.portHttpAdmin + "/model?schema=true";
+	
+	//** added by Mathias - new ESP 3.2 API **/
+	if (espVersion == "3.2") {
+		espQueryUrl = "http://" + espEngine.host + ":" + espEngine.portHttpAdmin + "/SASESP/projects?schema=true";
+	}
+
 	return jQuery.ajax({
 		method: "GET",
 		url: espQueryUrl
 	}).done(function (response) {
 		var jsonObj = jQuery.xml2json(response);
-		espEngine.projects = jsonObj.projects != undefined ? jsonObj.projects.project : Array();
+
+		//** added by Mathias - new ESP 3.2 API **/
+		if (espVersion == "3.2") {
+			espEngine.projects = jsonObj.project != undefined ? jsonObj.project : Array();
+		} else {
+			espEngine.projects = jsonObj.projects != undefined ? jsonObj.projects.project : Array();
+		}
 		espEngine.windows = Array();
 
 		if(espEngine.projects instanceof Array) {
@@ -273,4 +285,10 @@ function queryESPModel(espEngine, onDoneHandler) {
 	});
 }
 
+function getRaceServerInfo(raceHost) {
+	var raceRequestUrl = "http://" + raceHost + ":8000/race_service.php";
+
+	return callRemoteApi (raceRequestUrl,
+		{action: 'getInfo'});
+}
 
