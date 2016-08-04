@@ -27,10 +27,10 @@ function onLoadConfigurationDone(config) {
     configScenario = config;
 
     if(config.readOnly == "1") {
-        configScenario.general.demoDescription = "Copy of " + config.general.demoName;
+        configScenario.general.demoDescription = "Copy of " + config.general.demoName + " based on Token: " + config.token + "\r\n" + config.general.demoDescription;
         configScenario.general.demoName = "";
         configScenario.general.userEmail = "";
-        console.log("This Demo is marked as read-only.");
+        alert("This demo is marked as read-only. Please provide a new demo name and save to obtain a personalized token.");
     }
 
     updateConfiguratorUI();
@@ -47,6 +47,9 @@ function onLoadTokenBtn(element) {
 
 function updateConfiguratorUI() {
     // TODO refresh UI
+    var demoMetadata = configScenario.general.demoName + "<br />" + "<small> Last Update: " + configScenario.lastUpdate + "</small>";
+    $("#demoMetadata").html(demoMetadata);
+
     updateTokenDemoLinks();
     updateConfiguratorTables();
     initConfiguratorSelections();
@@ -94,10 +97,10 @@ function updateTokenDemoLinks() {
         $('a.link2mobileapp').html("Please save your configuration to get the link to Mobile App");
         $('a.link2mobileapp').attr('href', "#");
 
-        $('a.link2locationapp').html("Please save your configuration to get the link to Mobile App");
+        $('a.link2locationapp').html("Please save your configuration to get the link to Location App");
         $('a.link2locationapp').attr('href', "#");
 
-        $('a.link2streamviewer').html("Please save your configuration to get the link to Mobile App");
+        $('a.link2streamviewer').html("Please save your configuration to get the link to Streamviewer");
         $('a.link2streamviewer').attr('href', "#");
 
         $('div.qr2mobileapp').hide();
@@ -129,9 +132,14 @@ function readConfigurationFromUI() {
     configScenario.customFields = configGetCustomFieldsFromUI();
 
     /*** update the stream viewer url with espHost name ***/
-    var serverNameToReplace = configScenario.general.streamViewerUrl.match(RegExp("\\?server=http://(.*):" + configScenario.general.espPubSubPort))[1];
-    console.log("replace existing server name: " + serverNameToReplace);
-    configScenario.general.streamViewerUrl = configScenario.general.streamViewerUrl.replace(serverNameToReplace,configScenario.general.espHost);
+    var serverNamesInURL = configScenario.general.streamViewerUrl.match(RegExp("\\?server=http://(.*):" + configScenario.general.espPubSubPort));
+    
+    if(serverNamesInURL != null && serverNamesInURL.length > 1) {
+        var serverNameToReplace =  serverNamesInURL[1];
+        console.log("replace existing server name: " + serverNameToReplace);
+        configScenario.general.streamViewerUrl = configScenario.general.streamViewerUrl.replace(serverNameToReplace,configScenario.general.espHost);    
+    }
+    
 }
 
 function onCopyConfiguration() {

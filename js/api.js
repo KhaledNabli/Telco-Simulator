@@ -25,11 +25,11 @@ function migrateToCurrentConfiguration(config) {
     if (config.version < currentVersion) {
         // füge alles hinzu was seit 102 hinzugekommen ist
         console.log("INFO: older version detected - adding required properties.");
-        config.mobileApp.colorNavbarBack = '#2C3E50'; 
+        config.mobileApp.colorNavbarBack = '#2C3E50';
         config.mobileApp.colorNavbarText = '#eeeeee';
         config.mobileApp.colorPageBack = '#eeeeee';
         config.mobileApp.colorPageText = '#2C3E50';
-        config.mobileApp.colorButtonBack = '#2C3E50';   
+        config.mobileApp.colorButtonBack = '#2C3E50';
         config.mobileApp.colorButtonText = '#eeeeee';
         config.mobileApp.colorNavItemInactive = 'rgba(0, 0, 0, 0.4)';
         config.mobileApp.colorNavItemActive = '#eeeeee';
@@ -50,19 +50,19 @@ function getExistingDemos(userEmail, maxItems) {
 
 
 function getConfigurationByToken(token) {
-	return callApi({action: 'getConfig', 
+	return callApi({action: 'getConfig',
 		token: token
 	});
 }
 
 function copyConfigurationToNewToken(oldToken) {
-	return callApi({action: 'copyConfig', 
+	return callApi({action: 'copyConfig',
 		token: oldToken
 	});
 }
 
 function saveConfiguration(config) {
-	return callApi({action: 'saveConfig', 
+	return callApi({action: 'saveConfig',
 		config: JSON.stringify(config)
 	});
 }
@@ -98,14 +98,14 @@ function sendEventToESP(espUrl, eventObject) {
 	if(eventObject.opcode == undefined) {
 		eventObject.opcode   = "i";
 	}
-	
+
 	var eventBlock = [[eventObject]];
 	var eventJSON  = JSON.stringify(eventBlock);
 
 	return $.ajax( {
 		type: "POST",
-		url: espUrl, 
-		data: eventJSON, 
+		url: espUrl,
+		data: eventJSON,
 		contentType: "JSON"
 	});
 }
@@ -121,10 +121,10 @@ function sendEventToESPProxy(proxyUrl, espUrl, eventObject) {
 	if(eventObject.opcode == undefined) {
 		eventObject.opcode   = "i";
 	}
-	
+
 	var eventBlock = [[eventObject]];
 	var eventJSON  = JSON.stringify(eventBlock);
-	
+
 	var proxyRequestData = {espRequestUrl: espUrl, espRequestData: eventJSON};
 
 	return $.post(proxyUrl, proxyRequestData);
@@ -156,7 +156,7 @@ function transformRtdmDatagrid(datagrid) {
 		// invalid schema!
 		console.log("Warning: Provided RTDM Datagrid has an invalid schema.");
 		return result;
-	} 
+	}
 
 	for(var columnIndex in datagrid[0].metadata) {
 		var columnMetadata = datagrid[0].metadata[columnIndex];
@@ -267,7 +267,7 @@ function queryESPModel(espEngine, onDoneHandler) {
 			}
 
 		}
-		
+
 
 		onDoneHandler(espEngine);
 	});

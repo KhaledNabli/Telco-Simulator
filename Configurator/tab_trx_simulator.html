@@ -3,8 +3,16 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-			<h4>Mobile App to simulate transactions</h4>
-			<p>Explain how to configure</p>
+				<h4>Mobile App to simulate transactions</h4>
+				<p>
+					The transaction simulator (Mobile App) will allow you to generate transactional events and publish them into ESP live and in real-time.
+					In this area, you can define the event types that can be generated and the corrosponding event parameter that will be passed with the event.
+					Furthermore, you can create generators which allow you to simulate events with randomized parameters automatically. <br />
+					Attached is an example on how each part of the configuration will influence the appearance of the Mobile App.
+				</p>
+				<p>
+					<img class="img-responsive" src="images/help_mobile_app.png" />
+				</p>
 			</div>
 
 
@@ -26,34 +34,34 @@
 				<div class="row">
 
 
-				<h5>Event Parameter</h5>
-				<table class="table table-hover">
-					<thead>
-						<tr >
-							<th class="text-center" width="25%">ESP Variable</th>
-							<th class="text-center" width="25%">Input Label</th>
-							<th class="text-center" width="15%">Display Type</th>
-							<th class="text-center" width="25%">Default Value(s)</th>
-							<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileParameter({});">Add Parameter</button> </th>
-						</tr>
-					</thead>
-					<tbody id="configuratorMobileParametersTbody">
-						<tr>
-							<td >customerId</td>
-							<td >Customer ID</td>
-							<td >Number</td>
-							<td ></td>
-							<td class="text-center">default parameter</td>
-						</tr>
+					<h5>Event Parameter</h5>
+					<table class="table table-hover">
+						<thead>
+							<tr >
+								<th class="text-center" width="25%">ESP Variable</th>
+								<th class="text-center" width="25%">Input Label</th>
+								<th class="text-center" width="15%">Display Type</th>
+								<th class="text-center" width="25%">Default Value(s)</th>
+								<th class="text-center" width="10%"><button type="button" class="btn btn-sm btn-primary" onclick="return configAddMobileParameter({});">Add Parameter</button> </th>
+							</tr>
+						</thead>
+						<tbody id="configuratorMobileParametersTbody">
+							<tr>
+								<td >customerId</td>
+								<td >Customer ID</td>
+								<td >Number</td>
+								<td ></td>
+								<td class="text-center">default parameter</td>
+							</tr>
 
-					</tbody>
-				</table>
+						</tbody>
+					</table>
 				</div>
 			</div>
 
 			<div class="col-sm-12">
-        		<hr />
-        	</div>
+				<hr />
+			</div>
 
 			<div class="col-sm-12">
 				<h5>Event Generator</h5>
@@ -73,48 +81,58 @@
 			</div>
 
 			<div class="col-sm-12">
-        		<hr />
-        	</div>
+				<hr />
+			</div>
 
-        	<div class="col-sm-12">
+			<div class="col-sm-12">
 				<h5>Color Picker</h5>
 				<div class="form-group">
-			        <label for="mobileColorNavbarBack" class="col-sm-2 control-label">Navbar Background</label>
-			        <div class="col-sm-4">
-			            <div id="mobileColorNavbarBack" class="input-group colorPickerInput">
-			                <input type="text" value="" class="form-control" id="mobileApp_colorNavbarBack"/>
-			                <span class="input-group-addon"><i></i></span>
-			            </div>
-			        </div>
+					<label for="mobileColorNavbarBack" class="col-sm-2 control-label">Navbar Background</label>
+					<div class="col-sm-4">
+						<div id="mobileColorNavbarBack" class="input-group colorPickerInput">
+							<input type="text" value="" class="form-control" id="mobileApp_colorNavbarBack"/>
+							<span class="input-group-addon"><i></i></span>
+						</div>
+					</div>
 
-			        <label for="mobileColorButtonBack" class="col-sm-2 control-label">Button Background</label>
-			        <div class="col-sm-4">
-			            <div id="mobileColorButtonBack" class="input-group colorPickerInput">
-			                <input type="text" value="" class="form-control" id="mobileApp_colorButtonBack"/>
-			                <span class="input-group-addon"><i></i></span>
-			            </div>
-			        </div>
-			    </div>
+					<label for="mobileColorButtonBack" class="col-sm-2 control-label">Button Background</label>
+					<div class="col-sm-4">
+						<div id="mobileColorButtonBack" class="input-group colorPickerInput">
+							<input type="text" value="" class="form-control" id="mobileApp_colorButtonBack"/>
+							<span class="input-group-addon"><i></i></span>
+						</div>
+					</div>
+				</div>
 
-			    <div class="form-group">
-			        <label for="mobileColorPageBack" class="col-sm-2 control-label">Page Background</label>
-			        <div class="col-sm-4">
-			            <div id="mobileColorPageBack" class="input-group colorPickerInput">
-			                <input type="text" value="" class="form-control" id="mobileApp_colorPageBack"/>
-			                <span class="input-group-addon"><i></i></span>
-			            </div>
-			        </div>
+				<div class="form-group">
+					<label for="mobileColorPageBack" class="col-sm-2 control-label">Page Background</label>
+					<div class="col-sm-4">
+						<div id="mobileColorPageBack" class="input-group colorPickerInput">
+							<input type="text" value="" class="form-control" id="mobileApp_colorPageBack"/>
+							<span class="input-group-addon"><i></i></span>
+						</div>
+					</div>
 
-			        <label for="mobileColorPageText" class="col-sm-2 control-label">Page Text</label>
-			        <div class="col-sm-4">
-			            <div id="mobileColorPageText" class="input-group colorPickerInput">
-			                <input type="text" value="" class="form-control" id="mobileApp_colorPageText"/>
-			                <span class="input-group-addon"><i></i></span>
-			            </div>
-			        </div>
-			    </div>
+					<label for="mobileColorPageText" class="col-sm-2 control-label">Page Text</label>
+					<div class="col-sm-4">
+						<div id="mobileColorPageText" class="input-group colorPickerInput">
+							<input type="text" value="" class="form-control" id="mobileApp_colorPageText"/>
+							<span class="input-group-addon"><i></i></span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<hr />
+			</div>
+			<div class="col-sm-12">
+				Open Mobile App: <a target="_blank" class="link2mobileapp" ></a>
+			</div>
+		</div>
+		
 
 	</div>
 
