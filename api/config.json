@@ -1,6 +1,6 @@
 {
 	"token":"",
-	"version":102,
+	"version":103,
 	"general": {
 		"demoName": "",
 		"demoDescription": "",
@@ -47,6 +47,7 @@
 		"colorNavItemInactive": "rgba(0, 0, 0, 0.4)",
 		"colorNavItemActive": "#eeeeee",
         "homescreen_image":  "./images/home.jpg",
+        "useEspProxy":  "Yes",
 		"eventParameters": [
 			{"key": "eventValue", "label": "Event Value", "dataType": "text", "defaultValue": ""}
 		],

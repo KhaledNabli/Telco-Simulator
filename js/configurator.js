@@ -805,6 +805,8 @@ function initConfiguratorSelections() {
     var mobileAppEspWindow = configScenario.mobileApp.espWindow;
     selectionElements.push({id: "mobileApp_espWindow", label: (mobileAppEspWindow.split("/").length == 3 ? mobileAppEspWindow.split("/")[2] : mobileAppEspWindow), value: mobileAppEspWindow});
 
+    $('#mobileApp_useEspProxy').val(configScenario.mobileApp.useEspProxy);
+
     var locationAppRtdmEvent = configScenario.locationApp.rtdmEvent;
     selectionElements.push({id: "locationApp_rtdmEvent", label: locationAppRtdmEvent, value: locationAppRtdmEvent});
 

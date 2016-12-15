@@ -124,16 +124,24 @@ function processSingleEvent(eventType) {
 
 	//sendEventToESP(espUrl, eventObject);
 	$('#divWarningMessage').hide();
-	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
-		function(result) {
-			if (result.search("injected") > 0) {
-				//console.log("Success");
-			} else {
-				console.log("Failed");
-				$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
-				$('#divWarningMessage').show();
-			}
-		});
+	if(configScenario.mobileApp.useEspProxy == 'No') {
+		console.log("No Esp Proxy, send directly to ESP");
+		sendEventToESP(espUrl, eventObject).done(
+			function(result) {
+					console.log("Success from ESP: " + result);
+			});
+	} else {
+		sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
+			function(result) {
+				if (result.search("injected") > 0) {
+					//console.log("Success");
+				} else {
+					console.log("Failed");
+					$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+					$('#divWarningMessage').show();
+				}
+			});		
+	}
 }
 
 
@@ -167,18 +175,26 @@ function processGeneratedEvent(eventGeneratorObject, generatedValue, toggleEleme
 
 	//sendEventToESP(espUrl, eventObject);
 	$('#divWarningMessage').hide();
-	sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
-		function(result) {
-			if (result.search("injected") > 0) {
-				//console.log("Success" + eventGeneratorObject.run);
-			} else {
-				eventGeneratorObject.run = false;
-				$(toggleElement).bootstrapSwitch("state", false);
-				$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
-				$('#divWarningMessage').show();
-				console.log("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
-			}
-		});
+	if(configScenario.mobileApp.useEspProxy == 'No') {
+		console.log("No Esp Proxy, send directly to ESP");
+		sendEventToESP(espUrl, eventObject).done(
+			function(result) {
+					console.log("Success from ESP: " + result);
+			});
+	} else {
+		sendEventToESPProxy("http://dachgpci01.emea.sas.com/ESPServiceAdapter/", espUrl, eventObject).done(
+			function(result) {
+				if (result.search("injected") > 0) {
+					//console.log("Success" + eventGeneratorObject.run);
+				} else {
+					eventGeneratorObject.run = false;
+					$(toggleElement).bootstrapSwitch("state", false);
+					$('#divWarningMessage').html("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+					$('#divWarningMessage').show();
+					console.log("WARNING: ESP event injection failed - check ESP Server and RACE image name!");
+				}
+			});		
+	}
 }
 
 

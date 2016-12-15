@@ -1,7 +1,7 @@
 
 
 function migrateToCurrentConfiguration(config) {
-	var currentVersion = 102;
+	var currentVersion = 103;
 
     if(config.version == 101) {
         // entferne alles was seit 101 nicht mehr gebraucht wird
@@ -11,20 +11,8 @@ function migrateToCurrentConfiguration(config) {
         delete config.mobileApp.colorThemePage;
         delete config.mobileApp.colorThemeText;
         delete config.mobileApp.colorThemeBorder;
-        console.log("INFO: version 101 detected - deleting unessaccery properties.");
 
-        // füge alles hinzu was seit 100 hinzu kommt
-    }
-
-    if(config.version == 102) {
-        // entferne alles was seit 102 nicht mehr gebraucht wird
-
-        // füge alles hinzu was seit 101 hinzu kommt
-    }
-
-    if (config.version < currentVersion) {
-        // füge alles hinzu was seit 102 hinzugekommen ist
-        console.log("INFO: older version detected - adding required properties.");
+        // füge alles hinzu was in 101 hinzu kommt
         config.mobileApp.colorNavbarBack = '#2C3E50';
         config.mobileApp.colorNavbarText = '#eeeeee';
         config.mobileApp.colorPageBack = '#eeeeee';
@@ -34,7 +22,34 @@ function migrateToCurrentConfiguration(config) {
         config.mobileApp.colorNavItemInactive = 'rgba(0, 0, 0, 0.4)';
         config.mobileApp.colorNavItemActive = '#eeeeee';
 
-        config.version = currentVersion;
+        console.log("INFO: version detected: " + config.version + " - updating...");
+        config.version = 102;
+    }
+
+    if(config.version == 102) {
+        // entferne alles was seit 102 nicht mehr gebraucht wird
+
+        // füge alles hinzu was in 102 hinzu kommt
+        config.mobileApp.useEspProxy = 'Yes';
+        
+        console.log("INFO: version detected: " + config.version + " - updating...");
+        config.version = 103;		
+    }
+
+    if(config.version == 103) {
+        // entferne alles was seit 103 nicht mehr gebraucht wird
+
+        // füge alles hinzu was in 103 hinzu kommt
+        
+        /*console.log("INFO: version detected: " + config.version + " - updating...");
+        config.version = 104;*/		
+    }
+
+    if (config.version < currentVersion) {
+        // füge alles hinzu was seit 102 hinzugekommen ist
+        console.log("INFO: older version detected: " + config.version );
+        
+        //config.version = currentVersion;
     }
 
     return config;
